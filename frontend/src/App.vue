@@ -1,30 +1,34 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
+<div>
   <router-view/>
+  <footer>
+    {{ copyright }}
+  </footer>
+</div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+import { mapGetters } from "vuex"
+
+export default {
+  name: "App",
+  computed: {
+    ...mapGetters({
+      copyright: "copyright"
+    })
+  }
+}
+</script>
+
+<style>
+* {
+  font-family: 'Arial';
 }
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+footer {
+  background-color: rgb(49, 48, 48);
+  color: white;
+  font-size: 13px;
+  padding: 20px;
 }
 </style>
