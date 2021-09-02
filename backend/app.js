@@ -1,17 +1,23 @@
-// IMPORTATIONS
+// IMPORTATIONS ----------
 const express = require('express');
-const app = express();
-
 const db = require("./models");
+const helmet = require('helmet');
+const userRoutes = require('./routes/user')
 
-// Synchronisation des modèles à la BDD
-db.sequelize.sync()
+// Connexion à la BDD
+db.sequelize.authenticate()
 .then(() => {
     console.log('Connexion à MySQL réussie !')
 })
 .catch((err) => {
     console.log('Erreur : ' + err)
 })
+
+// CREATION DE L'APPLICATION EXPRESS ----------
+const app = express();
+
+// Activation de la protection Helmet
+app.use(helmet());
 
 // Gestion du CORS
 app.use((req, res, next) => {
@@ -21,5 +27,10 @@ app.use((req, res, next) => {
     next();
 });
 
-// EXPORTATIONS
+app.use(express.json());
+
+// Création des routes
+app.use('/api/auth', userRoutes)
+
+// EXPORTATIONS ----------
 module.exports = app;
