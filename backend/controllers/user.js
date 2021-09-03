@@ -18,6 +18,7 @@ exports.signup = (req, res, next) => {
         if (user) {
             return res.status(401).json({error: "L'utilisateur existe déjà !"});
         } else {
+            // Vérification de la conformité de l'adresse email
             if (!emailRegex(req.body.email)) {
                 res.status(400).json({message: "Le format de l'adresse email n'est pas valide."})
             } else {
@@ -39,7 +40,6 @@ exports.signup = (req, res, next) => {
         }
     })
     .catch(error => res.status(500).json({error}));
-    // Vérification de la conformité de l'adresse email
     
 }
 

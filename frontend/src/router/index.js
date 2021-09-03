@@ -3,7 +3,7 @@ import Home from '../views/Home.vue'
 
 const routes = [
   {
-    path: '/',
+    path: '/home',
     name: 'Home',
     component: Home
   },
@@ -20,7 +20,7 @@ const routes = [
       import('../views/Signup.vue')
   },
   {
-    path: '/posts/:id',
+    path: '/post',
     name: 'post',
     component: () => 
       import('../views/Post.vue')
