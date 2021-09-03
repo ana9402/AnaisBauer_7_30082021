@@ -3,15 +3,16 @@
     <AuthHeader/>
     <div id="login-container">
         <h1>Se connecter</h1>
+        <p id="missing-fields-message"></p>
         <div id="form-container">
-            <form>
+            <form method="post" v-on:submit.prevent="loginUser">
                 <div id="email-field" class="form-field">
                     <label for="email">Adresse e-mail</label>
-                    <input type="email" id="email" name="email" placeholder="ex: patrick.dupont@groupomania.com" required>
+                    <input type="email" id="email" name="email" placeholder="ex: patrick.dupont@groupomania.com" v-model="email">
                 </div>
                 <div id="password-field" class="form-field">
                     <label for="password">Mot de passe</label>
-                    <input type="password" id="password" name="password" required>
+                    <input type="password" id="password" name="password" v-model="password">
                 </div>
                 <button type="submit">Je me connecte</button>
             </form>
@@ -23,11 +24,58 @@
 
 <script>
 import AuthHeader from "../components/AuthHeader.vue"
+import router from '../router/index'
 
 export default {
     name: "Login",
     components: {
         AuthHeader
+    },
+    data() {
+        return {
+            email: '',
+            password: ''
+        }
+    },
+    methods: {
+        loginUser() {
+            let userData = {
+                email: this.email,
+                password: this.password
+            }
+
+            if (userData.email == '' || userData.password == '') {
+                let missingFieldsMessage = document.getElementById('missing-fields-message')
+                missingFieldsMessage.style.display = "flex"
+                missingFieldsMessage.innerHTML = "Veuillez compléter tous les champs avant de valider le formulaire."
+                console.log('Certains champs sont incomplets.')
+                return;
+            }
+
+            fetch('http://localhost:3000/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer${token}'
+                },
+                body: JSON.stringify(userData)
+            })
+            .then(function(response) {
+                console.log(response)
+                if (response.ok) {
+                    router.push('/home')
+                    return response.json();
+                } else {
+                    if (response.status == 401) {
+                        alert("Adresse mail ou mot de passe incorrect(e).")
+                    }
+                }
+            })
+            .catch(function(error) {
+                console.log(error),
+                alert('Erreur de connexion au serveur')
+            })
+        }
     }
 }
 
@@ -39,8 +87,14 @@ export default {
     flex-direction: column;
     align-items: center;
     & h1 {
-        margin-bottom: 40px;
+        margin-bottom: 30px;
     }
+}
+
+#missing-fields-message {
+    font-size: 13px;
+    color: red;
+    display: none;
 }
 
 #form-container {

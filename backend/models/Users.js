@@ -9,16 +9,26 @@ module.exports = function(sequelize, DataTypes) {
     },
     firstname: {
       type: DataTypes.STRING(100),
-      allowNull: false
+      allowNull: false,
+      validate: {
+        is: /^[\a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/
+      }
     },
     lastname: {
       type: DataTypes.STRING(100),
-      allowNull: false
+      allowNull: false,
+      validate: {
+        is: /^[\a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/
+      }
     },
     email: {
       type: DataTypes.STRING(100),
       allowNull: false,
       unique: "ind_uni_email",
+      validate: {
+        isEmail: true,
+        notContains: ' ',
+      }
     },
     password: {
       type: DataTypes.STRING(200),

@@ -10,25 +10,37 @@ const emailRegex = (email) => /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
 
 // Inscription d'un utilisateur ---
 exports.signup = (req, res, next) => {
+    db.Users.findOne({
+        where: {email: req.body.email}
+    })
+    .then(user => {
+        console.log(user)
+        if (user) {
+            return res.status(401).json({error: "L'utilisateur existe déjà !"});
+        } else {
+            if (!emailRegex(req.body.email)) {
+                res.status(400).json({message: "Le format de l'adresse email n'est pas valide."})
+            } else {
+                bcrypt.hash(req.body.password, 10)
+                .then(hash => {
+                    db.Users.create({
+                        firstname: req.body.firstname,
+                        lastname: req.body.lastname,
+                        email: req.body.email,
+                        password: hash
+                    })
+                    .then(() => res.status(201).json(
+                        {message: "Le nouvel utilisateur a bien été créé !"}
+                    ))
+                    .catch(error => res.status(500).json({error}))
+                })
+                .catch(error => res.status(500).json({error}));
+            }
+        }
+    })
+    .catch(error => res.status(500).json({error}));
     // Vérification de la conformité de l'adresse email
-    if (!emailRegex(req.body.email)) {
-        res.status(400).json({message: "Le format de l'adresse email n'est pas valide."})
-    } else {
-        bcrypt.hash(req.body.password, 10)
-        .then(hash => {
-            db.Users.create({
-                firstname: req.body.firstname,
-                lastname: req.body.lastname,
-                email: req.body.email,
-                password: hash
-            })
-            .then(() => res.status(201).json(
-                {message: "Le nouvel utilisateur a bien été créé !"}
-            ))
-            .catch(error => res.status(500).json({error}))
-        })
-        .catch(error => res.status(500).json({error}));
-    }
+    
 }
 
 // Inscription d'un utilisateur ---
@@ -59,4 +71,5 @@ exports.login = (req, res, next) => {
         })
         .catch(error => res.status(500).json({error}));
     })
+    .catch(error => res.status(500).json({error}));
 }
