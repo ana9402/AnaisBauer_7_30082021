@@ -4,7 +4,8 @@ const db = require("./models");
 const helmet = require('helmet');
 const path = require('path');
 const fs = require('fs');
-const userRoutes = require('./routes/user')
+const userRoutes = require('./routes/user');
+const postRoutes = require('./routes/post');
 
 // Connexion à la BDD
 db.sequelize.authenticate()
@@ -34,6 +35,7 @@ app.use(express.json());
 // Création des routes
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/users', userRoutes);
+app.use('/api/posts', postRoutes);
 
 // EXPORTATIONS ----------
 module.exports = app;
