@@ -2,6 +2,8 @@
 const express = require('express');
 const db = require("./models");
 const helmet = require('helmet');
+const path = require('path');
+const fs = require('fs');
 const userRoutes = require('./routes/user')
 
 // Connexion à la BDD
@@ -30,7 +32,8 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 // Création des routes
-app.use('/api/users', userRoutes)
+app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/api/users', userRoutes);
 
 // EXPORTATIONS ----------
 module.exports = app;
