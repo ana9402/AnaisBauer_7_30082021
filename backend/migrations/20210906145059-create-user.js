@@ -6,23 +6,43 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER.UNSIGNED
       },
-      firstName: {
+      firstname: {
+        allowNull: false,
         type: Sequelize.STRING
       },
-      lastName: {
+      lastname: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       email: {
+        allowNull: false,
         type: Sequelize.STRING
+      },
+      password: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      profile_picture: {
+        type: Sequelize.STRING
+      },
+      department: {
+        type: Sequelize.STRING
+      },
+      isAdmin: {
+        allowNull: false,
+        defaultValue: 0,
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,
+        defaultValue: Sequelize.NOW,
         type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
+        defaultValue: Sequelize.NOW,
         type: Sequelize.DATE
       }
     });

@@ -30,7 +30,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 // Création des routes
-app.use('/api/auth', userRoutes)
+app.use('/api/users', userRoutes)
 
 // EXPORTATIONS ----------
 module.exports = app;

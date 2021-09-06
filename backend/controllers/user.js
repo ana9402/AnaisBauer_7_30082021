@@ -10,7 +10,7 @@ const emailRegex = (email) => /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
 
 // Inscription d'un utilisateur ---
 exports.signup = (req, res, next) => {
-    db.Users.findOne({
+    db.User.findOne({
         where: {email: req.body.email}
     })
     .then(user => {
@@ -24,7 +24,7 @@ exports.signup = (req, res, next) => {
             } else {
                 bcrypt.hash(req.body.password, 10)
                 .then(hash => {
-                    db.Users.create({
+                    db.User.create({
                         firstname: req.body.firstname,
                         lastname: req.body.lastname,
                         email: req.body.email,
@@ -45,7 +45,7 @@ exports.signup = (req, res, next) => {
 
 // Inscription d'un utilisateur ---
 exports.login = (req, res, next) => {
-    db.Users.findOne({
+    db.User.findOne({
         where: {email: req.body.email}
     })
     .then(user => {
