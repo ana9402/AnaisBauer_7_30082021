@@ -66,7 +66,7 @@ export default {
                 return;
             }
             // On lance la requête POST à l'API pour l'inscription
-            fetch('http://localhost:3000/api/auth/signup', {
+            fetch('http://localhost:3000/api/users/signup', {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'

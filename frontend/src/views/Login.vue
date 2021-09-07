@@ -34,7 +34,7 @@ export default {
     data() {
         return {
             email: '',
-            password: ''
+            password: '',
         }
     },
     methods: {
@@ -52,24 +52,26 @@ export default {
                 return;
             }
 
-            fetch('http://localhost:3000/api/auth/login', {
+            fetch('http://localhost:3000/api/users/login', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer${token}'
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(userData)
             })
             .then(function(response) {
-                console.log(response)
                 if (response.ok) {
-                    router.push('/home')
                     return response.json();
                 } else {
                     if (response.status == 401) {
                         alert("Adresse mail ou mot de passe incorrect(e).")
                     }
                 }
+            })
+            .then(data => {
+                localStorage.setItem('userToken', data.token);
+                localStorage.setItem('userId', data.userId)
+                router.push('/home')
             })
             .catch(function(error) {
                 console.log(error),

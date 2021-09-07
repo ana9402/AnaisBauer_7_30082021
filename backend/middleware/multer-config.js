@@ -8,7 +8,8 @@ const multer = require('multer')
 const MIME_TYPES = {
     'image/jpg': 'jpg',
     'image/jpeg': 'jpg',
-    'image/png': 'png'
+    'image/png': 'png',
+    'image/gif': 'gif'
 };
 
 // Création d'un objet de configuration pour l'enregistrement des images sur le disque
@@ -27,4 +28,4 @@ const storage = multer.diskStorage({
 
 
 // EXPORTATION ----------
-module.exports = multer({storage}).single('image');
+module.exports = multer({storage : storage}).single('file');
