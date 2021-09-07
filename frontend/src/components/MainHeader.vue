@@ -54,9 +54,8 @@ header {
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: rgb(49, 48, 48);
-        color: white;
-        box-shadow: 2px 2px 5px rgb(161, 159, 159);
+        border: 0.2px solid rgb(184, 182, 182);
+        box-shadow: 3px 2px 5px rgb(161, 159, 159);
         border-radius: 20px;
         padding: 10px 15px;
         &_text {

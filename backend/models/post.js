@@ -13,7 +13,9 @@ module.exports = (sequelize, DataTypes) => {
       models.Post.hasMany(models.Comment);
       models.Post.hasMany(models.Like);
 
-      models.Post.belongsTo(models.User);
+      models.Post.belongsTo(models.User, {
+        onDelete: 'cascade'
+      });
     }
   };
   Post.init({
@@ -36,13 +38,13 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 0,
       type: DataTypes.INTEGER
     },
-    user_id: {
+    userId: {
       allowNull: false,
       type: DataTypes.INTEGER.UNSIGNED,
     }
   }, {
     sequelize,
-    modelName: 'Post',
+    modelName: 'Post'
   });
   return Post;
 };

@@ -11,8 +11,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.Like.belongsTo(models.User)
-      models.Like.belongsTo(models.Post)
+      models.Like.belongsTo(models.User, {
+        onDelete: 'cascade'
+      })
+      models.Like.belongsTo(models.Post, {
+        onDelete: 'cascade'
+      })
     }
   };
   Like.init({
@@ -20,17 +24,17 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.BOOLEAN
     },
-    user_id: {
+    userId: {
       allowNull: false,
       type: DataTypes.INTEGER.UNSIGNED
     },
-    post_id: {
+    postId: {
       allowNull: false,
       type: DataTypes.INTEGER.UNSIGNED
     }
   }, {
     sequelize,
-    modelName: 'Like',
+    modelName: 'Like'
   });
   return Like;
 };

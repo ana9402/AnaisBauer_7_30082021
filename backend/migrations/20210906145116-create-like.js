@@ -12,7 +12,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.BOOLEAN
       },
-      user_id: {
+      userId: {
         allowNull: false,
         type: Sequelize.INTEGER.UNSIGNED,
         references: {
@@ -20,7 +20,7 @@ module.exports = {
           key: 'id'
         }
       },
-      post_id: {
+      postId: {
         allowNull: false,
         type: Sequelize.INTEGER.UNSIGNED,
         references: {

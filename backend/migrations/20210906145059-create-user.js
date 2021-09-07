@@ -25,7 +25,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      profile_picture: {
+      profilePicture: {
         type: Sequelize.STRING
       },
       department: {

@@ -27,7 +27,7 @@ module.exports = {
         defaultValue: 0,
         type: Sequelize.INTEGER
       },
-      user_id: {
+      userId: {
         allowNull: false,
         type: Sequelize.INTEGER.UNSIGNED,
         references: {

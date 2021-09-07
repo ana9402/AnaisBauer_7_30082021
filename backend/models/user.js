@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING
     },
-    profile_picture: {
+    profilePicture: {
       type: DataTypes.STRING
     },
     department: {
