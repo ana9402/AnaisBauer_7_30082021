@@ -2,11 +2,11 @@
     <form method="post" enctype="multipart/form-data" v-on:submit.prevent="createPost">
         <div id="title-field" class="form-field">
             <label for="title">Titre</label>
-            <input type="text" id="title" name="title" v-model="title">
+            <input type="text" id="title" name="title" placeholder="Donnez un titre à votre publication" v-model="title">
         </div>
         <div id="content-field" class="form-field">
-            <label for="content">Texte</label>
-            <textarea type="text" id="content" name="content" v-model="content"></textarea>
+            <label for="content">Contenu</label>
+            <textarea id="content" name="content" placeholder="Que souhaitez-vous partager ?" v-model="content"></textarea>
         </div>
         <div id="media-field" class="form-field">
             <label for="file">Media</label>
@@ -73,6 +73,12 @@ form {
             font-weight: bold;
             margin-bottom: 10px;
         }
+        & input {
+            padding: 0 10px;
+        }
+        & textarea {
+            padding: 10px;
+        }
     }
     & #title-field {
         & input {
@@ -86,9 +92,10 @@ form {
     }
     & button {
         background-color: rgb(49, 48, 48);
+        cursor: pointer;
         color: white;
         border-radius: 20px;
-        width: 50%;
+        width: 40%;
         height: 40px;
     }
 }
