@@ -26,7 +26,7 @@ export default {
 
 <style lang="scss" scoped>
 #container {
-    background-color: rgb(236, 236, 236);
+    background-color: #F0F2F4;
     padding: 40px 40px;
     & h1 {
         margin: 0 0 30px 10px;
