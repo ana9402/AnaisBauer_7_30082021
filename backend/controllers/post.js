@@ -62,14 +62,14 @@ exports.deletePost = (req, res, next) => {
 // Afficher tous les posts
 exports.getAllPosts = (req, res, next) => {
     db.Post.findAll({
-        attributes: ['id', 'title', 'content', 'media', 'likes', 'dislikes'],
+        attributes: ['id', 'title', 'content', 'media', 'likes', 'dislikes', 'updatedAt'],
         order: [
             ['updatedAt', 'DESC']
         ],
         include: [
             {
                 model: db.User,
-                attributes: ["firstname", "lastname", "email", "profilePicture"]
+                attributes: ["id", "firstname", "lastname", "email", "profilePicture", "isAdmin"]
             },
             {
                 model: db.Like,

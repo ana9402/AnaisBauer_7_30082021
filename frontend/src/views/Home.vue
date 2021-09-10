@@ -5,8 +5,21 @@
       <div id="postsList">
         <div v-for="post in posts" :key="post.id" id="post-container">
           <div id="top-line">
-            <img v-bind:src="post.User.profilePicture">
-            <p id="name">{{post.User.firstname}} {{post.User.lastname}} / {{post.User.departmenta}}</p>
+            <div id="user-infos">
+              <img v-bind:src="post.User.profilePicture">
+              <div>
+                <p id="name">{{post.User.firstname}} {{post.User.lastname}} • {{post.User.departmenta}}</p>
+                <p id="date">Mis à jour: {{post.updatedAt}}</p>
+              </div>
+            </div>
+            <div v-if="post.User.isAdmin === true || post.User.id == currentUserId" id="post-options">
+              <button>
+                <img src="../assets/edit.png">
+              </button>
+              <button v-on:click="deletePost(post.id)">
+                x
+              </button>
+            </div>
           </div>
           <h2>{{post.title}}</h2>
           <figure id="postsList-img">
@@ -42,15 +55,18 @@ export default {
   },
   data() {
     return {
-      posts: []
+      posts: [],
+      token: '',
+      currentUserId: ''
     }
   },
   methods: {
     getPosts() {
-      const token = localStorage.getItem('userToken');
+      const userId = JSON.parse(localStorage.getItem('userId'));
+      this.token = localStorage.getItem('userToken');
       fetch('http://localhost:3000/api/posts', {
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${this.token}`
         }
       })
       .then(result => {
@@ -59,12 +75,30 @@ export default {
         }
       })
       .then(data => {
-        this.posts = data
+        this.posts = data,
+        this.currentUserId = userId
       })
       .catch(error => {
         console.log(error)
       });
 
+    },
+    deletePost(id) {
+      if (confirm("Êtes-vous sûr(e) de vouloir supprimer ce post ?")) {
+        fetch('http://localhost:3000/api/posts/' + id, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${this.token}`}
+        })
+        .then(res => {
+          console.log(res)
+          this.$router.go()
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      }
     }
   },
   beforeMount() {
@@ -112,22 +146,51 @@ export default {
 
 #top-line {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding: 30px 40px;
-  & img {
-    height: 50px;
-    width: 50px;
-    margin-right: 20px;
+  padding: 10px 20px;
+  & #user-infos {
+    display: flex;
+    align-items: center;
+    & img {
+      height: 50px;
+      width: 50px;
+      margin-right: 20px;
+    }
+    & #name {
+      margin: 0;
+    }
+    & #date {
+      margin: 5px 0 0 0;
+      font-size: 13px;
+      color: grey;
+    }
   }
-  & #name {
-    margin: 0;
+  & #post-options {
+    display: flex;
+    gap: 10px;
+    & button {
+      background-color: white;
+      border: 1px rgb(177, 177, 177) solid;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 25px;
+      height: 25px;
+      & img {
+        height: 100%;
+      }
+      &:hover {
+        background-color: #F0F2F4;
+        color: #EC3732;
+      }
+    }
   }
 }
 
 #bottom-line {
   display: flex;
   justify-content: space-around;
-  padding: 20px 40px;
+  padding: 10px 20px;
   & .bottom-line_btn {
     display: flex;
     background-color: white;

@@ -2,7 +2,7 @@
 <div>
     <MainHeader/>
     <div id="container">
-        <h1> Créer un post</h1>
+        <h1>Ajouter un post</h1>
         <div id="form-container">
             <SubmitForm/>
         </div>
