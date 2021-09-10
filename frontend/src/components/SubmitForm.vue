@@ -33,15 +33,20 @@ export default ({
             this.selectedFile = event.target.files[0]
         },
         createPost() {
+            const token = localStorage.getItem('userToken');
             const userId = JSON.parse(localStorage.getItem('userId'));
             const formData = new FormData();
             formData.append('file', this.selectedFile, this.selectedFile.name);
             formData.append('title', this.title);
             formData.append('content', this.content);
             formData.append('userId', userId);
+            console.log(token)
             fetch('http://localhost:3000/api/posts', {
                 method: 'POST',
-                body: formData
+                body: formData,
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
             })
             .then((res) => {
                 if (res.ok) {

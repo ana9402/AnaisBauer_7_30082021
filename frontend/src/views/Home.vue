@@ -47,7 +47,12 @@ export default {
   },
   methods: {
     getPosts() {
-      fetch('http://localhost:3000/api/posts')
+      const token = localStorage.getItem('userToken');
+      fetch('http://localhost:3000/api/posts', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
       .then(result => {
         if (result.ok) {
           return result.json()
