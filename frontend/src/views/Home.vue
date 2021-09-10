@@ -130,8 +130,8 @@ export default {
 
 #post-container {
   background-color: white;
-  border-radius: 10px;
   border: 1px rgb(221, 217, 217) solid;
+  box-shadow: 2px 2px 10px rgb(187, 186, 186);
   margin-bottom: 20px;
   & h2 {
     font-size: 18px;

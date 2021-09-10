@@ -1,23 +1,25 @@
 <template>
 <div>
     <AuthHeader/>
-    <div id="login-container">
-        <h1>Se connecter</h1>
-        <p id="missing-fields-message"></p>
-        <div id="form-container">
-            <form method="post" v-on:submit.prevent="loginUser">
-                <div id="email-field" class="form-field">
-                    <label for="email">Adresse e-mail</label>
-                    <input type="email" id="email" name="email" placeholder="ex: patrick.dupont@groupomania.com" v-model="email">
-                </div>
-                <div id="password-field" class="form-field">
-                    <label for="password">Mot de passe</label>
-                    <input type="password" id="password" name="password" v-model="password">
-                </div>
-                <button type="submit">Je me connecte</button>
-            </form>
+    <div id="main-container">
+        <div id="login">
+            <h1>Se connecter</h1>
+            <p id="missing-fields-message"></p>
+            <div id="form-container">
+                <form method="post" v-on:submit.prevent="loginUser">
+                    <div id="email-field" class="form-field">
+                        <label for="email">Adresse e-mail</label>
+                        <input type="email" id="email" name="email" placeholder="ex: patrick.dupont@groupomania.com" v-model="email">
+                    </div>
+                    <div id="password-field" class="form-field">
+                        <label for="password">Mot de passe</label>
+                        <input type="password" id="password" name="password" v-model="password">
+                    </div>
+                    <button type="submit">Je me connecte</button>
+                </form>
+            </div>
+            <p id="signup-redirection">Vous n'êtes pas encore membre ? <router-link to="/signup"><span>Je m'inscris</span></router-link></p>
         </div>
-        <p id="signup-redirection">Vous n'êtes pas encore membre ? <router-link to="/signup"><span>Je m'inscris</span></router-link></p>
     </div>
 </div>
 </template>
@@ -84,12 +86,22 @@ export default {
 </script>
 
 <style scoped lang="scss">
-#login-container {
+
+#main-container {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+}
+
+#login {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: auto;
+    padding: 30px;
+    box-shadow: 2px 2px 10px rgb(187, 186, 186);
     & h1 {
-        margin-bottom: 30px;
+        margin-bottom: 50px;
     }
 }
 
@@ -118,7 +130,7 @@ form {
             font-weight: bold;
         }
         & input {
-            height: 25px;
+            height: 40px;
             padding: 0px 10px;
         }
     }
