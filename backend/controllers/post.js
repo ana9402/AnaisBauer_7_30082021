@@ -62,7 +62,20 @@ exports.deletePost = (req, res, next) => {
 // Afficher tous les posts
 exports.getAllPosts = (req, res, next) => {
     db.Post.findAll({
-        attributes: ['id', 'title', 'content', 'media']
+        attributes: ['id', 'title', 'content', 'media', 'likes', 'dislikes'],
+        order: [
+            ['updatedAt', 'DESC']
+        ],
+        include: [
+            {
+                model: db.User,
+                attributes: ["firstname", "lastname", "email", "profilePicture"]
+            },
+            {
+                model: db.Like,
+                attributes: ["userId"]
+            }
+        ]
     })
     .then(posts => res.status(200).json(posts))
     .catch(error => res.status(400).json({error}));
@@ -71,7 +84,7 @@ exports.getAllPosts = (req, res, next) => {
 // Afficher un post
 exports.getOnePost = (req, res, next) => {
     db.Post.findOne({
-        attributes: ['id', 'title', 'content', 'media'],
+        attributes: ['id', 'title', 'content', 'media', 'likes', 'dislikes'],
         where: {id: req.params.id}
     })
     .then(post => res.status(200).json(post))
