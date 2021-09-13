@@ -60,7 +60,7 @@ exports.deletePost = (req, res, next) => {
 // Afficher tous les posts
 exports.getAllPosts = (req, res, next) => {
     db.Post.findAll({
-        attributes: ['id', 'title', 'media', 'likes', 'dislikes', 'updatedAt'],
+        attributes: ['id', 'title', 'media', 'likes', 'dislikes', 'createdAt'],
         order: [
             ['updatedAt', 'DESC']
         ],
@@ -82,7 +82,17 @@ exports.getAllPosts = (req, res, next) => {
 // Afficher un post
 exports.getOnePost = (req, res, next) => {
     db.Post.findOne({
-        attributes: ['id', 'title', 'media', 'likes', 'dislikes'],
+        attributes: ['id', 'title', 'media', 'likes', 'dislikes', 'createdAt'],
+        include: [
+            {
+                model: db.User,
+                attributes: ["id", "firstname", "lastname", "email", "profilePicture", "isAdmin"]
+            },
+            {
+                model: db.Like,
+                attributes: ["userId"]
+            }
+        ],
         where: {id: req.params.id}
     })
     .then(post => res.status(200).json(post))
