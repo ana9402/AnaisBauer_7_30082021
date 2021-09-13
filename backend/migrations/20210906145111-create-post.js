@@ -12,10 +12,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      content: {
-        allowNull: false,
-        type: Sequelize.TEXT
-      },
       media: {
         type: Sequelize.STRING
       },

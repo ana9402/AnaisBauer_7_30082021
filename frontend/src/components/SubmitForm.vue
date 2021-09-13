@@ -2,11 +2,7 @@
     <form method="post" enctype="multipart/form-data" v-on:submit.prevent="createPost">
         <div id="title-field" class="form-field">
             <label for="title">Titre</label>
-            <input type="text" id="title" name="title" placeholder="Donnez un titre à votre publication" v-model="title">
-        </div>
-        <div id="content-field" class="form-field">
-            <label for="content">Contenu</label>
-            <textarea id="content" name="content" placeholder="Que souhaitez-vous partager ?" v-model="content"></textarea>
+            <input type="text" id="title" name="title" placeholder="Que souhaitez-vous partager?" v-model="title">
         </div>
         <div id="media-field" class="form-field">
             <label for="file">Media</label>
@@ -24,7 +20,6 @@ export default ({
     data() {
         return {
         title: '',
-        content: '',
         selectedFile: null
         }
     },
@@ -38,9 +33,7 @@ export default ({
             const formData = new FormData();
             formData.append('file', this.selectedFile, this.selectedFile.name);
             formData.append('title', this.title);
-            formData.append('content', this.content);
             formData.append('userId', userId);
-            console.log(token)
             fetch('http://localhost:3000/api/posts', {
                 method: 'POST',
                 body: formData,

@@ -13,7 +13,6 @@ exports.createPost = (req, res, next) => {
     }
     db.Post.create({
         title: req.body.title,
-        content: req.body.content,
         media: imgUrl,
         userId: req.body.userId
     })
@@ -31,7 +30,6 @@ exports.modifyPost = (req, res, next) => {
     }
     db.Post.update(
         {title: req.body.title,
-        content: req.body.content,
         media: imgUrl,
         userId: req.body.userId},
         { where: {id: req.params.id}}
@@ -62,7 +60,7 @@ exports.deletePost = (req, res, next) => {
 // Afficher tous les posts
 exports.getAllPosts = (req, res, next) => {
     db.Post.findAll({
-        attributes: ['id', 'title', 'content', 'media', 'likes', 'dislikes', 'updatedAt'],
+        attributes: ['id', 'title', 'media', 'likes', 'dislikes', 'updatedAt'],
         order: [
             ['updatedAt', 'DESC']
         ],
@@ -84,7 +82,7 @@ exports.getAllPosts = (req, res, next) => {
 // Afficher un post
 exports.getOnePost = (req, res, next) => {
     db.Post.findOne({
-        attributes: ['id', 'title', 'content', 'media', 'likes', 'dislikes'],
+        attributes: ['id', 'title', 'media', 'likes', 'dislikes'],
         where: {id: req.params.id}
     })
     .then(post => res.status(200).json(post))
