@@ -6,8 +6,8 @@ const userID = (req) => {
     const decodedToken = jwt.verify(token, process.env.TOKEN);
     const id = decodedToken.userId;
     return id;
-
 }
+
 // Créer un commentaire
 exports.createComment = (req, res, next) => {
     db.Comment.create({
