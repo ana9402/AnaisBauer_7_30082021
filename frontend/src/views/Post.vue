@@ -2,15 +2,20 @@
 <div>
     <div id="page-container">
         <MainHeader/>
-        <div id="main-container">
-            <div>
-                <OnePost v-if="post" :key="post.id" :post="post"/>
-                <div id="comments-container">
+        <div>
+            <div id="content">
+                <!-- MAIN : POST SECTION -->
+                <main id="post-section">
+                    <OnePost v-if="post" :key="post.id" :post="post"/>
+                </main>
+                <!-- COMMENTS SECTION -->
+                <section id="comments-section">
+                    <h2>Commentaires</h2>
                     <CommentsForm/>
                     <div v-for="comment in comments" :key="comment.id" id="commentsList">
                         <DisplayComment :post="post" :comment="comment" />
                     </div>
-                </div>
+                </section>
             </div>
         </div>
     </div>
@@ -94,13 +99,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#main-container {
+#content {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     padding: 50px 0;
+    width: 50%;
+    margin: auto;
+    & #post-section {
+        width: 100%;
+    }
+    & #comments-section {
+        width: 100%;
+    }
 }
-#comments-container {
-    padding: 20px;
+
+@media screen and (max-width: 800px) {
+    #content {
+        width: 100%;
+    }
 }
 
 </style>

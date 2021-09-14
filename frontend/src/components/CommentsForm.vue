@@ -1,12 +1,9 @@
 <template>
-    <div id="container">
-        <h2>Commentaires</h2>
-        <div id="newComment-container">
-            <form @submit.prevent="createComment">
-                <textarea placeholder="Ecrivez votre commentaire ici..." v-model="content"></textarea>
-                <button type="submit">Publier</button>
-            </form>
-        </div>
+    <div id="newComment-container">
+        <form @submit.prevent="createComment">
+            <textarea placeholder="Ecrivez votre commentaire ici..." v-model="content"></textarea>
+            <button type="submit">Publier</button>
+        </form>
     </div>
 </template>
 
@@ -62,12 +59,21 @@ export default ({
 <style lang="scss" scoped>
 #newComment-container {
     background-color: white;
-    padding: 20px;
+    margin-bottom: 30px;
+    & form {
+        width: 100%;
+    }
     & textarea {
         width: 100%;
-        height: 70px;
+        padding: 20px;
+        height: 100px;
+        box-sizing: border-box;
+        resize: none;
     }
     & button {
+        display: block;
+        margin-right: 0;
+        margin-left: auto;
         padding: 10px 20px;
         background-color: rgb(49, 48, 48);
         color: white;

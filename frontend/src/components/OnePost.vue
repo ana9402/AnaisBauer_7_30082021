@@ -1,45 +1,46 @@
 <template>
-  <div id="main-container">
-    <div id="post-container">
+
+  <div id="post-container">
       <!-- POST TOP -->
-        <div id="post-container_top">
-            <div id="user-infos">
-                <img v-bind:src="post.User.profilePicture">
-                <div>
-                    <p id="name">{{post.User.firstname}} {{post.User.lastname}} • {{post.User.department}}</p>
-                    <p id="date">{{post.createdAt}}</p>
-                </div>
-            </div>
-            <div v-if="post.User.isAdmin === true || post.User.id == currentUserId" id="post-options">
-                <button>
-                    <img src="../assets/edit.png">
-                </button>
-                <button v-on:click="deletePost(post.id)">
-                    x
-                </button>
-            </div>
-        </div>
-        <h2>{{post.title}}</h2>
-        <figure id="postsList-img">
-            <img :src="post.media">
-        </figure>
-        <div id="bottom-line">
-            <button id="likes" class="bottom-line_btn">
-                <img src="../assets/likes.png">
-                <p id="likes-nb" class="bottom-line_btn_text">{{post.likes}} likes</p>
-            </button>
-            <button id="dislikes" class="bottom-line_btn">
-                <img src="../assets/dislikes.png">
-                <p id="dislikes-nb" class="bottom-line_btn_text">{{post.dislikes}} dislikes</p>
-            </button>
-            <router-link :to="{name: 'post', params: {id: post.id}}">
-              <button id="comments" class="bottom-line_btn">
-                  <img src="../assets/comments.png">
-                  <p class="bottom-line_btn_text">Commentaires...</p>
+      <div id="post-container_top">
+          <div id="user-infos">
+              <img v-bind:src="post.User.profilePicture">
+              <div>
+                  <p id="name">{{post.User.firstname}} {{post.User.lastname}} • {{post.User.department}}</p>
+                  <p id="date">{{post.createdAt}}</p>
+              </div>
+          </div>
+          <div v-if="post.User.isAdmin === true || post.User.id == currentUserId" id="post-options">
+              <button>
+                  <img src="../assets/edit.png">
               </button>
-            </router-link>
-        </div>
-    </div>
+              <button v-on:click="deletePost(post.id)">
+                  x
+              </button>
+          </div>
+      </div>
+      <!-- POST CONTENT -->
+      <h2>{{post.title}}</h2>
+      <figure id="postsList-img">
+          <img :src="post.media">
+      </figure>
+      <!-- POST BOTTOM -->
+      <div id="bottom-line">
+          <button id="likes" class="bottom-line_btn">
+              <img src="../assets/likes.png">
+              <p id="likes-nb" class="bottom-line_btn_text">{{post.likes}} likes</p>
+          </button>
+          <button id="dislikes" class="bottom-line_btn">
+              <img src="../assets/dislikes.png">
+              <p id="dislikes-nb" class="bottom-line_btn_text">{{post.dislikes}} dislikes</p>
+          </button>
+          <router-link :to="{name: 'post', params: {id: post.id}}">
+            <button id="comments" class="bottom-line_btn">
+                <img src="../assets/comments.png">
+                <p class="bottom-line_btn_text">Commentaires...</p>
+            </button>
+          </router-link>
+      </div>
   </div>
 </template>
 
@@ -79,18 +80,11 @@ export default ({
 
 <style lang="scss" scoped>
 
-#main-container figure {
-  background-color: #F0F2F4;
-  border-top: 1px rgb(216, 215, 215) solid;
-  border-bottom: 1px rgb(216, 215, 215) solid;
-  margin: 0;
-}
-
 #post-container {
   background-color: white;
   border: 1px rgb(221, 217, 217) solid;
   box-shadow: 2px 2px 10px rgb(187, 186, 186);
-  margin-bottom: 20px;
+  margin-bottom: 40px;
   & h2 {
     font-size: 18px;
     padding: 10px 20px;
@@ -100,6 +94,12 @@ export default ({
     width: 100%;
     height: 400px;
   }
+  & figure {
+  background-color: #F0F2F4;
+  border-top: 1px rgb(216, 215, 215) solid;
+  border-bottom: 1px rgb(216, 215, 215) solid;
+  margin: 0;
+}
   &_top {
   display: flex;
   justify-content: space-between;

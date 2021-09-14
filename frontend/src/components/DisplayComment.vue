@@ -60,7 +60,8 @@ export default ({
 
 <style lang="scss" scoped>
 #comment-container {
-    border: 1px solid #F2F2F2;
+    border: 1px solid #ccc9c9;
+    background-color: rgb(251, 251, 251);
     margin-bottom: 10px;
     padding: 10px 20px;
     &_top {

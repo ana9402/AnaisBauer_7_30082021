@@ -57,9 +57,7 @@ nav {
 
 }
 
-
-
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 991px) {
     header {
         display: flex;
         flex-direction: column;
