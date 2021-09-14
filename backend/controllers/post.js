@@ -47,7 +47,6 @@ exports.deletePost = (req, res, next) => {
         const filename = post.media.split('/images/')[1];
         fs.unlink(`images/${filename}`, () => {
             db.Post.destroy({
-                subQuery: false,
                 where: {id: req.params.id}
             })
             .then(() => res.status(200).json({message: "Post supprimé !"}))
