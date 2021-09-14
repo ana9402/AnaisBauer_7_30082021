@@ -1,7 +1,8 @@
 <template>
   <div id="main-container">
     <div id="post-container">
-        <div id="top-line">
+      <!-- POST TOP -->
+        <div id="post-container_top">
             <div id="user-infos">
                 <img v-bind:src="post.User.profilePicture">
                 <div>
@@ -99,9 +100,7 @@ export default ({
     width: 100%;
     height: 400px;
   }
-}
-
-#top-line {
+  &_top {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -142,6 +141,7 @@ export default ({
       }
     }
   }
+}
 }
 
 #bottom-line {

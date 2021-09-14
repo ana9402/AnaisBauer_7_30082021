@@ -13,7 +13,7 @@
                 <button>
                     <img src="../assets/edit.png">
                 </button>
-                <button>
+                <button v-on:click="deleteComment(post.id, comment.id)">
                     x
                 </button>
             </div>
@@ -32,6 +32,27 @@ export default ({
     data() {
         return {
             currentUserId: JSON.parse(localStorage.getItem('userId'))
+        }
+    },
+    methods: {
+        deleteComment(postId, commentId) {
+            const token = localStorage.getItem('userToken');
+            if (confirm("Êtes-vous sûr(e) de vouloir supprimer ce commentaire ?")) {
+                fetch(`http://localhost:3000/api/posts/${postId}/comments/${commentId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then(res => {
+                    console.log(res)
+                    this.$router.go()
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+            }
         }
     }
 })
