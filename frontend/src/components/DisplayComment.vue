@@ -1,24 +1,92 @@
 <template>
     <div id="comment-container">
-        <h3>test</h3>
+        <!-- COMMENT TOP-->
+        <div id="comment-container_top">
+            <div id="user-infos">
+                <img :src="comment.User.profilePicture">
+                <div>
+                    <p id="name">{{comment.User.firstname}} {{comment.User.lastname}} • {{comment.User.department}}</p>
+                    <p id="date">{{comment.createdAt}}</p>
+                </div>
+            </div>
+            <div v-if="comment.User.isAdmin === true || comment.User.id == currentUserId" id="post-options">
+                <button>
+                    <img src="../assets/edit.png">
+                </button>
+                <button>
+                    x
+                </button>
+            </div>
+        </div>
+        <!-- COMMENT CONTENT-->
+        <div id="comment-container_content">
+            <p>{{comment.content}}</p>
+        </div>
     </div>
 </template>
 
 <script>
 export default ({
     name: 'DisplayComment',
+    props: ['post', 'comment'],
     data() {
         return {
-
-        }
-    },
-    methods: {
-        getComments() {
-            
+            currentUserId: JSON.parse(localStorage.getItem('userId'))
         }
     }
 })
 </script>
 
 <style lang="scss" scoped>
+#comment-container {
+    border: 1px solid #F2F2F2;
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    &_top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        & #user-infos {
+            display: flex;
+            align-items: center;
+            & img {
+                height: 50px;
+                width: 50px;
+                margin-right: 20px;
+            }
+            & #name {
+                margin: 0;
+            }
+            & #date {
+                margin: 5px 0 0 0;
+                font-size: 13px;
+                color: grey;
+            }
+        }
+        & #post-options {
+            display: flex;
+            gap: 10px;
+            & button {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: white;
+                border: 1px rgb(177, 177, 177) solid;
+                border-radius: 5px;
+                padding: 5px;
+                cursor: pointer;
+                width: 25px;
+                height: 25px;
+                & img {
+                    height: 100%;
+                }
+                &:hover {
+                    background-color: #F0F2F4;
+                    color: #EC3732;
+                }
+            }
+        }
+    }
+
+}
 </style>

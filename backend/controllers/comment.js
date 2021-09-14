@@ -28,16 +28,17 @@ exports.getAllComments = (req, res, next) => {
         include: [
             {
                 model: db.User,
-                attributes: ['id', 'firstname', 'lastname']
+                attributes: ['id', 'firstname', 'lastname', 'profilePicture']
             },
             {
                 model: db.Post,
                 attributes: ['id']
             }
-        ]
+        ],
+        where: {postId: req.params.id}
     })
     .then((comments) => {
-        res.status(200).json({comments})
+        res.status(200).json(comments)
     })
     .catch((error) => {
         res.status(400).json({error})

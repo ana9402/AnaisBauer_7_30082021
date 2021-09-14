@@ -2,12 +2,14 @@
 <div>
     <div id="page-container">
         <MainHeader/>
-        <div id="test">
-            <div id="main-container">
-                <OnePost :post="post"/>
+        <div id="main-container">
+            <div>
+                <OnePost v-if="post" :key="post.id" :post="post"/>
                 <div id="comments-container">
                     <CommentsForm/>
-                    <DisplayComment/>
+                    <div v-for="comment in comments" :key="comment.id" id="commentsList">
+                        <DisplayComment :post="post" :comment="comment" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -32,7 +34,8 @@ export default {
     data() {
         return {
             token: '',
-            post: []
+            post: null,
+            comments: []
         }
     },
     methods: {
@@ -53,27 +56,51 @@ export default {
             .then(data => {
                 this.post = data
             })
+            .then(() => {
+                console.log(this.post, "voici le post retourné")
+            })
             .catch((error) => {
                 console.log(error)
                 console.log('ça ne fonctionne pas')
             })
+        },
+        getComments() {
+            fetch(`http://localhost:3000/api/posts/${this.$route.params.id}/comments`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authorization': `Bearer ${this.token}`
+                }
+            })
+            .then(result => {
+                if (result.ok) {
+                    return result.json()
+                }
+            })
+            .then(data => {
+                this.comments = data
+                console.log(this.comments, "les commentaires")
+            })
+            .catch(error => {
+                console.log(error)
+            })
         }
     },
-    beforeMount() {
-        this.getPost()
+   mounted() {
+        this.getPost();
+        this.getComments();
     }
 }
 
 </script>
 
 <style lang="scss" scoped>
-#test {
+#main-container {
     display: flex;
     justify-content: center;
+    padding: 50px 0;
 }
 #comments-container {
     padding: 20px;
-    border: 1px grey solid;
 }
 
 </style>
