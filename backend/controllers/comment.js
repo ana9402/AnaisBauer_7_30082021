@@ -8,7 +8,7 @@ const userID = (req) => {
     return id;
 
 }
-
+// Créer un commentaire
 exports.createComment = (req, res, next) => {
     db.Comment.create({
         content: req.body.content,
@@ -19,6 +19,22 @@ exports.createComment = (req, res, next) => {
     .catch((error) => res.status(403).json({error}))
 }
 
+// Supprimer un commentaire
+exports.deleteComment = (req, res, next) => {
+    db.Comment.findOne({
+        where: {id: req.params.id}
+    })
+    .then(() => {
+        db.Comment.destroy({
+            where: {id: req.params.id}
+        })
+        .then(() => res.status(200).json({message: "Commentaire supprimé !"}))
+        .catch((error) => res.status(400).json({error}));
+    })
+    .catch(error => res.status(500).json({error}));
+}
+
+// Afficher tous les commentaires d'un post
 exports.getAllComments = (req, res, next) => {
     db.Comment.findAll({
         attributes: ['id', 'content', 'userId', 'postId', 'createdAt'],

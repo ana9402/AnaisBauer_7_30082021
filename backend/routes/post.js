@@ -13,6 +13,7 @@ router.get('/', auth, postCtrl.getAllPosts);
 router.get('/:id', auth, postCtrl.getOnePost);
 
 router.post('/:id/comments', auth, commentCtrl.createComment);
-router.get('/:id/comments', auth, commentCtrl.getAllComments)
+router.delete('/:id/comments/:id', auth, commentCtrl.deleteComment);
+router.get('/:id/comments', auth, commentCtrl.getAllComments);
 
 module.exports = router;
