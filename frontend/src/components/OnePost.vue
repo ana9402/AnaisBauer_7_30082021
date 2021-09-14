@@ -31,7 +31,7 @@
                 <img src="../assets/dislikes.png">
                 <p id="dislikes-nb" class="bottom-line_btn_text">{{post.dislikes}} dislikes</p>
             </button>
-            <router-link to="/posts/${{post.id}}">
+            <router-link :to="{name: 'post', params: {id: post.id}}">
               <button id="comments" class="bottom-line_btn">
                   <img src="../assets/comments.png">
                   <p class="bottom-line_btn_text">Commentaires...</p>

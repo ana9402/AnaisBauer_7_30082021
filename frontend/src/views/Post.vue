@@ -5,7 +5,10 @@
         <div id="test">
             <div id="main-container">
                 <OnePost :post="post"/>
-                <Comments/>
+                <div id="comments-container">
+                    <CommentsForm/>
+                    <DisplayComment/>
+                </div>
             </div>
         </div>
     </div>
@@ -15,14 +18,16 @@
 <script>
 import MainHeader from '../components/MainHeader.vue'
 import OnePost from '../components/OnePost.vue'
-import Comments from '../components/Comments.vue'
+import CommentsForm from '../components/CommentsForm.vue'
+import DisplayComment from '../components/DisplayComment.vue'
 
 export default {
     name: "Post",
     components: {
         MainHeader,
         OnePost,
-        Comments
+        CommentsForm,
+        DisplayComment
     },
     data() {
         return {
@@ -66,6 +71,9 @@ export default {
     display: flex;
     justify-content: center;
 }
-
+#comments-container {
+    padding: 20px;
+    border: 1px grey solid;
+}
 
 </style>

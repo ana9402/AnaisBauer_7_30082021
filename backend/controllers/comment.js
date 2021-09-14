@@ -18,3 +18,28 @@ exports.createComment = (req, res, next) => {
     .then(() => res.status(200).json({message: "Commentaire ajouté !"}))
     .catch((error) => res.status(403).json({error}))
 }
+
+exports.getAllComments = (req, res, next) => {
+    db.Comment.findAll({
+        attributes: ['id', 'content', 'userId', 'postId', 'createdAt'],
+        order: [
+            ['createdAt', 'DESC']
+        ],
+        include: [
+            {
+                model: db.User,
+                attributes: ['id', 'firstname', 'lastname']
+            },
+            {
+                model: db.Post,
+                attributes: ['id']
+            }
+        ]
+    })
+    .then((comments) => {
+        res.status(200).json({comments})
+    })
+    .catch((error) => {
+        res.status(400).json({error})
+    })
+}

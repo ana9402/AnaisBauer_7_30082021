@@ -62,7 +62,7 @@ exports.getAllPosts = (req, res, next) => {
     db.Post.findAll({
         attributes: ['id', 'title', 'media', 'likes', 'dislikes', 'createdAt'],
         order: [
-            ['updatedAt', 'DESC']
+            ['createdAt', 'DESC']
         ],
         include: [
             {

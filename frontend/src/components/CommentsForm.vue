@@ -1,5 +1,5 @@
 <template>
-    <div id="comments-container">
+    <div id="container">
         <h2>Commentaires</h2>
         <div id="newComment-container">
             <form @submit.prevent="createComment">
@@ -60,19 +60,12 @@ export default ({
 </script>
 
 <style lang="scss" scoped>
-#comments-container {
-    padding: 20px;
-    background-color: white;
-    border: 1px rgb(214, 212, 212) solid;
-}
-
 #newComment-container {
     background-color: white;
     padding: 20px;
     & textarea {
         width: 100%;
         height: 70px;
-        padding: 10px;
     }
     & button {
         padding: 10px 20px;
