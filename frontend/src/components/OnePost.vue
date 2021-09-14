@@ -1,4 +1,5 @@
 <template>
+  <div id="main-container">
     <div id="post-container">
         <div id="top-line">
             <div id="user-infos">
@@ -30,12 +31,15 @@
                 <img src="../assets/dislikes.png">
                 <p id="dislikes-nb" class="bottom-line_btn_text">{{post.dislikes}} dislikes</p>
             </button>
-            <button id="comments" class="bottom-line_btn">
-                <img src="../assets/comments.png">
-                <p class="bottom-line_btn_text">Commentaires...</p>
-            </button>
+            <router-link to="/posts/${{post.id}}">
+              <button id="comments" class="bottom-line_btn">
+                  <img src="../assets/comments.png">
+                  <p class="bottom-line_btn_text">Commentaires...</p>
+              </button>
+            </router-link>
         </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -73,6 +77,14 @@ export default ({
 </script>
 
 <style lang="scss" scoped>
+
+#main-container figure {
+  background-color: #F0F2F4;
+  border-top: 1px rgb(216, 215, 215) solid;
+  border-bottom: 1px rgb(216, 215, 215) solid;
+  margin: 0;
+}
+
 #post-container {
   background-color: white;
   border: 1px rgb(221, 217, 217) solid;
@@ -182,6 +194,12 @@ export default ({
         display: none;
       }
     }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #main-container {
+    width: 100%;
   }
 }
 </style>

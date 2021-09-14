@@ -12,6 +12,6 @@ router.delete('/:id', auth, multer, postCtrl.deletePost);
 router.get('/', auth, postCtrl.getAllPosts);
 router.get('/:id', auth, postCtrl.getOnePost);
 
-router.post('/:id/comments', commentCtrl.createComment)
+router.post('/:id/comments', auth, commentCtrl.createComment)
 
 module.exports = router;

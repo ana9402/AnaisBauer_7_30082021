@@ -5,6 +5,7 @@
         <div id="test">
             <div id="main-container">
                 <OnePost :post="post"/>
+                <Comments/>
             </div>
         </div>
     </div>
@@ -14,12 +15,14 @@
 <script>
 import MainHeader from '../components/MainHeader.vue'
 import OnePost from '../components/OnePost.vue'
+import Comments from '../components/Comments.vue'
 
 export default {
     name: "Post",
     components: {
         MainHeader,
-        OnePost
+        OnePost,
+        Comments
     },
     data() {
         return {
@@ -64,7 +67,5 @@ export default {
     justify-content: center;
 }
 
-#main-container {
-    width: 50%;
-}
+
 </style>

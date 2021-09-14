@@ -64,20 +64,6 @@ export default {
   padding: 40px 0px;
   & #postsList {
     width: 50%;
-    & #postsList-img {
-      background-color: #F0F2F4;
-      border-top: 1px rgb(216, 215, 215) solid;
-      border-bottom: 1px rgb(216, 215, 215) solid;
-      margin: 0;
-    }
-  }
-}
-
-@media screen and (max-width: 768px) {
-  #postsList-container {
-    #postsList {
-      width: 100%;
-    }
   }
 }
 </style>
