@@ -27,16 +27,17 @@
       <!-- POST BOTTOM -->
       <div id="bottom-line">
           <button id="likes" class="bottom-line_btn" @click="likePost">
-              <img src="../assets/likes.png">
-              <p id="likes-nb" class="bottom-line_btn_text">{{post.likes}} likes</p>
+            <img src="../assets/like.svg">
+              <p v-if="post.likes <= 1">{{post.likes}} like</p>
+              <p v-else id="likes-nb" class="bottom-line_btn_text">{{post.likes}} likes</p>
           </button>
           <button id="dislikes" class="bottom-line_btn">
-              <img src="../assets/dislikes.png">
-              <p id="dislikes-nb" class="bottom-line_btn_text">{{post.dislikes}} dislikes</p>
+              <img src="../assets/dislike.svg">
+              <p id="dislikes-nb" class="bottom-line_btn_text">{{post.dislikes}} dislike</p>
           </button>
-          <router-link :to="{name: 'post', params: {id: post.id}}">
-            <button id="comments" class="bottom-line_btn">
-                <img src="../assets/comments.png">
+          <router-link :to="{name: 'post', params: {id: post.id}}" id="comments" class="bottom-line_btn">
+            <button >
+                <img src="../assets/chat.svg">
                 <p class="bottom-line_btn_text">Commentaires...</p>
             </button>
           </router-link>
@@ -165,7 +166,7 @@ export default ({
 #bottom-line {
   display: flex;
   justify-content: space-around;
-  padding: 10px 20px;
+  padding: 10px 40px;
   & .bottom-line_btn {
     display: flex;
     background-color: white;
@@ -173,9 +174,6 @@ export default ({
     align-items: center;
     padding: 0 20px;
     cursor: pointer;
-    &:hover {
-      background-color: #F0F2F4;
-    }
     & img {
       margin-right: 10px;
       height: 30px;
@@ -190,6 +188,15 @@ export default ({
   }
   & #comments {
     width: 40%;
+    & button {
+      display: flex;
+      background-color: transparent;
+      border: none;
+      align-items: center;
+      padding: 0 20px;
+      cursor: pointer;
+      
+    }
   }
 }
 
