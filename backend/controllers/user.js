@@ -4,6 +4,12 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 // ROUTES ----------
+const userID = (req) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, process.env.TOKEN);
+    const id = decodedToken.userId;
+    return id;
+}
 
 // Regex de l'adresse email
 const emailRegex = (email) => /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
@@ -73,6 +79,37 @@ exports.login = (req, res, next) => {
         .catch(error => res.status(500).json({error}));
     })
     .catch(error => res.status(500).json({error}));
+}
+
+// Modifier un profil utilisateur
+exports.modifyUser = (req, res, next) => {
+    db.User.findOne({
+        where: {id: req.params.id}
+    })
+    .then(user => {
+        if (user && user.id == userID(req)) {
+            let imgUrl;
+            if (!req.file) {
+                imgUrl = 'http://localhost:3000/images/unknown.jpeg'
+            } else {
+                imgUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+            }
+            db.User.update(
+                {department: req.body.department,
+                profilePicture: imgUrl}, 
+                {where: {id: userID(req)},
+
+            })
+            .then(() => res.status(201).json({message: "Le profil utilisateur a bien été modifié !"}))
+            .catch(error => res.status(400).json({error}))
+        } else if (user && user.id != userID(req)) {
+            res.status(403).json({message: "Vous n'êtes pas autorisé(e) à modifier ce profil"})
+        } else {
+            res.status(404).json({message: "L'utilisateur n'existe pas."})
+        }
+        
+    })
+    .catch(error => res.status(500).json({error}))
 }
 
 // Afficher tous les utilisateurs
