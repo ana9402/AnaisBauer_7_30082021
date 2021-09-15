@@ -9,6 +9,7 @@ const userID = (req) => {
     return id;
 }
 
+// Liker un post
 exports.likePost = (req, res, next) => {
     const postID = req.params.id;
     db.Like.findOne({
@@ -46,4 +47,28 @@ exports.likePost = (req, res, next) => {
         }
     })
     .catch((error) => res.status(500).json({error}));
+}
+
+// Afficher le like d'un utilisateur sur le post
+exports.getOneLike = (req, res, next) => {
+    db.Like.findOne({
+        where: {userId: userID(req), postId: req.params.id}
+    })
+    .then(like => {
+        if (like) {
+            res.status(200).json(like)
+        } else {
+            res.status(200).json({message: 'Pas de like'})
+        }
+    })
+    .catch(error => res.status(404).json({error}))
+}
+
+// Afficher tous les likes d'un post
+exports.getAllLikes = (req, res, next) => {
+    db.Like.findAll({
+        where: {postId: req.params.id},
+    })
+    .then(likes => res.status(200).json(likes))
+    .catch(error => res.status(404).json({error}))
 }

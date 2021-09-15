@@ -77,7 +77,7 @@ export default ({
     },
     likePost() {
       this.token = localStorage.getItem('userToken');
-      fetch(`http://localhost:3000/api/posts/${this.post.id}/like`,{
+      fetch(`http://localhost:3000/api/posts/${this.post.id}/likes`,{
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
