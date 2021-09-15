@@ -14,7 +14,7 @@
                     <router-link to="/home" class="nav-link link"  id="signup-link">Accueil</router-link>
                 </li>
                 <li>
-                    <router-link to="/Profile" class="nav-link link"  id="login-link">Mon Compte</router-link>
+                    <router-link to="/Profiles" class="nav-link link"  id="login-link">Mon Compte</router-link>
                 </li>
             </ul>
         </nav>
