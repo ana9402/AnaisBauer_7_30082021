@@ -26,7 +26,7 @@
       </figure>
       <!-- POST BOTTOM -->
       <div id="bottom-line">
-          <button id="likes" class="bottom-line_btn">
+          <button id="likes" class="bottom-line_btn" @click="likePost">
               <img src="../assets/likes.png">
               <p id="likes-nb" class="bottom-line_btn_text">{{post.likes}} likes</p>
           </button>
@@ -47,34 +47,52 @@
 <script>
 
 export default ({
-    name: 'OnePost',
-    props: ['post'],
-    data() {
-        return {
-            currentUserId: JSON.parse(localStorage.getItem('userId')),
-            token: ''
-        }
+  name: 'OnePost',
+  props: ['post'],
+  data() {
+      return {
+          currentUserId: JSON.parse(localStorage.getItem('userId')),
+          token: ''
+      }
+  },
+  methods: {
+    deletePost(id) {
+      this.token = localStorage.getItem('userToken');
+      if (confirm("Êtes-vous sûr(e) de vouloir supprimer ce post ?")) {
+        fetch('http://localhost:3000/api/posts/' + id, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${this.token}`}
+        })
+        .then(res => {
+            console.log(res)
+            this.$router.go()
+        })
+        .catch(error => {
+            console.log(error)
+        })
+      }
     },
-    methods: {
-        deletePost(id) {
-            this.token = localStorage.getItem('userToken');
-            if (confirm("Êtes-vous sûr(e) de vouloir supprimer ce post ?")) {
-                fetch('http://localhost:3000/api/posts/' + id, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.token}`}
-                })
-                .then(res => {
-                    console.log(res)
-                    this.$router.go()
-                })
-                .catch(error => {
-                    console.log(error)
-                })
-            }
+    likePost() {
+      this.token = localStorage.getItem('userToken');
+      fetch(`http://localhost:3000/api/posts/${this.post.id}/like`,{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.token}`
         }
+      })
+      .then(res => {
+        console.log(res)
+        this.$router.go()
+      })
+      .catch(error => {
+        alert('Action impossible !')
+        console.log(error)
+      })
     }
+  }
 })
 </script>
 
