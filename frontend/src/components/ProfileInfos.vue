@@ -46,6 +46,11 @@ export default ({
         border: 1px black solid;
         position: relative;
         top: -50px;
+        & img {
+            object-fit: cover;
+            height: 100%;
+            width: 100%;
+        }
     }
     &_infos {
         display: flex;

@@ -153,6 +153,7 @@ export default ({
     display: flex;
     align-items: center;
     & img {
+      object-fit: cover;
       height: 50px;
       width: 50px;
       margin-right: 20px;

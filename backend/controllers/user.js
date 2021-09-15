@@ -28,7 +28,8 @@ exports.signup = (req, res, next) => {
                         firstname: req.body.firstname,
                         lastname: req.body.lastname,
                         email: req.body.email,
-                        password: hash
+                        password: hash,
+                        profilePicture: 'http://localhost:3000/images/unknown.jpeg'
                     })
                     .then(() => res.status(201).json(
                         {message: "Le nouvel utilisateur a bien été créé !"}
