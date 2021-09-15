@@ -58,7 +58,7 @@ exports.getOneLike = (req, res, next) => {
         if (like) {
             res.status(200).json(like)
         } else {
-            res.status(200).json({message: 'Pas de like'})
+            return;
         }
     })
     .catch(error => res.status(404).json({error}))

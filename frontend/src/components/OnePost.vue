@@ -27,8 +27,9 @@
       <!-- POST BOTTOM -->
       <div id="bottom-line">
           <button id="likes" class="bottom-line_btn" @click="likePost">
-            <img src="../assets/like.svg">
-              <p v-if="post.likes <= 1">{{post.likes}} like</p>
+            <img v-if="postIsLiked == false" src="../assets/like.svg">
+            <img v-else src="../assets/liked.png">
+              <p v-if="post.likes <= 1" class="bottom-line_btn_text">{{post.likes}} like</p>
               <p v-else id="likes-nb" class="bottom-line_btn_text">{{post.likes}} likes</p>
           </button>
           <button id="dislikes" class="bottom-line_btn">
@@ -51,10 +52,12 @@ export default ({
   name: 'OnePost',
   props: ['post'],
   data() {
-      return {
-          currentUserId: JSON.parse(localStorage.getItem('userId')),
-          token: ''
-      }
+    return {
+      currentUserId: JSON.parse(localStorage.getItem('userId')),
+      token: '',
+      postIsLiked: false
+
+    }
   },
   methods: {
     deletePost(id) {
@@ -92,7 +95,29 @@ export default ({
         alert('Action impossible !')
         console.log(error)
       })
+    },
+    getUserLike() {
+      fetch(`http://localhost:3000/api/posts/${this.post.id}/like`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.token}`
+        }
+      })
+      .then(result => {
+        if (result.ok) {
+          return result.json()
+        }
+      })
+      .then(data => {
+        console.log(data)
+        return this.postIsLiked = true;
+      })
+      .catch(error => console.log(error))
     }
+  },
+  mounted() {
+    this.token = localStorage.getItem('userToken')
+    this.getUserLike();
   }
 })
 </script>

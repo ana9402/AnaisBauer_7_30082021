@@ -3,7 +3,7 @@
     <MainHeader/>
     <div id="postsList-container">
       <div v-for="post in posts" :key="post.id" id="postsList">
-        <OnePost :post="post"/>
+        <OnePost v-if="post" :key="post.id" :post="post"/>
       </div>
     </div>
   </div>

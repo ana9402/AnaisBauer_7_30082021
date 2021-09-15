@@ -40,7 +40,7 @@ export default {
         return {
             token: '',
             post: null,
-            comments: []
+            comments: [],       
         }
     },
     methods: {
