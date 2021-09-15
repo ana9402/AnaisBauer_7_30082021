@@ -1,29 +1,29 @@
 <template>
     <div id="edition-form-container">
-        <form>
+        <form method="post">
             <div id="firstname-field" class="form-field">
                 <label for="firstname">Prénom</label>
-                <input type="text" id="firstname" name="firstname" disabled>
+                <input type="text" id="firstname" name="firstname" v-bind:value="user.firstname" disabled>
             </div>
             <div id="lastname-field" class="form-field">
                 <label for="lastname">Nom</label>
-                <input type="text" id="lastname" name="lastname" disabled>
+                <input type="text" id="lastname" name="lastname" v-bind:value="user.lastname" disabled>
             </div>
             <div id="email-field" class="form-field">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" disabled>
+                <input type="email" id="email" name="email" v-bind:value="user.email" disabled>
             </div>
             <div id="password-field" class="form-field">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" disabled>
+                <input type="password" id="password" name="password" value="disabledpassword" disabled>
             </div>
             <div id="department-field" class="form-field">
                 <label for="department">Service</label>
-                <input type="text" id="department" name="department" placeholder="ex: Ressources Humaines" disabled>
+                <input type="text" id="department" name="department" placeholder="ex: Ressources Humaines">
             </div>
             <div id="media-field" class="form-field">
                 <label for="file">Photo de profil</label>
-                <input type="file" id="file" name="file" disabled>
+                <input type="file" id="file" name="file">
             </div>
             <button type="submit">Enregistrer les modifications</button>
         </form>
@@ -33,7 +33,8 @@
 <script>
 
 export default ({
-    name: 'ProfileEditionForm'
+    name: 'ProfileEditionForm',
+    props: ['user']
 })
 </script>
 
