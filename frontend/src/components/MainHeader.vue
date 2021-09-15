@@ -14,7 +14,7 @@
                     <router-link to="/home" class="nav-link link"  id="signup-link">Accueil</router-link>
                 </li>
                 <li>
-                    <router-link to="/Profiles" class="nav-link link"  id="login-link">Mon Compte</router-link>
+                    <router-link :to="{name: 'userProfile', params: {id: currentUserId}}" class="nav-link link"  id="login-link">Mon Compte</router-link>
                 </li>
             </ul>
         </nav>
@@ -24,6 +24,11 @@
 <script>
 export default ({
     name: "MainHeader",
+    data() {
+        return {
+            currentUserId: JSON.parse(localStorage.getItem('userId'))
+        }
+    }
 })
 </script>
 

@@ -43,7 +43,7 @@ export default ({
         height: 120px;
         width: 120px;
         background-color: white;
-        border: 1px black solid;
+        border: 1px #F2F2F2 solid;
         position: relative;
         top: -50px;
         & img {
