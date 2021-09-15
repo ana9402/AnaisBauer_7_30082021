@@ -17,7 +17,7 @@
             </div>
             <div id="info-category">
                 <p class="info-category_name">Membre depuis le :</p>
-                <p> {{ user.createdAt }} </p>
+                <p> {{getDate(user.createdAt)}}</p>
             </div>
         </div>
     </section>
@@ -25,10 +25,16 @@
 </template>
 
 <script>
+import moment from 'moment'
 
 export default ({
     name: 'ProfileInfos',
-    props: ['user']
+    props: ['user'],
+    methods: {
+        getDate(date) {
+            return moment(date).locale('fr').format('LL');
+        }
+    }
 })
 </script>
 

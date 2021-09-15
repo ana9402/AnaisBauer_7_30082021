@@ -6,7 +6,7 @@
                 <img :src="comment.User.profilePicture">
                 <div>
                     <p id="name">{{comment.User.firstname}} {{comment.User.lastname}} • {{comment.User.department}}</p>
-                    <p id="date">{{comment.createdAt}}</p>
+                    <p id="date">{{getDate(comment.createdAt)}} à {{ getHour(comment.createdAt) }}</p>
                 </div>
             </div>
             <div v-if="comment.User.isAdmin === true || comment.User.id == currentUserId" id="post-options">
@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import moment from 'moment'
+
 export default ({
     name: 'DisplayComment',
     props: ['post', 'comment'],
@@ -35,6 +37,12 @@ export default ({
         }
     },
     methods: {
+        getDate(date) {
+            return moment(date).locale('fr').format('LL');
+        },
+        getHour(hour) {
+        return moment(hour).locale('fr').format('LT')
+        },
         deleteComment(postId, commentId) {
             const token = localStorage.getItem('userToken');
             if (confirm("Êtes-vous sûr(e) de vouloir supprimer ce commentaire ?")) {

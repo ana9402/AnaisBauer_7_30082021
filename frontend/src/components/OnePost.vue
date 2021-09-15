@@ -7,7 +7,7 @@
               <img v-bind:src="post.User.profilePicture">
               <div>
                   <p id="name">{{post.User.firstname}} {{post.User.lastname}} • {{post.User.department}}</p>
-                  <p id="date">{{post.createdAt}}</p>
+                  <p id="date">{{getDate(post.createdAt)}} à {{ getHour(post.createdAt) }}</p>
               </div>
           </div>
           <div v-if="post.User.isAdmin === true || post.User.id == currentUserId" id="post-options">
@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 
 export default ({
   name: 'OnePost',
@@ -60,6 +61,12 @@ export default ({
     }
   },
   methods: {
+    getDate(date) {
+      return moment(date).locale('fr').format('LL');
+    },
+    getHour(hour) {
+      return moment(hour).locale('fr').format('LT')
+    },
     deletePost(id) {
       this.token = localStorage.getItem('userToken');
       if (confirm("Êtes-vous sûr(e) de vouloir supprimer ce post ?")) {
@@ -89,7 +96,7 @@ export default ({
       })
       .then(res => {
         console.log(res)
-        this.$router.go()
+        window.location.reload()
       })
       .catch(error => {
         alert('Action impossible !')
