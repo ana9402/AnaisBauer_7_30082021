@@ -73,3 +73,23 @@ exports.login = (req, res, next) => {
     })
     .catch(error => res.status(500).json({error}));
 }
+
+// Afficher tous les utilisateurs
+exports.getAllUsers = (req, res, next) => {
+    db.User.findAll({
+        attributes: ['id', 'firstname', 'lastname', 'email', 'department', 'profilePicture']
+    })
+    .then(user => res.status(200).json({user}))
+    .catch(error => { res.status(500).json({error})})
+}
+
+
+// Afficher 1 utilisateur
+exports.getOneUser = (req, res, next) => {
+    db.User.findOne({
+        where: {id: req.params.id},
+        attributes: ['id', 'firstname', 'lastname', 'email', 'department', 'profilePicture']
+    })
+    .then(user => res.status(200).json({user}))
+    .catch(error => { res.status(500).json({error})})
+}
