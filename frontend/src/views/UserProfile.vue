@@ -4,11 +4,16 @@
         <MainHeader/>
         <div id="content">
             <div id="profile-banner"> 
-                <h1>Mon Profil</h1>
+                <h1>Profil</h1>
             </div>
             <ProfileInfos v-if="user" :key="user.id" :user="user"/>
-            <div>
-                <button @click="logout()">Se déconnecter</button>
+            <div v-if="currentUserId == this.$route.params.id" id="options">
+                <div id="options_modify">
+                    <button>Modifier</button>
+                </div>
+                <div id="options_logout">
+                    <button @click="logout()">Se déconnecter</button>
+                </div>
             </div>
         </div>
     </div>
@@ -26,6 +31,7 @@ export default {
     },
     data() {
         return {
+            currentUserId: JSON.parse(localStorage.getItem('userId')),
             token: '',
             user: null
         }
@@ -77,6 +83,29 @@ export default {
         color: white;
         & h1 {
             font-size: 40px;
+        }
+    }
+    & #options {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        & button {
+            font-size: 15px;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+        &_modify {
+            & button {
+                background-color: #AEADAE;
+            }
+        }
+        &_logout {
+            & button {
+                background-color: #132442;
+                color: white;
+            }
         }
     }
 }
