@@ -104,7 +104,6 @@ export default {
     flex-direction: column;
     align-items: center;
     padding: 50px 0;
-    width: 50%;
     margin: auto;
     & #post-section {
         width: 100%;
@@ -114,9 +113,15 @@ export default {
     }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (min-width: 800px) {
     #content {
-        width: 100%;
+        width: 80%;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    #content {
+        width: 50%;
     }
 }
 

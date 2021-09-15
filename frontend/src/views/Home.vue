@@ -2,8 +2,8 @@
   <div id="page-container">
     <MainHeader/>
     <div id="postsList-container">
-      <div v-for="post in posts" :key="post.id" id="postsList">
-        <OnePost v-if="post" :key="post.id" :post="post"/>
+      <div id="postsList">
+        <OnePost v-for="post in posts" :key="post.id" :post="post"/>
       </div>
     </div>
   </div>
@@ -65,8 +65,18 @@ export default {
   flex-direction: column;
   align-items: center;
   padding: 40px 0px;
-  & #postsList {
-    width: 50%;
-  }
+  width: 100%;
+}
+
+@media screen and (min-width: 800px) {
+    #postsList {
+        width: 80%;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    #postsList {
+        width: 50%;
+    }
 }
 </style>
