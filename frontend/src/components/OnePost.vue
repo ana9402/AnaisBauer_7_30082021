@@ -6,7 +6,13 @@
           <div id="user-infos">
               <img v-bind:src="post.User.profilePicture">
               <div>
-                  <p id="name">{{post.User.firstname}} {{post.User.lastname}} • <span id="department">{{post.User.department}}</span></p>
+                    <p id="name">
+                      <router-link :to="{name: 'userProfile', params: {id: post.User.id}}">
+                        <span>{{post.User.firstname}} {{post.User.lastname}}</span>
+                      </router-link>
+                      • 
+                      <span id="department">{{post.User.department}}</span></p>
+                  
                   <p id="date">{{getDate(post.createdAt)}} à {{ getHour(post.createdAt) }}</p>
               </div>
           </div>
@@ -126,7 +132,6 @@ export default ({
 </script>
 
 <style lang="scss" scoped>
-
 #post-container {
   background-color: white;
   border: 1px rgb(221, 217, 217) solid;
@@ -196,11 +201,13 @@ export default ({
   }
 }
 }
-
+router-link {
+  text-decoration: none;
+}
 #bottom-line {
   display: flex;
   justify-content: space-around;
-  padding: 10px 40px;
+  padding: 10px 20px;
   & .bottom-line_btn {
     display: flex;
     justify-content: center;
@@ -233,8 +240,17 @@ export default ({
   }
 }
 
+a {
+  text-decoration: none;
+  color: black;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 @media screen and (max-width: 992px) {
   #bottom-line {
+    padding: 10px;
     & #likes {
       width: 33%;
     }
@@ -248,9 +264,6 @@ export default ({
       display: flex;
       justify-content: center;
       margin: 0;
-      & .bottom-line_btn_text {
-        display: none;
-      }
     }
   }
 }
