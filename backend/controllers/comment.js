@@ -44,7 +44,7 @@ exports.getAllComments = (req, res, next) => {
         include: [
             {
                 model: db.User,
-                attributes: ['id', 'firstname', 'lastname', 'profilePicture']
+                attributes: ['id', 'firstname', 'lastname', 'department', 'profilePicture']
             },
             {
                 model: db.Post,

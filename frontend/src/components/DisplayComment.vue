@@ -5,7 +5,13 @@
             <div id="user-infos">
                 <img :src="comment.User.profilePicture">
                 <div>
-                    <p id="name">{{comment.User.firstname}} {{comment.User.lastname}} • {{comment.User.department}}</p>
+                    <p id="name">
+                        <router-link :to="{name: 'userProfile', params: {id: comment.User.id}}">
+                            <span>{{comment.User.firstname}} {{comment.User.lastname}}</span>
+                        </router-link>
+                        • 
+                        <span id="department">{{comment.User.department}}</span>
+                    </p>
                     <p id="date">{{getDate(comment.createdAt)}} à {{ getHour(comment.createdAt) }}</p>
                 </div>
             </div>
@@ -88,6 +94,11 @@ export default ({
             }
             & #name {
                 margin: 0;
+                font-weight: bold;
+                & #department {
+                    font-weight: normal;
+                    font-size: 15px;
+                }
             }
             & #date {
                 margin: 5px 0 0 0;
@@ -119,6 +130,12 @@ export default ({
             }
         }
     }
-
+    a {
+        text-decoration: none;
+        color: black;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
 }
 </style>
