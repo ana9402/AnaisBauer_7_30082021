@@ -9,7 +9,7 @@
                     <p id="date">{{getDate(comment.createdAt)}} à {{ getHour(comment.createdAt) }}</p>
                 </div>
             </div>
-            <div v-if="comment.User.isAdmin === true || comment.User.id == currentUserId" id="post-options">
+            <div v-if="comment.User.id == currentUserId || userAdmin === true" id="post-options">
                 <button>
                     <img src="../assets/edit.png">
                 </button>
@@ -33,6 +33,7 @@ export default ({
     props: ['post', 'comment'],
     data() {
         return {
+            userAdmin: JSON.parse(localStorage.getItem('userAdmin')),
             currentUserId: JSON.parse(localStorage.getItem('userId'))
         }
     },

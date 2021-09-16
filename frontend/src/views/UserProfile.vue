@@ -7,11 +7,11 @@
                 <h1>Profil</h1>
             </div>
             <ProfileInfos v-if="user" :key="user.id" :user="user"/>
-            <div v-if="currentUserId == this.$route.params.id" id="options">
-                <div id="options_modify">
+            <div id="options">
+                <div v-if="currentUserId == this.$route.params.id || userAdmin === true" id="options_modify">
                     <button @click="editionRedirection()">Modifier</button>
                 </div>
-                <div id="options_logout">
+                <div v-if="currentUserId == this.$route.params.id" id="options_logout">
                     <button @click="logout()">Se déconnecter</button>
                 </div>
             </div>
@@ -31,6 +31,7 @@ export default {
     },
     data() {
         return {
+            userAdmin: JSON.parse(localStorage.getItem('userAdmin')),
             currentUserId: JSON.parse(localStorage.getItem('userId')),
             token: '',
             user: null

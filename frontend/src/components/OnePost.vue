@@ -16,7 +16,7 @@
                   <p id="date">{{getDate(post.createdAt)}} à {{ getHour(post.createdAt) }}</p>
               </div>
           </div>
-          <div v-if="post.User.id == currentUserId" id="post-options">
+          <div v-if="post.User.id == currentUserId || userAdmin === true" id="post-options">
               <button>
                   <img src="../assets/edit.png">
               </button>
@@ -56,6 +56,7 @@ export default ({
   props: ['post'],
   data() {
     return {
+      userAdmin: JSON.parse(localStorage.getItem('userAdmin')),
       currentUserId: JSON.parse(localStorage.getItem('userId')),
       token: '',
       postIsLiked: false
