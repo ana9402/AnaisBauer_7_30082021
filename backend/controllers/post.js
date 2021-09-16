@@ -1,7 +1,14 @@
 const db = require('../models');
 const fs = require('fs');
+const jwt = require('jsonwebtoken');
 
 // ROUTES ----------
+const userID = (req) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, process.env.TOKEN);
+    const id = decodedToken.userId;
+    return id;
+}
 
 // Créer un post
 exports.createPost = (req, res, next) => {
@@ -21,21 +28,49 @@ exports.createPost = (req, res, next) => {
 }
 
 // Modifier un post
-exports.modifyPost = (req, res, next) => {
-    let imgUrl;
-    if (!req.file) {
-        imgUrl = null;
-    } else {
-        imgUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-    }
-    db.Post.update(
-        {title: req.body.title,
-        media: imgUrl,
-        userId: req.body.userId},
-        { where: {id: req.params.id}}
-    )
-    .then(() => res.status(201).json({message: "Le post a bien été modifié !"}))
-    .catch(error => res.status(400).json({error}))
+exports.editPost = (req, res, next) => {
+    db.Post.findOne({
+        where: {id: req.params.id},
+        include: [
+            {
+                model: db.User,
+                attributes: ["id", "firstname", "lastname", "email", "department", "profilePicture", "isAdmin"]
+            },
+        ]
+    })
+    .then(post => {
+        db.User.findOne({
+            where: {id: userID(req)}
+        })
+        .then(user => {
+            if (post.User.id === userID(req) || user.isAdmin === true ) {
+                let imgUrl;
+                if (!req.file) {
+                    if (post.media == null) {
+                        imgUrl = null;
+                    } else {
+                        imgUrl = post.media
+                    }
+                    
+                } else {
+                    imgUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+                }
+                db.Post.update(
+                    {title: req.body.title,
+                    media: imgUrl,
+                    userId: req.body.userId},
+                    { where: {id: req.params.id}}
+                )
+                .then(() => res.status(201).json({message: "Le post a bien été modifié !"}))
+                .catch(error => res.status(400).json({error}))
+            } else {
+                res.status(403).json({erreur: "Vous n'êtes pas autorisé(e) à modifier ce post !"})
+            }
+        })
+        .catch(error => res.status(500).json({error}))
+
+    })
+    .catch(error => res.status(500).json({error}))
 }
 
 // Supprimer un post
