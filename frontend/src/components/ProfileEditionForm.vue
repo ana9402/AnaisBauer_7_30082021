@@ -65,6 +65,8 @@ export default ({
             const token = localStorage.getItem('userToken');
             const formData = new FormData();
             formData.append('department', this.input.department);
+            formData.append('lastname', this.input.lastname)
+            formData.append('firstname', this.input.firstname)
             if (this.selectedFile !== null) { 
                 formData.append('file', this.selectedFile)
             }

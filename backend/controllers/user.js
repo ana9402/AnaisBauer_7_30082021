@@ -82,36 +82,55 @@ exports.login = (req, res, next) => {
 }
 
 // Modifier un profil utilisateur
-exports.modifyUser = (req, res, next) => {
+exports.editUser = (req, res, next) => {
+    // On cherche l'utilisateur dont l'id est présent dans les paramètres de requête
     db.User.findOne({
         where: {id: req.params.id}
     })
     .then(user => {
-        if (user && user.id == userID(req)) {
-            let imgUrl;
-            if (!req.file) {
-                if(user.profilePicture == null) {
-                    imgUrl = 'http://localhost:3000/images/unknown.jpeg'
-                } else {
-                    imgUrl = user.profilePicture
-                }
-            } else {
-                imgUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-            }
-            db.User.update(
-                {department: req.body.department,
-                profilePicture: imgUrl}, 
-                {where: {id: userID(req)},
-
+        // Si l'utilisateur existe
+        if (user) {
+            // On cherche les données de l'utilisateur qui effectue la requête
+            db.User.findOne({
+                where: {id: userID(req)}
             })
-            .then(() => res.status(201).json({message: "Le profil utilisateur a bien été modifié !"}))
-            .catch(error => res.status(400).json({error}))
-        } else if (user && user.id != userID(req)) {
-            res.status(403).json({message: "Vous n'êtes pas autorisé(e) à modifier ce profil"})
-        } else {
+            .then(admin => {
+                // Si l'utilisateur qui effectue la requête est le bon ou s'il est un admin
+                if (user.id === userID(req) || admin.isAdmin === true) {
+                    let imgUrl;
+                    if (!req.file) {
+                        if(user.profilePicture == null) {
+                            imgUrl = 'http://localhost:3000/images/unknown.jpeg'
+                        } else {
+                            imgUrl = user.profilePicture
+                        }
+                    } else {
+                        imgUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+                    }
+                    // On met à jour les données de l'utilisateur
+                    db.User.update(
+                        {firstname: req.body.firstname,
+                        lastname: req.body.lastname,
+                        department: req.body.department,
+                        profilePicture: imgUrl}, 
+                        {where: {id: req.params.id},
+    
+                    })
+                    .then(() => res.status(201).json({message: "Le profil utilisateur a bien été modifié !"}))
+                    .catch(error => res.status(400).json({error}))
+                } 
+                // Si l'utilisateur n'a pas l'autorisation de modifier le profil
+                else {
+                    res.status(403).json({message: "Vous n'êtes pas autorisé(e) à modifier ce profil"})
+                }
+            })
+            .catch(error => res.status(500).json({error}))
+            
+        } 
+        // Si l'utilisateur n'existe pas
+        else {
             res.status(404).json({message: "L'utilisateur n'existe pas."})
         }
-        
     })
     .catch(error => res.status(500).json({error}))
 }
