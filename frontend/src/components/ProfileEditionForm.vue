@@ -1,6 +1,6 @@
 <template>
     <div id="edition-form-container">
-        <form method="post">
+        <form method="post" v-on:submit.prevent="editProfile(user.id)">
             <div id="firstname-field" class="form-field">
                 <label for="firstname">Prénom</label>
                 <input type="text" id="firstname" name="firstname" v-bind:value="user.firstname" disabled>
@@ -19,11 +19,11 @@
             </div>
             <div id="department-field" class="form-field">
                 <label for="department">Service</label>
-                <input type="text" id="department" name="department" placeholder="ex: Ressources Humaines">
+                <input type="text" id="department" name="department" placeholder="ex: Ressources Humaines" v-model="department">
             </div>
             <div id="media-field" class="form-field">
                 <label for="file">Photo de profil</label>
-                <input type="file" id="file" name="file">
+                <input type="file" id="file" name="file" @change="onFileChanged">
             </div>
             <button type="submit">Enregistrer les modifications</button>
         </form>
@@ -34,7 +34,43 @@
 
 export default ({
     name: 'ProfileEditionForm',
-    props: ['user']
+    props: ['user'],
+    data() {
+        return {
+            department: '',
+            selectedFile: null,
+            url: null,
+            token: localStorage.getItem('userToken')
+        }
+    },
+    methods: {
+        onFileChanged(event) {
+            this.selectedFile = event.target.files[0]
+        },
+        editProfile(userId) {
+            const token = localStorage.getItem('userToken');
+            const formData = new FormData();
+            formData.append('department', this.department);
+            if (this.selectedFile !== null) { 
+                formData.append('file', this.selectedFile)
+            }
+            fetch(`http://localhost:3000/api/users/${userId}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                body: formData
+            })
+            .then(res => {
+                console.log(res)
+                console.log('ça fonctionne')
+                this.$router.go()
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        }
+    }
 })
 </script>
 
