@@ -72,7 +72,8 @@ exports.login = (req, res, next) => {
                         {userId: user.id},
                         process.env.TOKEN,
                         {expiresIn: '24h'}
-                    )
+                    ),
+                    userAdmin: user.isAdmin
                 })
             }
         })

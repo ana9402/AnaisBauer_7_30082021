@@ -73,6 +73,7 @@ export default {
             .then(data => {
                 localStorage.setItem('userToken', data.token);
                 localStorage.setItem('userId', data.userId)
+                localStorage.setItem('userAdmin', data.userAdmin)
                 router.push('/home')
             })
             .catch(function(error) {
