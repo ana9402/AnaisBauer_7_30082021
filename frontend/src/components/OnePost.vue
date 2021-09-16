@@ -32,10 +32,6 @@
               <p v-if="post.likes <= 1" class="bottom-line_btn_text">{{post.likes}} like</p>
               <p v-else id="likes-nb" class="bottom-line_btn_text">{{post.likes}} likes</p>
           </button>
-          <button id="dislikes" class="bottom-line_btn">
-              <img src="../assets/dislike.svg">
-              <p id="dislikes-nb" class="bottom-line_btn_text">{{post.dislikes}} dislike</p>
-          </button>
           <router-link :to="{name: 'post', params: {id: post.id}}" id="comments" class="bottom-line_btn">
             <button >
                 <img src="../assets/chat.svg">
@@ -207,6 +203,7 @@ export default ({
   padding: 10px 40px;
   & .bottom-line_btn {
     display: flex;
+    justify-content: center;
     background-color: white;
     border: none;
     align-items: center;
@@ -219,13 +216,11 @@ export default ({
     }
   }
   & #likes {
-    width: 25%;
-  }
-  & #dislikes {
-    width: 25%
+    width: 50%;
+    border-right: 1px #F0F2F4 solid;
   }
   & #comments {
-    width: 40%;
+    width: 50%;
     & button {
       display: flex;
       background-color: transparent;
