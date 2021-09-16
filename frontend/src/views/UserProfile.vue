@@ -9,7 +9,7 @@
             <ProfileInfos v-if="user" :key="user.id" :user="user"/>
             <div v-if="currentUserId == this.$route.params.id" id="options">
                 <div id="options_modify">
-                    <button>Modifier</button>
+                    <button @click="editionRedirection()">Modifier</button>
                 </div>
                 <div id="options_logout">
                     <button @click="logout()">Se déconnecter</button>
@@ -37,6 +37,9 @@ export default {
         }
     },
     methods: {
+        editionRedirection() {
+            this.$router.push(`/profiles/${this.$route.params.id}/edit`)
+        },
         logout() {
             localStorage.clear();
             this.$router.push('Login');
