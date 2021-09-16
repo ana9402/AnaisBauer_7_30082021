@@ -31,7 +31,12 @@ export default ({
             const token = localStorage.getItem('userToken');
             const userId = JSON.parse(localStorage.getItem('userId'));
             const formData = new FormData();
-            formData.append('file', this.selectedFile, this.selectedFile.name);
+            if (this.selectedFile == null) {
+                alert('Veuillez insérer un fichier.')
+                return;
+            }
+
+            formData.append('file', this.selectedFile);
             formData.append('title', this.title);
             formData.append('userId', userId);
             fetch('http://localhost:3000/api/posts', {
