@@ -3,11 +3,11 @@
         <form method="post" v-on:submit.prevent="editProfile(user.id)">
             <div id="firstname-field" class="form-field">
                 <label for="firstname">Prénom</label>
-                <input type="text" id="firstname" name="firstname" v-bind:value="user.firstname" disabled>
+                <input type="text" id="firstname" name="firstname" v-model="input.firstname">
             </div>
             <div id="lastname-field" class="form-field">
                 <label for="lastname">Nom</label>
-                <input type="text" id="lastname" name="lastname" v-bind:value="user.lastname" disabled>
+                <input type="text" id="lastname" name="lastname" v-model="input.lastname">
             </div>
             <div id="email-field" class="form-field">
                 <label for="email">Email</label>
@@ -19,11 +19,15 @@
             </div>
             <div id="department-field" class="form-field">
                 <label for="department">Service</label>
-                <input type="text" id="department" name="department" placeholder="ex: Ressources Humaines" v-model="department">
+                <input type="text" id="department" name="department" placeholder="ex: Ressources Humaines" v-model="input.department">
             </div>
             <div id="media-field" class="form-field">
                 <label for="file">Photo de profil</label>
                 <input type="file" id="file" name="file" @change="onFileChanged">
+                <div id="media-field_preview">
+                    <img v-if="url" :src="url" />
+                    <img v-else id="test" :src="userData.profilePicture">
+                </div>
             </div>
             <button type="submit">Enregistrer les modifications</button>
         </form>
@@ -36,7 +40,15 @@ export default ({
     name: 'ProfileEditionForm',
     props: ['user'],
     data() {
+        const userData = JSON.parse(localStorage.getItem('userData'))
         return {
+            userData,
+            input: {
+                firstname: userData.firstname,
+                lastname: userData.lastname,
+                department: userData.department,
+                profilePicture: userData.profilePicture
+            },
             department: '',
             selectedFile: null,
             url: null,
@@ -45,12 +57,14 @@ export default ({
     },
     methods: {
         onFileChanged(event) {
-            this.selectedFile = event.target.files[0]
+            this.selectedFile = event.target.files[0];
+            this.url = URL.createObjectURL(this.selectedFile)
+
         },
         editProfile(userId) {
             const token = localStorage.getItem('userToken');
             const formData = new FormData();
-            formData.append('department', this.department);
+            formData.append('department', this.input.department);
             if (this.selectedFile !== null) { 
                 formData.append('file', this.selectedFile)
             }
@@ -64,11 +78,17 @@ export default ({
             .then(res => {
                 console.log(res)
                 console.log('ça fonctionne')
-                this.$router.go()
+                alert('Votre profil a bien été mis à jour !')
+            })
+            .then(() => {
+                this.$router.push(`/profiles/${this.$route.params.id}`)
             })
             .catch(error => {
                 console.log(error)
             })
+        },
+        mounted() {
+            console.log(this.test)
         }
     }
 })
@@ -104,6 +124,19 @@ form {
         border: none;
         cursor: pointer;
         background-color: #AEADAE;
+    }
+    & #media-field {
+        & input {
+            padding: 20px 5px;
+        }
+        &_preview {
+            padding: 0 5px;
+            & img {
+                object-fit: cover;
+                height: 150px;
+                width: 150px;
+            }
+        }
     }
 }
 </style>

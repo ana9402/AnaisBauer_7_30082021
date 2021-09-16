@@ -90,7 +90,11 @@ exports.modifyUser = (req, res, next) => {
         if (user && user.id == userID(req)) {
             let imgUrl;
             if (!req.file) {
-                imgUrl = 'http://localhost:3000/images/unknown.jpeg'
+                if(user.profilePicture == null) {
+                    imgUrl = 'http://localhost:3000/images/unknown.jpeg'
+                } else {
+                    imgUrl = user.profilePicture
+                }
             } else {
                 imgUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
             }

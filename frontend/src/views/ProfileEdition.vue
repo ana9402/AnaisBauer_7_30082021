@@ -44,9 +44,7 @@ export default ({
             .then(user => {
                 console.log(user)
                 this.user = user
-            })
-            .then(() => {
-                console.log(this.user.id)
+                localStorage.setItem('userData', JSON.stringify(user))
             })
             .catch(error => console.log(error))
         }

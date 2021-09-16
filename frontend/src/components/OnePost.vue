@@ -6,7 +6,7 @@
           <div id="user-infos">
               <img v-bind:src="post.User.profilePicture">
               <div>
-                  <p id="name">{{post.User.firstname}} {{post.User.lastname}} • {{post.User.department}}</p>
+                  <p id="name">{{post.User.firstname}} {{post.User.lastname}} • <span id="department">{{post.User.department}}</span></p>
                   <p id="date">{{getDate(post.createdAt)}} à {{ getHour(post.createdAt) }}</p>
               </div>
           </div>
@@ -166,7 +166,12 @@ export default ({
       margin-right: 20px;
     }
     & #name {
+      font-weight: bold;
       margin: 0;
+      & #department {
+        font-weight: normal;
+        font-size: 15px;
+      }
     }
     & #date {
       margin: 5px 0 0 0;
