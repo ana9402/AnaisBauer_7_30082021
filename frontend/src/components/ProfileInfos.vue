@@ -2,7 +2,7 @@
 <div>
     <section id= "user-profile">
         <figure id="user-profile_img">
-            <img v-bind:src="user.profilePicture" />
+            <img v-bind:src="user.profilePicture" alt="photo de profil" />
         </figure>
         <div id="user-profile_infos">
             <h2>{{ user.firstname }} {{ user.lastname }}</h2>

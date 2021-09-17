@@ -25,8 +25,8 @@
                 <label for="file">Photo de profil</label>
                 <input type="file" id="file" name="file" @change="onFileChanged">
                 <figure id="media-field_preview">
-                    <img v-if="url" :src="url" />
-                    <img v-else :src="userData.profilePicture">
+                    <img v-if="url" :src="url" alt="photo de profil" />
+                    <img v-else :src="userData.profilePicture" alt="photo de profil" />
                 </figure>
             </div>
             <button type="submit">Enregistrer les modifications</button>

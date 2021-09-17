@@ -4,7 +4,7 @@
     <!-- POST TOP -->
     <div id="post-container_top">
         <div id="user-infos">
-            <img v-bind:src="post.User.profilePicture">
+            <img v-bind:src="post.User.profilePicture" alt="photo de profil de l'utilisateur">
             <div>
                   <p id="name">
                     <router-link :to="{name: 'userProfile', params: {id: post.User.id}}">
@@ -18,7 +18,7 @@
         </div>
         <div v-if="post.User.id == currentUserId || userAdmin === true" id="post-options">
             <button @click="editionRedirection(post.id)">
-              <img src="../assets/edit.png">
+              <img src="../assets/edit.png" alt="icone d'édition du post">
             </button>
             <button v-on:click="deletePost(post.id)">
                 x
@@ -28,19 +28,19 @@
     <!-- POST CONTENT -->
     <h2>{{post.title}}</h2>
     <figure id="postsList-img">
-        <img :src="post.media">
+        <img :src="post.media" alt="image du post">
     </figure>
     <!-- POST BOTTOM -->
     <div id="bottom-line">
         <button id="likes" class="bottom-line_btn" @click="likePost">
-          <img v-if="postIsLiked == false" src="../assets/like.svg">
-          <img v-else src="../assets/liked.png">
+          <img v-if="postIsLiked == false" src="../assets/like.svg" alt="icone like">
+          <img v-else src="../assets/liked.png" alt="icone like">
             <p v-if="post.likes <= 1" class="bottom-line_btn_text">{{post.likes}} like</p>
             <p v-else id="likes-nb" class="bottom-line_btn_text">{{post.likes}} likes</p>
         </button>
         <router-link :to="{name: 'post', params: {id: post.id}}" id="comments" class="bottom-line_btn">
           <button >
-              <img src="../assets/chat.svg">
+              <img src="../assets/chat.svg" alt="icone commentaires">
               <p class="bottom-line_btn_text">Commentaires...</p>
           </button>
         </router-link>

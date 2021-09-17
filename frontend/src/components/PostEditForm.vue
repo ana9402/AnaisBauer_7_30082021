@@ -8,8 +8,8 @@
             <label for="file">Media</label>
             <input type="file" id="file" name="file" @change="onFileChanged">
             <figure>
-                <img v-if="url" :src="url"/>
-                <img v-else :src="postData.media">
+                <img v-if="url" :src="url" alt="image du post"/>
+                <img v-else :src="postData.media" alt="image du post"/>
             </figure>
         </div>
         <button type="submit">PUBLIER</button>

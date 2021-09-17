@@ -3,7 +3,7 @@
         <!-- COMMENT TOP-->
         <div id="comment-container_top">
             <div id="user-infos">
-                <img :src="comment.User.profilePicture">
+                <img :src="comment.User.profilePicture" alt="photo de profil de l'utilisateur">
                 <div>
                     <p id="name">
                         <router-link :to="{name: 'userProfile', params: {id: comment.User.id}}">
@@ -17,7 +17,7 @@
             </div>
             <div v-if="comment.User.id == currentUserId || userAdmin === true" id="post-options">
                 <button v-on:click="editionRedirection(post.id, comment.id)">
-                    <img src="../assets/edit.png">
+                    <img src="../assets/edit.png" alt="icone d'édition du commentaire">
                 </button>
                 <button v-on:click="deleteComment(post.id, comment.id)">
                     x
