@@ -33,6 +33,15 @@ const routes = [
     }
   },
   {
+    path: '/posts/:id/edit',
+    name: 'postEdition',
+    component: () => 
+      import('../views/PostEdition.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: '/submit',
     name: 'submit',
     component: () => 

@@ -1,50 +1,50 @@
 <template>
 
   <div id="post-container">
-      <!-- POST TOP -->
-      <div id="post-container_top">
-          <div id="user-infos">
-              <img v-bind:src="post.User.profilePicture">
-              <div>
-                    <p id="name">
-                      <router-link :to="{name: 'userProfile', params: {id: post.User.id}}">
-                        <span>{{post.User.firstname}} {{post.User.lastname}}</span>
-                      </router-link>
-                      • 
-                      <span id="department">{{post.User.department}}</span></p>
-                  
-                  <p id="date">{{getDate(post.createdAt)}} à {{ getHour(post.createdAt) }}</p>
-              </div>
-          </div>
-          <div v-if="post.User.id == currentUserId || userAdmin === true" id="post-options">
-              <button>
-                  <img src="../assets/edit.png">
-              </button>
-              <button v-on:click="deletePost(post.id)">
-                  x
-              </button>
-          </div>
-      </div>
-      <!-- POST CONTENT -->
-      <h2>{{post.title}}</h2>
-      <figure id="postsList-img">
-          <img :src="post.media">
-      </figure>
-      <!-- POST BOTTOM -->
-      <div id="bottom-line">
-          <button id="likes" class="bottom-line_btn" @click="likePost">
-            <img v-if="postIsLiked == false" src="../assets/like.svg">
-            <img v-else src="../assets/liked.png">
-              <p v-if="post.likes <= 1" class="bottom-line_btn_text">{{post.likes}} like</p>
-              <p v-else id="likes-nb" class="bottom-line_btn_text">{{post.likes}} likes</p>
-          </button>
-          <router-link :to="{name: 'post', params: {id: post.id}}" id="comments" class="bottom-line_btn">
-            <button >
-                <img src="../assets/chat.svg">
-                <p class="bottom-line_btn_text">Commentaires...</p>
+    <!-- POST TOP -->
+    <div id="post-container_top">
+        <div id="user-infos">
+            <img v-bind:src="post.User.profilePicture">
+            <div>
+                  <p id="name">
+                    <router-link :to="{name: 'userProfile', params: {id: post.User.id}}">
+                      <span>{{post.User.firstname}} {{post.User.lastname}}</span>
+                    </router-link>
+                    • 
+                    <span id="department">{{post.User.department}}</span></p>
+                
+                <p id="date">{{getDate(post.createdAt)}} à {{ getHour(post.createdAt) }}</p>
+            </div>
+        </div>
+        <div v-if="post.User.id == currentUserId || userAdmin === true" id="post-options">
+            <button @click="editionRedirection(post.id)">
+              <img src="../assets/edit.png">
             </button>
-          </router-link>
-      </div>
+            <button v-on:click="deletePost(post.id)">
+                x
+            </button>
+        </div>
+    </div>
+    <!-- POST CONTENT -->
+    <h2>{{post.title}}</h2>
+    <figure id="postsList-img">
+        <img :src="post.media">
+    </figure>
+    <!-- POST BOTTOM -->
+    <div id="bottom-line">
+        <button id="likes" class="bottom-line_btn" @click="likePost">
+          <img v-if="postIsLiked == false" src="../assets/like.svg">
+          <img v-else src="../assets/liked.png">
+            <p v-if="post.likes <= 1" class="bottom-line_btn_text">{{post.likes}} like</p>
+            <p v-else id="likes-nb" class="bottom-line_btn_text">{{post.likes}} likes</p>
+        </button>
+        <router-link :to="{name: 'post', params: {id: post.id}}" id="comments" class="bottom-line_btn">
+          <button >
+              <img src="../assets/chat.svg">
+              <p class="bottom-line_btn_text">Commentaires...</p>
+          </button>
+        </router-link>
+    </div>
   </div>
 </template>
 
@@ -69,6 +69,9 @@ export default ({
     getHour(hour) {
       return moment(hour).locale('fr').format('LT')
     },
+    editionRedirection(postId) {
+      this.$router.push(`/posts/${postId}/edit`)
+    },
     deletePost(id) {
       this.token = localStorage.getItem('userToken');
       if (confirm("Êtes-vous sûr(e) de vouloir supprimer ce post ?")) {
@@ -80,7 +83,7 @@ export default ({
         })
         .then(res => {
             console.log(res)
-            this.$router.go()
+            this.$router.go('/home')
         })
         .catch(error => {
             console.log(error)

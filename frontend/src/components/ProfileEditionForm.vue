@@ -3,31 +3,31 @@
         <form method="post" v-on:submit.prevent="editProfile(user.id)">
             <div id="firstname-field" class="form-field">
                 <label for="firstname">Prénom</label>
-                <input type="text" id="firstname" name="firstname" v-model="input.firstname">
+                <input type="text" id="firstname" name="firstname" v-model="form.firstname">
             </div>
             <div id="lastname-field" class="form-field">
                 <label for="lastname">Nom</label>
-                <input type="text" id="lastname" name="lastname" v-model="input.lastname">
+                <input type="text" id="lastname" name="lastname" v-model="form.lastname">
             </div>
             <div id="email-field" class="form-field">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" v-bind:value="user.email" disabled>
+                <input type="email" id="email" name="email" v-bind:value="form.email" disabled>
             </div>
             <div id="password-field" class="form-field">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" value="disabledpassword" disabled>
+                <input type="password" id="password" name="password" disabled>
             </div>
             <div id="department-field" class="form-field">
                 <label for="department">Service</label>
-                <input type="text" id="department" name="department" placeholder="ex: Ressources Humaines" v-model="input.department">
+                <input type="text" id="department" name="department" placeholder="ex: Ressources Humaines" v-model="form.department">
             </div>
             <div id="media-field" class="form-field">
                 <label for="file">Photo de profil</label>
                 <input type="file" id="file" name="file" @change="onFileChanged">
-                <div id="media-field_preview">
+                <figure id="media-field_preview">
                     <img v-if="url" :src="url" />
-                    <img v-else id="test" :src="userData.profilePicture">
-                </div>
+                    <img v-else :src="userData.profilePicture">
+                </figure>
             </div>
             <button type="submit">Enregistrer les modifications</button>
         </form>
@@ -43,13 +43,13 @@ export default ({
         const userData = JSON.parse(localStorage.getItem('userData'))
         return {
             userData,
-            input: {
+            form: {
                 firstname: userData.firstname,
                 lastname: userData.lastname,
                 department: userData.department,
+                email: userData.email,
                 profilePicture: userData.profilePicture
             },
-            department: '',
             selectedFile: null,
             url: null,
             token: localStorage.getItem('userToken')
@@ -62,24 +62,22 @@ export default ({
 
         },
         editProfile(userId) {
-            const token = localStorage.getItem('userToken');
             const formData = new FormData();
-            formData.append('department', this.input.department);
-            formData.append('lastname', this.input.lastname)
-            formData.append('firstname', this.input.firstname)
+            formData.append('department', this.form.department);
+            formData.append('lastname', this.form.lastname)
+            formData.append('firstname', this.form.firstname)
             if (this.selectedFile !== null) { 
                 formData.append('file', this.selectedFile)
             }
             fetch(`http://localhost:3000/api/users/${userId}`, {
                 method: 'PUT',
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${this.token}`
                 },
                 body: formData
             })
             .then(res => {
                 console.log(res)
-                console.log('ça fonctionne')
                 alert('Votre profil a bien été mis à jour !')
             })
             .then(() => {

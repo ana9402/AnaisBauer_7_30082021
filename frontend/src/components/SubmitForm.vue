@@ -17,10 +17,11 @@ import router from '../router/index'
 
 export default ({
     name: "SubmitForm",
+    props: ['submitAction', 'onSelectedFile'],
     data() {
         return {
-        title: '',
-        selectedFile: null
+            title: '',
+            selectedFile: null
         }
     },
     methods: {

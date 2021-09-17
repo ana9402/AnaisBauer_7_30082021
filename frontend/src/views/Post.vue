@@ -9,7 +9,7 @@
                     <OnePost v-if="post" :key="post.id" :post="post"/>
                 </main>
                 <!-- COMMENTS SECTION -->
-                <section id="comments-section">
+                <section v-if="post" id="comments-section">
                     <h2>Commentaires</h2>
                     <CommentsForm/>
                     <div v-for="comment in comments" :key="comment.id" id="commentsList">
@@ -27,6 +27,7 @@ import MainHeader from '../components/MainHeader.vue'
 import OnePost from '../components/OnePost.vue'
 import CommentsForm from '../components/CommentsForm.vue'
 import DisplayComment from '../components/DisplayComment.vue'
+
 
 export default {
     name: "Post",

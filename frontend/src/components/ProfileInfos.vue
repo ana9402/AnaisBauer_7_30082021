@@ -12,7 +12,7 @@
             </div>
             <div class="info-category">
                 <p class="info-category_name">Service</p>
-                <p v-if="user.department"> {{ user.department}} </p>
+                <p v-if="user.department !== null"> {{ user.department }} </p>
                 <p v-else>Non renseigné</p>
             </div>
             <div id="info-category">
