@@ -1,5 +1,5 @@
 <template>
-    <form method="post" enctype="multipart/form-data" v-on:submit.prevent="editPost(post.id)">
+    <form method="put" enctype="multipart/form-data" v-on:submit.prevent="editPost(post.id)">
         <div id="title-field" class="form-field">
             <label for="title">Titre</label>
             <input type="text" id="title" name="title" placeholder="Que souhaitez-vous partager?" v-model="form.title">

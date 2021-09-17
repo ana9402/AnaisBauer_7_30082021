@@ -42,7 +42,7 @@ const routes = [
     }
   },
   {
-    path: '/posts/:id/comments/:id/edit',
+    path: '/posts/:postId/comments/:id/edit',
     name: 'CommentEdition',
     component: () => 
       import('../views/CommentEdition.vue'),

@@ -19,6 +19,37 @@ exports.createComment = (req, res, next) => {
     .catch((error) => res.status(403).json({error}))
 }
 
+// Modifier un commentaire -----
+exports.editComment = (req, res, next) => {
+    db.Comment.findOne({
+        where: {id: req.params.id, postId: req.params.postId, 
+        }
+    })
+    .then(comment => {
+        if (comment) {
+            db.User.findOne({
+                where: {id: userID(req)},
+            })
+            .then(user => {
+                if (comment.userId === userID(req) || user.isAdmin === true) {
+                    db.Comment.update(
+                        {content: req.body.content},
+                        {where: {id: req.params.id}}
+                    )
+                    .then(() => res.status(201).json({message: 'Le commentaire a bien été mis à jour !'}))
+                    .catch(error => res.status(400).json({error}))
+                } else {
+                    res.status(403).json({erreur: "Vous n'êtes pas autorisé(e) à modifier ce commentaire !"})
+                }
+            })
+            .catch(error => res.status(500).json({error}))
+        } else {
+            res.status(404).json({erreur: 'Commentaire introuvable !'})
+        }
+    })
+    .catch(error => res.status(500).json({error}))
+}
+
 // Supprimer un commentaire -----
 exports.deleteComment = (req, res, next) => {
     db.Comment.findOne({

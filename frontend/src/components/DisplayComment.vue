@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div v-if="comment.User.id == currentUserId || userAdmin === true" id="post-options">
-                <button>
+                <button v-on:click="editionRedirection(post.id, comment.id)">
                     <img src="../assets/edit.png">
                 </button>
                 <button v-on:click="deleteComment(post.id, comment.id)">
@@ -49,6 +49,9 @@ export default ({
         },
         getHour(hour) {
         return moment(hour).locale('fr').format('LT')
+        },
+        editionRedirection(postId, commentId) {
+            this.$router.push(`/posts/${postId}/comments/${commentId}/edit`)
         },
         deleteComment(postId, commentId) {
             const token = localStorage.getItem('userToken');
