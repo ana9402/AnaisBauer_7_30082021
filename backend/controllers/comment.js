@@ -8,7 +8,7 @@ const userID = (req) => {
     return id;
 }
 
-// Créer un commentaire
+// Créer un commentaire -----
 exports.createComment = (req, res, next) => {
     db.Comment.create({
         content: req.body.content,
@@ -19,7 +19,7 @@ exports.createComment = (req, res, next) => {
     .catch((error) => res.status(403).json({error}))
 }
 
-// Supprimer un commentaire
+// Supprimer un commentaire -----
 exports.deleteComment = (req, res, next) => {
     db.Comment.findOne({
         where: {id: req.params.id}
@@ -34,7 +34,7 @@ exports.deleteComment = (req, res, next) => {
     .catch(error => res.status(500).json({error}));
 }
 
-// Afficher tous les commentaires d'un post
+// Afficher tous les commentaires d'un post -----
 exports.getAllComments = (req, res, next) => {
     db.Comment.findAll({
         attributes: ['id', 'content', 'userId', 'postId', 'createdAt'],
@@ -59,4 +59,24 @@ exports.getAllComments = (req, res, next) => {
     .catch((error) => {
         res.status(400).json({error})
     })
+}
+
+// Afficher un commentaire -----
+exports.getOneComment = (req, res, next) => {
+    db.Comment.findOne({
+        where: {id: req.params.id, postId: req.params.postId},
+        include: [
+            {
+                model: db.Post,
+            }
+        ]
+    })
+    .then(comment => {
+        if (comment) {
+            res.status(200).json(comment)
+        } else {
+            res.status(404).json({erreur: 'Commentaire introuvable !'})
+        }
+    })
+    .catch(error => res.status(500).json({error}))
 }

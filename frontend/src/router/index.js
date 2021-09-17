@@ -42,6 +42,15 @@ const routes = [
     }
   },
   {
+    path: '/posts/:id/comments/:id/edit',
+    name: 'CommentEdition',
+    component: () => 
+      import('../views/CommentEdition.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: '/submit',
     name: 'submit',
     component: () => 

@@ -19,7 +19,7 @@
 <script>
 
 export default ({
-    name: "SubmitForm",
+    name: "PostEditForm",
     props: ['post'],
     data() {
         const postData = JSON.parse(localStorage.getItem('postData'))
