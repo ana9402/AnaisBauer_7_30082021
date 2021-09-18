@@ -9,34 +9,41 @@ const userID = (req) => {
     return id;
 }
 
-// Liker un post
+// Liker un post -----
 exports.likePost = (req, res, next) => {
     const postID = req.params.id;
+    // On cherche si l'utilisateur a déjà liké ce post
     db.Like.findOne({
         where: { userId: userID(req), postId: postID}
     })
     .then(like => {
+        // Si l'utilisateur a déjà liké ce post
         if (like) {
             console.log(like)
+            // On supprime le like existant dans la table Like
             db.Like.destroy({
                 where: { userId: userID(req), postId: postID }
             })
             .then(() => res.status(200).json({message: "Le like a été supprimé !"}))
             .catch((error) => res.status(400).json({error}))
+            // On décrémente de 1 la colonne likes du post
             db.Post.update(
                 { likes: sequelize.literal('likes - 1') },
                 { where: { id: postID }}
             )
             .then(() => res.status(201).json({message:"+1 like !"}))
             .catch(error => res.status(400).json({error}))
-        } else {
+        } 
+        // Si l'utilisateur n'a pas encore liké ce post
+        else {
+            // On enregistre le like dans la table Like
             db.Like.create({
                 userId: userID(req),
                 postId: postID
             })
             .then(() => res.status(201).json({message: "Le like a été ajouté !"}))
             .catch((error) => res.status(400).json({error}))
-            // Sur la table Post, on incrémente la colonne likes de 1
+            // On incrémente de 1 la colonne likes du post
             db.Post.update(
                 { likes: sequelize.literal('likes + 1') },
                 { where: { id: postID }}
@@ -48,7 +55,7 @@ exports.likePost = (req, res, next) => {
     .catch((error) => res.status(500).json({error}));
 }
 
-// Afficher le like d'un utilisateur sur le post
+// Afficher le like d'un utilisateur sur le post -----
 exports.getOneLike = (req, res, next) => {
     db.Like.findOne({
         where: {userId: userID(req), postId: req.params.id}
@@ -63,7 +70,7 @@ exports.getOneLike = (req, res, next) => {
     .catch(error => res.status(404).json({error}))
 }
 
-// Afficher tous les likes d'un post
+// Afficher tous les likes d'un post -----
 exports.getAllLikes = (req, res, next) => {
     db.Like.findAll({
         where: {postId: req.params.id},

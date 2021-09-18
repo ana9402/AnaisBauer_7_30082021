@@ -13,11 +13,15 @@ const userID = (req) => {
 // Créer un post -----
 exports.createPost = (req, res, next) => {
     let imgUrl;
+    // Si aucune image n'est intégrée
     if (!req.file) {
         return;
-    } else {
+    } 
+    // Si une image est intégrée
+    else {
         imgUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
     }
+    // On crée le post dans la BDD
     db.Post.create({
         title: req.body.title,
         media: imgUrl,
@@ -29,53 +33,7 @@ exports.createPost = (req, res, next) => {
 
 // Modifier un post -----
 exports.editPost = (req, res, next) => {
-    db.Post.findOne({
-        where: {id: req.params.id},
-        include: [
-            {
-                model: db.User,
-                attributes: ["id", "firstname", "lastname", "email", "department", "profilePicture", "isAdmin"]
-            },
-        ]
-    })
-    .then(post => {
-        db.User.findOne({
-            where: {id: userID(req)}
-        })
-        .then(user => {
-            if (post.User.id === userID(req) || user.isAdmin === true ) {
-                let imgUrl;
-                if (!req.file) {
-                    if (post.media == null) {
-                        imgUrl = null;
-                    } else {
-                        imgUrl = post.media
-                    }
-                    
-                } else {
-                    imgUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-                }
-                db.Post.update(
-                    {title: req.body.title,
-                    media: imgUrl,
-                    userId: req.body.userId},
-                    { where: {id: req.params.id}}
-                )
-                .then(() => res.status(201).json({message: "Le post a bien été modifié !"}))
-                .catch(error => res.status(400).json({error}))
-            } else {
-                res.status(403).json({erreur: "Vous n'êtes pas autorisé(e) à modifier ce post !"})
-            }
-        })
-        .catch(error => res.status(500).json({error}))
-
-    })
-    .catch(error => res.status(500).json({error}))
-}
-
-// Supprimer un post -----
-exports.deletePost = (req, res, next) => {
-    // On recherche le post dont l'id est dans les paramètres de la requête
+    // On cherche le post passé en paramètre de requête
     db.Post.findOne({
         where: {id: req.params.id},
         include: [
@@ -88,20 +46,86 @@ exports.deletePost = (req, res, next) => {
     .then(post => {
         // Si le post existe
         if (post) {
+            // On recherche l'utilisateur à l'origine de la requête
+            db.User.findOne({
+                where: {id: userID(req)}
+            })
+            .then(user => {
+                // Si l'utilisateur est le créateur du post ou est un admin
+                if (post.User.id === userID(req) || user.isAdmin === true ) {
+                    let imgUrl;
+                    // Si aucune image n'est chargée
+                    if (!req.file) {
+                        if (post.media == null) {
+                            imgUrl = null;
+                        } else {
+                            imgUrl = post.media
+                        }
+                        
+                    } 
+                    // Si une image est chargée
+                    else {
+                        imgUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+                    }
+                    // On met à jour le post
+                    db.Post.update(
+                        {title: req.body.title,
+                        media: imgUrl,
+                        userId: req.body.userId},
+                        { where: {id: req.params.id}}
+                    )
+                    .then(() => res.status(201).json({message: "Le post a bien été modifié !"}))
+                    .catch(error => res.status(400).json({error}))
+                } 
+                // Si l'utilisateur n'est pas autorisé à modifier le post
+                else {
+                    res.status(403).json({erreur: "Vous n'êtes pas autorisé(e) à modifier ce post !"})
+                }
+            })
+            .catch(error => res.status(500).json({error}))
+        }
+        // Si le post n'existe pas
+        else {
+            res.status(404).json({erreur: 'Post introuvable !'})
+        }
+    })
+    .catch(error => res.status(500).json({error}))
+}
+
+// Supprimer un post -----
+exports.deletePost = (req, res, next) => {
+    // On recherche le post passé en paramètre de requête
+    db.Post.findOne({
+        where: {id: req.params.id},
+        include: [
+            {
+                model: db.User,
+                attributes: ["id", "firstname", "lastname", "email", "department", "profilePicture", "isAdmin"]
+            },
+        ]
+    })
+    .then(post => {
+        // Si le post existe
+        if (post) {
+            // On recherche l'utilisateur à l'origine de la requête
             db.User.findOne({
                 where: {id: userID(req)}
             })
             .then(admin => {
+                // Si l'utilisateur est le créateur du post ou est un admin
                 if (post.userId == userID(req) || admin.isAdmin === true) {
                     const filename = post.media.split('/images/')[1];
                     fs.unlink(`images/${filename}`, () => {
+                        // On supprime le post de la BDD
                         db.Post.destroy({
                             where: {id: req.params.id}
                         })
                         .then(() => res.status(200).json({message: "Post supprimé !"}))
                         .catch(error => res.status(400).json({error}));
                     })
-                } else {
+                } 
+                // Si l'utilisateur n'est pas autorisé à supprimer le post
+                else {
                     res.status(403).json({message: "Vous n'êtes pas autorisé(e) à supprimer ce post !"})
                 }
             })

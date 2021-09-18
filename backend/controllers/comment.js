@@ -21,29 +21,38 @@ exports.createComment = (req, res, next) => {
 
 // Modifier un commentaire -----
 exports.editComment = (req, res, next) => {
+    // On recherche le commentaire passé en paramètre de requête
     db.Comment.findOne({
         where: {id: req.params.id, postId: req.params.postId, 
         }
     })
     .then(comment => {
+        // Si le commentaire n'existe pas
         if (comment) {
+            // On recherche l'utilisateur à l'origine de la requête
             db.User.findOne({
                 where: {id: userID(req)},
             })
             .then(user => {
+                // Si l'utilisateur est le créateur du commentaire ou est un admin
                 if (comment.userId === userID(req) || user.isAdmin === true) {
+                    // On met à jour le commentaire
                     db.Comment.update(
                         {content: req.body.content},
                         {where: {id: req.params.id}}
                     )
                     .then(() => res.status(201).json({message: 'Le commentaire a bien été mis à jour !'}))
                     .catch(error => res.status(400).json({error}))
-                } else {
+                } 
+                // Si l'utilisateur n'est pas autorisé à modifier le commentaire
+                else {
                     res.status(403).json({erreur: "Vous n'êtes pas autorisé(e) à modifier ce commentaire !"})
                 }
             })
             .catch(error => res.status(500).json({error}))
-        } else {
+        } 
+        // Si le commentaire n'existe pas
+        else {
             res.status(404).json({erreur: 'Commentaire introuvable !'})
         }
     })
@@ -52,15 +61,19 @@ exports.editComment = (req, res, next) => {
 
 // Supprimer un commentaire -----
 exports.deleteComment = (req, res, next) => {
+    // On recherche le commentaire passé en paramètre de requête
     db.Comment.findOne({
         where: {id: req.params.id, postId: req.params.postId}
     })
     .then(comment => {
+        // Si le commentaire existe
         if(comment) {
+            // On recherche l'utilisateur à l'origine de la requête
             db.User.findOne({
                 where: {id: userID(req)}
             })
             .then(user => {
+                // Si l'utilisateur est le créateur du commentaire ou est un admin
                 if (comment.userId === userID(req) || user.isAdmin === true) {
                     db.Comment.destroy({
                         where: {id: req.params.id}
@@ -68,13 +81,16 @@ exports.deleteComment = (req, res, next) => {
                     .then(() => res.status(200).json({message: "Commentaire supprimé !"}))
                     .catch((error) => res.status(400).json({error}));
                 }
+                // Si l'utilisateur n'est pas autorisé à supprimer le commentaire
                 else {
                     res.status(403).json({erreur: "Vous n'êtes pas autorisé(e) à supprimer ce commentaire !"})
                 }
             })
             .catch(error => res.status(500).json({error}))
 
-        } else {
+        } 
+        // Si le commentaire n'existe pas
+        else {
             res.status(404).json({erreur: "Le commentaire n'existe pas."})
         }
     })
