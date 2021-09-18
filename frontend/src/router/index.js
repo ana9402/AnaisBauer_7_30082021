@@ -4,7 +4,7 @@ import Home from '../views/Home.vue'
 const routes = [
   {
     path: '/',
-    name: 'Home',
+    name: 'home',
     component: Home,
     alias: ['/home'],
     meta: {
@@ -15,13 +15,19 @@ const routes = [
     path: '/login',
     name: 'login',
     component: () => 
-      import('../views/Login.vue')
+      import('../views/Login.vue'),
+    meta: {
+      hideForAuth: true
+    }
   },
   {
     path: '/signup',
     name: 'signup',
     component: () => 
-      import('../views/Signup.vue')
+      import('../views/Signup.vue'),
+    meta: {
+      hideForAuth: true
+    }
   },
   {
     path: '/posts/:id',
@@ -93,10 +99,15 @@ router.beforeEach((to, from, next) => {
     } else {
       next() // go to wherever I'm going
     }
+  } else if (to.matched.some(record => record.meta.hideForAuth)) {
+    if (localStorage.getItem('userToken')) {
+      next({ name: 'home' })
+    } else {
+      next();
+    }
   } else {
-    next() // does not require auth, make sure to always call next()!
+    next();
   }
 })
-
 
 export default router
