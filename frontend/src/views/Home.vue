@@ -1,9 +1,15 @@
 <template>
   <div id="page-container">
     <MainHeader/>
-    <div id="postsList-container">
-      <div id="postsList">
-        <OnePost v-for="post in posts" :key="post.id" :post="post"/>
+    <div>
+      <div id="content">
+        <h1>Fil d'actualités</h1>
+        <main id="postsList">
+          <OnePost v-for="post in posts" :key="post.id" :post="post"/>
+          <div v-if="posts.length == 0">
+            <p id="noPost-msg">Il n'y a aucun post à afficher pour le moment.</p>
+          </div>
+        </main>
       </div>
     </div>
   </div>
@@ -58,24 +64,35 @@ export default {
 <style lang="scss" scoped>
 #page-container {
   background-color: #F0F2F4;
+  & h1 {
+    margin-bottom: 50px;
+  }
 }
 
-#postsList-container {
+#content {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 40px 0px;
+  margin: auto;
   width: 100%;
+  & #postsList {
+    width: 100%;
+    & #noPost-msg {
+      display: flex;
+      justify-content: center;
+    }
+  }
 }
 
 @media screen and (min-width: 800px) {
-    #postsList {
+    #content {
         width: 80%;
     }
 }
 
 @media screen and (min-width: 1200px) {
-    #postsList {
+    #content {
         width: 50%;
     }
 }

@@ -19,7 +19,18 @@
             </div>
             <div id="department-field" class="form-field">
                 <label for="department">Service</label>
-                <input type="text" id="department" name="department" placeholder="ex: Ressources Humaines" v-model="form.department">
+                <select name="department" id="department" v-model="form.department">
+                    <option disabled value="">Sélectionnez votre service</option>
+                    <option value="Achats">Achats</option>
+                    <option value="Communication / Marketing">Communication / Marketing</option>
+                    <option value="Comptabilité">Comptabilité</option>
+                    <option value="Direction">Direction</option>
+                    <option value="Commercial">Commercial</option>
+                    <option value="Informatique">Informatique</option>
+                    <option value="Juridique">Juridique</option>
+                    <option value="Ressources Humaines">Ressources Humaines</option>
+                </select>
+                <!--<input type="text" id="department" name="department" placeholder="ex: Ressources Humaines" v-model="form.department">-->
             </div>
             <div id="media-field" class="form-field">
                 <label for="file">Photo de profil</label>
@@ -114,6 +125,9 @@ form {
             text-transform: uppercase;
         }
         & input {
+            height: 40px;
+        }
+        & select {
             height: 40px;
         }
     }
