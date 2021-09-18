@@ -30,10 +30,6 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 0,
       type: DataTypes.INTEGER
     },
-    dislikes: {
-      defaultValue: 0,
-      type: DataTypes.INTEGER
-    },
     userId: {
       allowNull: false,
       type: DataTypes.INTEGER.UNSIGNED,

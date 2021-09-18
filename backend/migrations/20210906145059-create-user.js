@@ -36,14 +36,6 @@ module.exports = {
         defaultValue: 0,
         type: Sequelize.BOOLEAN
       },
-      token: {
-        alowNull: true,
-        type: Sequelize.STRING
-      },
-      tokenExpiresAt: {
-        allowNull: true,
-        type: Sequelize.DATE
-      },
       createdAt: {
         allowNull: false,
         defaultValue: Sequelize.NOW,

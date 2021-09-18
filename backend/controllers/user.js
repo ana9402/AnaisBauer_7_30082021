@@ -82,7 +82,36 @@ exports.login = (req, res, next) => {
     .catch(error => res.status(500).json({error}));
 }
 
-// Modifier un profil utilisateur
+// Supprimer un utilisateur ---
+exports.deleteUser = (req, res, next) => {
+    db.User.findOne({
+        where: {id: req.params.id}
+    })
+    .then(user => {
+        if (user) {
+            db.User.findOne({
+                where: {id: userID(req)}
+            })
+            .then(admin => {
+                if(user.id === admin.id || admin.isAdmin === true) {
+                    db.User.destroy({
+                        where: {id: req.params.id}
+                    })
+                    .then(() => res.status(200).json({message: "L'utilisateur a bien été supprimé !"}))
+                    .catch(error => res.status(400).json({error}));
+                } else {
+                    res.status(403).json({message: "Vous n'êtes pas autorisé(e) à supprimer cet utilisateur."})
+                }
+            })
+            .catch(error => res.status(500).json({error}))
+        } else {
+            res.status(404).json({message: "L'utilisateur n'existe pas."})
+        }
+    })
+    .catch(error => res.status(500).json({error}))
+}
+
+// Modifier un profil utilisateur ---
 exports.editUser = (req, res, next) => {
     // On cherche l'utilisateur dont l'id est présent dans les paramètres de requête
     db.User.findOne({
@@ -136,7 +165,7 @@ exports.editUser = (req, res, next) => {
     .catch(error => res.status(500).json({error}))
 }
 
-// Afficher tous les utilisateurs
+// Afficher tous les utilisateurs ---
 exports.getAllUsers = (req, res, next) => {
     db.User.findAll({
         attributes: ['id', 'firstname', 'lastname', 'email', 'department', 'profilePicture', 'createdAt']
@@ -146,7 +175,7 @@ exports.getAllUsers = (req, res, next) => {
 }
 
 
-// Afficher 1 utilisateur
+// Afficher 1 utilisateur ---
 exports.getOneUser = (req, res, next) => {
     db.User.findOne({
         where: {id: req.params.id},

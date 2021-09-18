@@ -8,10 +8,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER.UNSIGNED
       },
-      rate: {
-        allowNull: false,
-        type: Sequelize.BOOLEAN
-      },
       userId: {
         allowNull: false,
         type: Sequelize.INTEGER.UNSIGNED,

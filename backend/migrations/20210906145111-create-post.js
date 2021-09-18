@@ -19,10 +19,6 @@ module.exports = {
         defaultValue: 0,
         type: Sequelize.INTEGER
       },
-      dislikes: {
-        defaultValue: 0,
-        type: Sequelize.INTEGER
-      },
       userId: {
         allowNull: false,
         type: Sequelize.INTEGER.UNSIGNED,

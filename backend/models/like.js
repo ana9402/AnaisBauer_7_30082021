@@ -20,10 +20,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Like.init({
-    rate: {
-      allowNull: false,
-      type: DataTypes.BOOLEAN
-    },
     userId: {
       allowNull: false,
       type: DataTypes.INTEGER.UNSIGNED
