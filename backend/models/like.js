@@ -22,11 +22,19 @@ module.exports = (sequelize, DataTypes) => {
   Like.init({
     userId: {
       allowNull: false,
-      type: DataTypes.INTEGER.UNSIGNED
+      type: DataTypes.INTEGER.UNSIGNED,
+      validate: {
+        isInt: true,
+        notEmpty: true
+      }
     },
     postId: {
       allowNull: false,
-      type: DataTypes.INTEGER.UNSIGNED
+      type: DataTypes.INTEGER.UNSIGNED,
+      validate: {
+        isInt: true,
+        notEmpty: true
+      }
     }
   }, {
     sequelize,

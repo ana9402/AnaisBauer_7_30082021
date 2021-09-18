@@ -22,15 +22,27 @@ module.exports = (sequelize, DataTypes) => {
   Comment.init({
     content: {
       allowNull: false,
-      type: DataTypes.TEXT
+      type: DataTypes.TEXT,
+      validate: {
+        notEmpty: true
+      }
+      
     },
     userId: {
       allowNull: false,
-      type: DataTypes.INTEGER.UNSIGNED
+      type: DataTypes.INTEGER.UNSIGNED,
+      validate: {
+        isInt: true,
+        notEmpty: true
+      }
     },
     postId: {
       allowNull: false,
-      type: DataTypes.INTEGER.UNSIGNED
+      type: DataTypes.INTEGER.UNSIGNED,
+      validate: {
+        isInt: true,
+        notEmpty: true
+      }
     }
   }, {
     sequelize,

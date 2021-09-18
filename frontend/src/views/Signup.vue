@@ -4,8 +4,8 @@
     <div id="main-container">
         <div id="signup">
             <h1>S'inscrire</h1>
-            <p id="missing-fields-message"></p>
-            <p id="wront-fields-message"></p>
+            <div id="missing-fields-message"></div>
+            <div id="wrong-fields-message"></div>
             <div id="form-container">
                 <form method="post" v-on:submit.prevent="signupUser">
                     <div id="firstname-field" class="form-field">
@@ -58,10 +58,11 @@ export default {
                 lastname: this.lastname,
                 email: this.email,
                 password: this.password
-            }            
+            }
+            let missingFieldsMessage = document.getElementById('missing-fields-message') 
+            let wrongFieldsMessage = document.getElementById('wrong-fields-message');
             // Si au moins l'un des champs est vide, on affiche un message d'erreur
             if (user.firstname == '' || user.lastname == '' || user.email == '' || user.password == '') {
-                let missingFieldsMessage = document.getElementById('missing-fields-message')
                 missingFieldsMessage.style.display = "flex"
                 missingFieldsMessage.innerHTML = "Veuillez compléter tous les champs avant de valider le formulaire."
                 console.log('Certains champs sont incomplets.')
@@ -86,7 +87,11 @@ export default {
                     if (result.status === 401) {
                         alert("L'utilisateur existe déjà !")
                     } else if (result.status === 500) {
-                        alert("Les champs ne sont pas valides.")
+                        alert("Erreur")
+                    } else if (result.status === 400) {
+                        wrongFieldsMessage.style.display = "flex"
+                        wrongFieldsMessage.style.flexDirection= "column"
+                        wrongFieldsMessage.innerHTML = "<p>Certains champs ne sont pas valides.</p><p>Le mot de passe doit contenir au moins :<br>- 8 caractères, dont<br>- 1 minuscule<br>- 1 majuscule<br>- 1 chiffre<br>- 1 caractère spécial</p>"
                     }
                     
                     return;
@@ -129,12 +134,16 @@ export default {
 #missing-fields-message {
     font-size: 13px;
     color: red;
+    margin-bottom: 20px;
+    width: 100%;
     display: none;
 }
 
 #wrong-fields-message {
     font-size: 13px;
     color: red;
+    margin-bottom: 20px;
+    width: 100%;
     display: none;
 }
 

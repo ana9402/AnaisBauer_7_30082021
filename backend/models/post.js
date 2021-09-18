@@ -21,10 +21,16 @@ module.exports = (sequelize, DataTypes) => {
   Post.init({
     title: {
       allowNull: false,
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true
+      }
     },
     media: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true
+      }
     },
     likes: {
       defaultValue: 0,
@@ -33,6 +39,10 @@ module.exports = (sequelize, DataTypes) => {
     userId: {
       allowNull: false,
       type: DataTypes.INTEGER.UNSIGNED,
+      validate: {
+        isInt: true,
+        notEmpty: true
+      }
     }
   }, {
     sequelize,

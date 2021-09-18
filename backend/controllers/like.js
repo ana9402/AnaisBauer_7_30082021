@@ -32,8 +32,7 @@ exports.likePost = (req, res, next) => {
         } else {
             db.Like.create({
                 userId: userID(req),
-                postId: postID,
-                rate: 1
+                postId: postID
             })
             .then(() => res.status(201).json({message: "Le like a été ajouté !"}))
             .catch((error) => res.status(400).json({error}))
