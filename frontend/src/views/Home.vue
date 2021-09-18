@@ -5,7 +5,7 @@
       <div id="content">
         <h1>Fil d'actualités</h1>
         <main id="postsList">
-          <OnePost v-for="post in posts" :key="post.id" :post="post"/>
+          <OnePost v-for="post in posts" :key="post.id" :post="post" :commentsLength="post.Comments.length"/>
           <div v-if="posts.length == 0">
             <p id="noPost-msg">Il n'y a aucun post à afficher pour le moment.</p>
           </div>

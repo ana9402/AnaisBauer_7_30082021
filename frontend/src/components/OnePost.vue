@@ -41,7 +41,7 @@
         <router-link :to="{name: 'post', params: {id: post.id}}" id="comments" class="bottom-line_btn">
           <button >
               <img src="../assets/chat.svg" alt="icone commentaires">
-              <p class="bottom-line_btn_text">Commentaires...</p>
+              <p class="bottom-line_btn_text"><span id="comments_text">Commentaires </span>({{ commentsLength }})</p>
           </button>
         </router-link>
     </div>
@@ -53,7 +53,7 @@ import moment from 'moment'
 
 export default ({
   name: 'OnePost',
-  props: ['post'],
+  props: ['post', 'commentsLength'],
   data() {
     return {
       userAdmin: JSON.parse(localStorage.getItem('userAdmin')),
@@ -257,11 +257,11 @@ a {
     & #likes {
       width: 33%;
     }
-    & #dislikes {
-      width: 33%;
-    }
     & #comments {
       width: 33%;
+      &_text {
+        display: none
+      }
     }
     & .bottom-line_btn {
       display: flex;

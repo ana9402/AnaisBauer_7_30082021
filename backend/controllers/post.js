@@ -130,6 +130,10 @@ exports.getAllPosts = (req, res, next) => {
             {
                 model: db.Like,
                 attributes: ["userId"]
+            },
+            {
+                model: db.Comment,
+                attributes: ['id', "postId"]
             }
         ]
     })
