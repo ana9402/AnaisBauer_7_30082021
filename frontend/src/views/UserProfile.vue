@@ -12,7 +12,7 @@
                     <button @click="editionRedirection()">Modifier</button>
                 </div>
                 <div v-if="currentUserId == this.$route.params.id || userAdmin === true" id="options_delete">
-                    <button>Supprimer le compte</button>
+                    <button @click="deleteAccount(this.$route.params.id)">Supprimer le compte</button>
                 </div>
                 <div v-if="currentUserId == this.$route.params.id" id="options_logout">
                     <button @click="logout()">Se déconnecter</button>
@@ -36,7 +36,7 @@ export default {
         return {
             userAdmin: JSON.parse(localStorage.getItem('userAdmin')),
             currentUserId: JSON.parse(localStorage.getItem('userId')),
-            token: '',
+            token: localStorage.getItem('userToken'),
             user: null
         }
     },
@@ -44,12 +44,29 @@ export default {
         editionRedirection() {
             this.$router.push(`/profiles/${this.$route.params.id}/edit`)
         },
+        deleteAccount(id) {
+            if (confirm("Êtes-vous sûr(e) de vouloir supprimer votre compte ? Toutes vos données seront perdues.")) {
+                fetch('http://localhost:3000/api/users/' + id, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${this.token}`
+                    }
+                })
+                .then(res => {
+                    console.log(res)
+                    this.logout()
+                })
+                .catch(error => console.log(error))
+            } else {
+                return;
+            }
+        },
         logout() {
             localStorage.clear();
             this.$router.push('Login');
         },
         getUserProfile(id) {
-            this.token = localStorage.getItem('userToken')
             fetch(`http://localhost:3000/api/users/` + id, {
                 headers: {
                     "Content-Type": "application/json",
