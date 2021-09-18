@@ -8,6 +8,7 @@ const routes = [
     component: Home,
     alias: ['/home'],
     meta: {
+      title: 'Accueil',
       requiresAuth: true
     }
   },
@@ -17,6 +18,7 @@ const routes = [
     component: () => 
       import('../views/Login.vue'),
     meta: {
+      title: 'Login',
       hideForAuth: true
     }
   },
@@ -26,6 +28,7 @@ const routes = [
     component: () => 
       import('../views/Signup.vue'),
     meta: {
+      title: 'Signup',
       hideForAuth: true
     }
   },
@@ -35,6 +38,7 @@ const routes = [
     component: () => 
       import('../views/Post.vue'),
     meta: {
+      title: 'Post',
       requiresAuth: true
     }
   },
@@ -44,6 +48,7 @@ const routes = [
     component: () => 
       import('../views/PostEdition.vue'),
     meta: {
+      title: 'Editer le post',
       requiresAuth: true
     }
   },
@@ -53,6 +58,7 @@ const routes = [
     component: () => 
       import('../views/CommentEdition.vue'),
     meta: {
+      title: 'Editer le commentaire',
       requiresAuth: true
     }
   },
@@ -62,6 +68,7 @@ const routes = [
     component: () => 
       import('../views/Submit.vue'),
     meta: {
+      title: 'Créer un post',
       requiresAuth: true
     }
   },
@@ -71,6 +78,7 @@ const routes = [
     component: () => 
       import('../views/UserProfile.vue'),
     meta: {
+      title: 'Profil utilisateur',
       requiresAuth: true
     }
   },
@@ -80,6 +88,7 @@ const routes = [
     component: () => 
       import('../views/ProfileEdition.vue'),
     meta: {
+      title: 'Editer le profil',
       requiresAuth: true
     }
   }
@@ -91,6 +100,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  document.title = to.meta.title || 'Groupomania'
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
