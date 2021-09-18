@@ -53,14 +53,30 @@ exports.editComment = (req, res, next) => {
 // Supprimer un commentaire -----
 exports.deleteComment = (req, res, next) => {
     db.Comment.findOne({
-        where: {id: req.params.id}
+        where: {id: req.params.id, postId: req.params.postId}
     })
-    .then(() => {
-        db.Comment.destroy({
-            where: {id: req.params.id}
-        })
-        .then(() => res.status(200).json({message: "Commentaire supprimé !"}))
-        .catch((error) => res.status(400).json({error}));
+    .then(comment => {
+        if(comment) {
+            db.User.findOne({
+                where: {id: userID(req)}
+            })
+            .then(user => {
+                if (comment.userId === userID(req) || user.isAdmin === true) {
+                    db.Comment.destroy({
+                        where: {id: req.params.id}
+                    })
+                    .then(() => res.status(200).json({message: "Commentaire supprimé !"}))
+                    .catch((error) => res.status(400).json({error}));
+                }
+                else {
+                    res.status(403).json({erreur: "Vous n'êtes pas autorisé(e) à supprimer ce commentaire !"})
+                }
+            })
+            .catch(error => res.status(500).json({error}))
+
+        } else {
+            res.status(404).json({erreur: "Le commentaire n'existe pas."})
+        }
     })
     .catch(error => res.status(500).json({error}));
 }
