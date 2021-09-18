@@ -11,6 +11,9 @@
                 <div v-if="currentUserId == this.$route.params.id || userAdmin === true" id="options_modify">
                     <button @click="editionRedirection()">Modifier</button>
                 </div>
+                <div v-if="currentUserId == this.$route.params.id || userAdmin === true" id="options_delete">
+                    <button>Supprimer le compte</button>
+                </div>
                 <div v-if="currentUserId == this.$route.params.id" id="options_logout">
                     <button @click="logout()">Se déconnecter</button>
                 </div>
@@ -103,6 +106,12 @@ export default {
         &_modify {
             & button {
                 background-color: #AEADAE;
+            }
+        }
+        &_delete {
+            & button {
+                background-color: #F12C05;
+                color: white;
             }
         }
         &_logout {
