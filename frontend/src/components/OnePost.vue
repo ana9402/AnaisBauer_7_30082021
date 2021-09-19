@@ -83,7 +83,11 @@ export default ({
         })
         .then(res => {
             console.log(res)
+            if (this.$route.path == '/home') {
+              window.location.reload()
+            } else {
             this.$router.push('/home')
+            }
         })
         .catch(error => {
             console.log(error)
