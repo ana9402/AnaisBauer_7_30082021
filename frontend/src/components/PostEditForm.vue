@@ -61,6 +61,9 @@ export default ({
                     if (res.status == 400) {
                         alert('Veuillez remplir tous les champs avant de publier.')
                         return;
+                    } else if (res.status == 403) {
+                        alert ("Vous n'êtes pas autorisé(e) à réaliser cette action !")
+                        return;
                     }
                 }
                 
@@ -99,6 +102,18 @@ form {
     & #content-field {
         & textarea {
             height: 130px;
+        }
+    }
+    & #media-field {
+        & figure {
+            width: 250px;
+            height: 150px;
+            margin: 30px 0 10px 10px;
+            & img {
+                object-fit: cover;
+                width: 250px;
+                height: 150px;
+            }
         }
     }
     & button {

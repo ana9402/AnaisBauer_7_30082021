@@ -11,7 +11,7 @@
             </main>
         </div>
     </div>
-    <div v-else id="hide-content">
+    <div v-else id="hidden-content">
         <p>Vous n'êtes pas autorisé(e) à accéder à ce contenu.</p>
         <button @click="homeRedirection()">Retour à l'accueil</button>
     </div>
@@ -93,7 +93,7 @@ export default ({
     }
 }
 
-#hide-content {
+#hidden-content {
     display: flex;
     flex-direction: column;
     align-items: center;
