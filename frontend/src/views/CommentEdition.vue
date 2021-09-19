@@ -1,13 +1,17 @@
 <template>
-    <div id="page-container">
-        <MainHeader/>
-        <div id="content">
-            <h1>Modifier le commentaire</h1>
-            <div id="form-container">
-                <CommentEditionForm v-if="comment" :post="comment.postId" :comment="comment"/>
-            </div>
-        </div>
+<div>
+    <MainHeader/>
+    <div v-if="this.comment && (this.comment.userId == this.currentUserId || isAdmin === true)" id="edition-content">
+        <h1>Modifier le commentaire</h1>
+        <main id="form-container">
+            <CommentEditionForm v-if="comment" :post="comment.postId" :comment="comment"/>
+        </main>
     </div>
+    <div v-else id="hidden-content">
+        <p>Vous n'êtes pas autorisé(e) à accéder à ce contenu</p>
+        <button @click="homeRedirection()">Retour à l'accueil</button>
+    </div>
+</div>
 </template>
 
 <script>
@@ -23,11 +27,16 @@ export default ({
     data() {
         
         return {
+            currentUserId: JSON.parse(localStorage.getItem('userId')),
+            isAdmin: JSON.parse(localStorage.getItem('userAdmin')),
             token: localStorage.getItem('userToken'),
             comment: null
         }
     },
     methods: {
+        homeRedirection() {
+            this.$router.push('/home')
+        },
         getComment(postId, commentId) {
             fetch(`http://localhost:3000/api/posts/${postId}/comments/${commentId}`, {
                 headers: {
@@ -55,7 +64,7 @@ export default ({
 </script>
 
 <style lang="scss" scoped>
-#content {
+#edition-content {
     background-color: #F0F2F4;
     padding: 40px 40px;
     & h1 {
@@ -66,6 +75,21 @@ export default ({
         box-shadow: 2px 5px 10px grey;
         padding: 20px;
         margin-bottom: 40px;
+    }
+}
+
+#hidden-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 40px 0;
+    & button {
+        font-size: 15px;
+        font-weight: bold;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        background-color: #AEADAE
     }
 }
 </style>
