@@ -6,7 +6,7 @@
             <div id="content">
                 <!-- MAIN : POST SECTION -->
                 <main id="post-section">
-                    <OnePost v-if="post" :key="post.id" :post="post" :commentsLength="this.comments.length"/>
+                    <OnePost v-if="post" :key="post.id" :post="post" :likesLength="this.post.Likes.length" :commentsLength="this.comments.length"/>
                 </main>
                 <!-- COMMENTS SECTION -->
                 <section v-if="post" id="comments-section">

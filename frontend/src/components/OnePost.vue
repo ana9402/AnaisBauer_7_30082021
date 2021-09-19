@@ -35,8 +35,8 @@
         <button id="likes" class="bottom-line_btn" @click="likePost">
           <img v-if="postIsLiked == false" src="../assets/like.svg" alt="icone like">
           <img v-else src="../assets/liked.png" alt="icone like">
-            <p v-if="post.likes <= 1" class="bottom-line_btn_text">{{post.likes}} like</p>
-            <p v-else id="likes-nb" class="bottom-line_btn_text">{{post.likes}} likes</p>
+            <p v-if="likesLength <= 1" class="bottom-line_btn_text">{{ likesLength }} like</p>
+            <p v-else id="likes-nb" class="bottom-line_btn_text">{{ likesLength }} likes</p>
         </button>
         <router-link :to="{name: 'post', params: {id: post.id}}" id="comments" class="bottom-line_btn">
           <button >
@@ -53,7 +53,7 @@ import moment from 'moment'
 
 export default ({
   name: 'OnePost',
-  props: ['post', 'commentsLength'],
+  props: ['post', 'likesLength', 'commentsLength'],
   data() {
     return {
       userAdmin: JSON.parse(localStorage.getItem('userAdmin')),
