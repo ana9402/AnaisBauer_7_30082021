@@ -34,12 +34,18 @@ export default ({
             })
             .then(res => {
                 console.log(res)
-                alert('Le post a bien été mis à jour')
+                if (res.ok) {
+                    alert('Le post a bien été mis à jour')
+                    localStorage.removeItem('postComment')
+                    this.$router.go(-1)
+                } else {
+                    if (res.status == 400) {
+                        alert('Veuillez compléter le formulaire avant de valider.')
+                        return;
+                    }
+                }
             })
-            .then(() => {
-                localStorage.removeItem('postComment')
-                this.$router.go(-1)
-            })
+            .catch(error => console.log(error))
         }
     }
 })

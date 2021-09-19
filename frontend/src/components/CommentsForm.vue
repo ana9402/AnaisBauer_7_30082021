@@ -24,7 +24,7 @@ export default ({
             }
 
             if (commentContent.content == '') {
-                console.log('Le commentaire ne contient rien.');alert('Votre commentaire est vide !');
+                alert('Votre commentaire est vide !');
                 return;
             }
 
