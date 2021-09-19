@@ -26,13 +26,6 @@ exports.likePost = (req, res, next) => {
             })
             .then(() => res.status(200).json({message: "Le like a été supprimé !"}))
             .catch((error) => res.status(400).json({error}))
-            // On décrémente de 1 la colonne likes du post
-            db.Post.update(
-                { likes: sequelize.literal('likes - 1') },
-                { where: { id: postID }}
-            )
-            .then(() => res.status(201).json({message:"+1 like !"}))
-            .catch(error => res.status(400).json({error}))
         } 
         // Si l'utilisateur n'a pas encore liké ce post
         else {
@@ -43,13 +36,6 @@ exports.likePost = (req, res, next) => {
             })
             .then(() => res.status(201).json({message: "Le like a été ajouté !"}))
             .catch((error) => res.status(400).json({error}))
-            // On incrémente de 1 la colonne likes du post
-            db.Post.update(
-                { likes: sequelize.literal('likes + 1') },
-                { where: { id: postID }}
-            )
-            .then(() => res.status(201).json({message:"+1 like !"}))
-            .catch(error => res.status(400).json({error}))
         }
     })
     .catch((error) => res.status(500).json({error}));
