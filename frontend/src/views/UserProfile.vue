@@ -55,6 +55,7 @@ export default {
                 })
                 .then(res => {
                     console.log(res)
+                    alert("Le profil a bien été supprimé ! Vous allez être redirigé.")
                     if (this.$route.params.id == this.currentUserId) {
                         this.logout()
                     } else {

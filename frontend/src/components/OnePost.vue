@@ -83,7 +83,7 @@ export default ({
         })
         .then(res => {
             console.log(res)
-            this.$router.go('/home')
+            this.$router.push('/home')
         })
         .catch(error => {
             console.log(error)

@@ -62,12 +62,8 @@ export default {
             .then(data => {
                 this.post = data
             })
-            .then(() => {
-                console.log(this.post, "voici le post retourné")
-            })
             .catch((error) => {
                 console.log(error)
-                console.log('ça ne fonctionne pas')
             })
         },
         getComments() {
@@ -84,7 +80,6 @@ export default {
             })
             .then(data => {
                 this.comments = data
-                console.log(this.comments, "les commentaires")
             })
             .catch(error => {
                 console.log(error)
