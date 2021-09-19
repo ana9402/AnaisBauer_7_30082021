@@ -12,7 +12,7 @@
                         • 
                         <span id="department">{{comment.User.department}}</span>
                     </p>
-                    <p id="date">{{getDate(comment.createdAt)}} à {{ getHour(comment.createdAt) }}</p>
+                    <time id="date">{{getDate(comment.createdAt)}} à {{ getHour(comment.createdAt) }}</time>
                 </div>
             </div>
             <div v-if="comment.User.id == currentUserId || userAdmin === true" id="post-options">

@@ -165,6 +165,38 @@ exports.getAllPosts = (req, res, next) => {
     .catch(error => res.status(400).json({error}));
 }
 
+exports.getPostsByUserId = (req, res, next) => {
+    db.Post.findAll({
+        where: {userId: req.params.userId},
+        attributes: ['id', 'title', 'media', 'createdAt'],
+        order: [
+            ['createdAt', 'DESC']
+        ],
+        include: [
+            {
+                model: db.User,
+                attributes: ["id", "firstname", "lastname", "email", "department", "profilePicture", "isAdmin"]
+            },
+            {
+                model: db.Like,
+                attributes: ["userId"]
+            },
+            {
+                model: db.Comment,
+                attributes: ['id', "postId"]
+            }
+        ]
+    })
+    .then(posts => {
+        if (posts.length >= 1) {
+            res.status(200).json(posts)
+        } else {
+            res.status(404).json({message: "Pas de publication à afficher."})
+        }
+    })
+    .catch(error => res.status(400).json({error}));
+}
+
 // Afficher un post -----
 exports.getOnePost = (req, res, next) => {
     db.Post.findOne({

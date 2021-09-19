@@ -13,7 +13,7 @@
                     • 
                     <span id="department">{{post.User.department}}</span></p>
                 
-                <p id="date">{{getDate(post.createdAt)}} à {{ getHour(post.createdAt) }}</p>
+                <time id="date">{{getDate(post.createdAt)}} à {{ getHour(post.createdAt) }}</time>
             </div>
         </div>
         <div v-if="post.User.id == currentUserId || userAdmin === true" id="post-options">

@@ -6,7 +6,7 @@
         </div>
         <div id="media-field" class="form-field">
             <label for="file">Media</label>
-            <input type="file" id="file" name="file" @change="onFileChanged">
+            <input type="file" id="file" name="file" @change="onFileChanged">≤≥≤≥≥≥≥≥≥≤
             <figure>
                 <img v-if="url" :src="url" alt="image du post"/>
                 <img v-else :src="postData.media" alt="image du post"/>
