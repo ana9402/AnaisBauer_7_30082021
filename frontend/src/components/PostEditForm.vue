@@ -53,11 +53,17 @@ export default ({
             })
             .then(res => {
                 console.log(res)
-                alert('Le post a bien été mis à jour !')
-            })
-            .then(() => {
-                localStorage.removeItem('postData')
-                this.$router.push(`/posts/${this.$route.params.id}`)
+                if (res.ok) {
+                    alert('Le post a bien été mis à jour !')
+                    localStorage.removeItem('postData')
+                    this.$router.push(`/posts/${this.$route.params.id}`)
+                } else {
+                    if (res.status == 400) {
+                        alert('Veuillez remplir tous les champs avant de publier.')
+                        return;
+                    }
+                }
+                
             })
             .catch(error => console.log(error))
         },
