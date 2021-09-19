@@ -1,26 +1,24 @@
 <template>
-<div>
-    <section id= "user-profile">
-        <figure id="user-profile_img">
-            <img v-bind:src="user.profilePicture" alt="photo de profil" />
-        </figure>
-        <div id="user-profile_infos">
-            <h2>{{ user.firstname }} {{ user.lastname }}</h2>
-            <div class="info-category">
-                <p class="info-category_name">Adresse email</p>
-                <p>{{ user.email }}</p>
-            </div>
-            <div class="info-category">
-                <p class="info-category_name">Service</p>
-                <p v-if="user.department !== null"> {{ user.department }} </p>
-                <p v-else>Non renseigné</p>
-            </div>
-            <div id="info-category">
-                <p class="info-category_name">Membre depuis le :</p>
-                <p> {{getDate(user.createdAt)}}</p>
-            </div>
+<div id= "user-profile">
+    <figure id="user-profile_img">
+        <img v-bind:src="user.profilePicture" alt="photo de profil" />
+    </figure>
+    <div id="user-profile_infos">
+        <h2>{{ user.firstname }} {{ user.lastname }}</h2>
+        <div class="info-category">
+            <p class="info-category_name">Adresse email</p>
+            <p>{{ user.email }}</p>
         </div>
-    </section>
+        <div class="info-category">
+            <p class="info-category_name">Service</p>
+            <p v-if="user.department !== null"> {{ user.department }} </p>
+            <p v-else>Non renseigné</p>
+        </div>
+        <div class="info-category">
+            <p class="info-category_name">Membre depuis le :</p>
+            <time> {{getDate(user.createdAt)}}</time>
+        </div>
+    </div>
 </div>
 </template>
 
@@ -45,13 +43,17 @@ export default ({
     align-items: center;
     justify-content: center;
     margin-bottom: 40px;
+    padding: 20px 40px;
+    background-color: white;
+    box-sizing: border-box;
+    box-shadow: 3px 2px 10px rgb(236, 236, 236);
     &_img {
         height: 120px;
         width: 120px;
         background-color: white;
         border: 1px #F2F2F2 solid;
         position: relative;
-        top: -50px;
+        top: -70px;
         & img {
             object-fit: cover;
             height: 100%;
@@ -61,13 +63,15 @@ export default ({
     &_infos {
         display: flex;
         flex-direction: column;
+        box-sizing: border-box;
         align-items: center;
-        border: 1px grey solid;
-        box-shadow: 3px 3px 10px grey;
-        padding: 20px 50px;
-        width: 30%;
+        width: 100%;
+        position: relative;
+        top: -50px;
         & h2 {
-            font-size: 40px;
+            display: flex;
+            justify-content: center;
+            font-size: 2s0px;
         }
         & .info-category {
             display: flex;
@@ -75,22 +79,21 @@ export default ({
             align-items: center;
             &_name {
                 font-weight: bold;
-                text-transform: uppercase;
                 text-decoration: underline;
             }
         }
     }
 }
 
-@media screen and (max-width: 1200px) {
-    #user-profile_infos {
-        width: 60%;
-    }
-}
-
-@media screen and (max-width: 768px) {
-    #user-profile_infos {
-        width: 90%;
+@media screen and (max-width: 991px) {
+    #user-profile {
+        width: 100%;
+        &_img {
+            top: 0px;
+        }
+        &_infos {
+            top: 0px;
+        }
     }
 }
 </style>

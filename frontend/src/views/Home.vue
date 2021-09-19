@@ -47,9 +47,6 @@ export default {
       .then(data => {
         this.posts = data
       })
-      .then(() => {
-        console.log(this.posts)
-      })
       .catch(error => {
         console.log(error)
       });

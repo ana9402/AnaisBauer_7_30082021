@@ -86,7 +86,7 @@ export default ({
             if (this.$route.path == '/home') {
               window.location.reload()
             } else {
-            this.$router.push('/home')
+              this.$router.push('/home')
             }
         })
         .catch(error => {
@@ -144,6 +144,7 @@ export default ({
   border: 1px rgb(221, 217, 217) solid;
   box-shadow: 2px 2px 10px rgb(187, 186, 186);
   margin-bottom: 40px;
+  width: 100%;
   & h2 {
     font-size: 18px;
     padding: 10px 20px;

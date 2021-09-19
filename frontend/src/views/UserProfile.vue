@@ -5,20 +5,28 @@
         <div id="profile-banner"> 
             <h1>Profil</h1>
         </div>
-        <main>
-            <ProfileInfos v-if="user" :key="user.id" :user="user"/>
-        </main>
-        <section id="options">
-            <div v-if="currentUserId == this.$route.params.id || userAdmin === true" id="options_modify">
-                <button @click="editionRedirection()">Modifier</button>
-            </div>
-            <div v-if="currentUserId == this.$route.params.id || userAdmin === true" id="options_delete">
-                <button @click="deleteAccount(this.$route.params.id)">Supprimer le compte</button>
-            </div>
-            <div v-if="currentUserId == this.$route.params.id" id="options_logout">
-                <button @click="logout()">Se déconnecter</button>
-            </div>
-        </section>
+        <div id="profile-view">
+            <aside>
+                <ProfileInfos v-if="user" :key="user.id" :user="user"/>
+                <div id="options">
+                    <div v-if="currentUserId == this.$route.params.id || userAdmin === true" id="options_modify">
+                        <button @click="editionRedirection()">Modifier</button>
+                    </div>
+                    <div v-if="currentUserId == this.$route.params.id || userAdmin === true" id="options_delete">
+                        <button @click="deleteAccount(this.$route.params.id)">Supprimer le compte</button>
+                    </div>
+                    <div v-if="currentUserId == this.$route.params.id" id="options_logout">
+                        <button @click="logout()">Se déconnecter</button>
+                    </div>
+                </div>
+            </aside>
+            <main>
+                <div id="posts-list-container">
+                    <OnePost v-for="post in posts" :key="post.id" :post="post" :likesLength="post.Likes.length" :commentsLength="post.Comments.length" />
+                    <p v-if="!posts">L'utilisateur n'a encore rien publié.</p>
+                </div>
+            </main>
+        </div>
     </div>
 </div>
 </template>
@@ -26,18 +34,22 @@
 <script>
 import MainHeader from '../components/MainHeader.vue'
 import ProfileInfos from '../components/ProfileInfos.vue'
+import OnePost from '../components/OnePost.vue'
+
 export default {
     name: "Profile",
     components: {
         MainHeader,
-        ProfileInfos
+        ProfileInfos,
+        OnePost
     },
     data() {
         return {
             userAdmin: JSON.parse(localStorage.getItem('userAdmin')),
             currentUserId: JSON.parse(localStorage.getItem('userId')),
             token: localStorage.getItem('userToken'),
-            user: null
+            user: null,
+            posts: []
         }
     },
     methods: {
@@ -88,21 +100,42 @@ export default {
                 this.user = user
             })
             .catch(error => console.log(error))
+        },
+        getUsersPosts() {
+            fetch(`http://localhost:3000/api/posts/users/${this.$route.params.id}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${this.token}`
+                }
+            })
+            .then(result => {
+                if (result.ok) {
+                    return result.json()
+                }
+            })
+            .then(posts => {
+                this.posts = posts
+            })
+            .catch(error => {
+                console.log(error)
+            })
         }
     },
     mounted() {
         this.getUserProfile(this.$route.params.id);
+        this.getUsersPosts();
     }
 }
 
 </script>
 
 <style lang="scss" scoped>
-#content{
+#content {
+    background-color: #F2F2F2;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 40px 0;
+    padding-bottom: 50px;
     & #profile-banner {
         display: flex;
         justify-content: center;
@@ -114,9 +147,37 @@ export default {
             font-size: 40px;
         }
     }
+    & #profile-view {
+        display: flex;
+        width: 100%;
+        margin: auto;
+        padding: 0;
+        gap: 20px;
+        & aside {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+            width: 30%;
+            padding: 10px;
+        }
+        & main {
+            width: 70%;
+            margin-top: 70px;
+            & #posts-list-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin: auto;
+                box-sizing: border-box;
+                width: 80%;
+            }
+        }
+    }
     & #options {
         display: flex;
-        justify-content: center;
+        flex-direction: column;
+        align-items: center;
         gap: 10px;
         justify-content: center;
         & button {
@@ -146,10 +207,46 @@ export default {
     }
 }
 
-@media screen and (max-width: 800px) {
-    #options {
-        flex-direction: column;
-        align-items: center;
+@media screen and (max-width: 991px) {
+    #content {
+       & #profile-view {
+            width: 100%;
+            flex-direction: column;
+            & aside {
+                flex-direction: column-reverse;
+                justify-content: center;
+                gap: 30px;
+                width: 100%;
+            }
+            & main {
+                width: 100%;
+                margin: auto;
+            & #posts-list-container {
+                width: 90%;
+            }
+        }
+        } 
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #content {
+       & #profile-view {
+            & main {
+                & #posts-list-container {
+                    width: 100%;
+                }
+
+            }
+        } 
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    #content {
+        & #profile-view {
+            width: 80%;
+        }
     }
 }
 </style>
