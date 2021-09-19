@@ -40,6 +40,8 @@
                     <img v-else :src="userData.profilePicture" alt="photo de profil" />
                 </figure>
             </div>
+            <div id="error-msg">
+            </div>
             <button type="submit">Enregistrer les modifications</button>
         </form>
     </div>
@@ -73,6 +75,14 @@ export default ({
 
         },
         editProfile(userId) {
+            let errorMsg = document.getElementById('error-msg')
+
+            if (this.form.firstname == '' || this.form.lastname == '' || this.form.department == '') {
+                errorMsg.innerHTML="Veuillez remplir tous les champs du formulaire avant d'enregistrer."
+                errorMsg.style.display="flex"
+                return;
+            }
+
             const formData = new FormData();
             formData.append('department', this.form.department);
             formData.append('lastname', this.form.lastname)
@@ -89,10 +99,16 @@ export default ({
             })
             .then(res => {
                 console.log(res)
-                alert('Votre profil a bien été mis à jour !')
-            })
-            .then(() => {
-                this.$router.push(`/profiles/${this.$route.params.id}`)
+                if (res.ok) {
+                    alert('Votre profil a bien été mis à jour !')
+                    this.$router.push(`/profiles/${this.$route.params.id}`)
+                } else {
+                    if (res.status == 400) {
+                        errorMsg.innerHTML="Certains champs sont invalides.<br> Le prénom et le nom ne doivent pas contenir de chiffres ou de caractères spéciaux."
+                        errorMsg.style.display="flex";
+                        return;
+                    }
+                }
             })
             .catch(error => {
                 console.log(error)
@@ -110,6 +126,11 @@ export default ({
     width: 30%;
     padding: 30px;
     box-shadow: 3px 3px 10px rgb(200, 200, 200);
+    & #error-msg {
+        display: none;
+        color: red;
+        margin-bottom: 20px;
+    }
 }
 
 form {

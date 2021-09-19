@@ -16,10 +16,10 @@
                 </div>
             </div>
             <div v-if="comment.User.id == currentUserId || userAdmin === true" id="post-options">
-                <button v-on:click="editionRedirection(post.id, comment.id)">
+                <button v-on:click="editionRedirection(post.id, comment.id)" aria-label="Editer le commentaire">
                     <img src="../assets/edit.png" alt="icone d'édition du commentaire">
                 </button>
-                <button v-on:click="deleteComment(post.id, comment.id)">
+                <button v-on:click="deleteComment(post.id, comment.id)" aria-label="Supprimer le commentaire">
                     x
                 </button>
             </div>

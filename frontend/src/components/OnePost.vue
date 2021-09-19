@@ -17,10 +17,10 @@
             </div>
         </div>
         <div v-if="post.User.id == currentUserId || userAdmin === true" id="post-options">
-            <button @click="editionRedirection(post.id)">
+            <button @click="editionRedirection(post.id)" aria-label="Editer le post">
               <img src="../assets/edit.png" alt="icone d'édition du post">
             </button>
-            <button v-on:click="deletePost(post.id)">
+            <button v-on:click="deletePost(post.id)" aria-label="Supprimer le post">
                 x
             </button>
         </div>
