@@ -1,13 +1,21 @@
 <template>
-    <div>
-        <MainHeader/>
-        <div id="content">
-            <div id="profile-banner"> 
+<div>
+    <MainHeader/>
+    <div v-if="this.$route.params.id == this.currentUserId || isAdmin === true ">
+        <div id="profile-content" >
+            <section id="profile-content_banner"> 
                 <h1>Modifier votre profil</h1>
-            </div>
-            <ProfileEditionForm v-if="user" :key="user.id" :user="user" />
+            </section>
+            <main id="profile-content_form">
+                <ProfileEditionForm v-if="user" :key="user.id" :user="user" />
+            </main>
         </div>
     </div>
+    <div v-else id="hide-content">
+        <p>Vous n'êtes pas autorisé(e) à accéder à ce contenu.</p>
+        <button @click="homeRedirection()">Retour à l'accueil</button>
+    </div>
+</div>
 </template>
 
 <script>
@@ -23,11 +31,15 @@ export default ({
     data() {
         return {
             currentUserId: JSON.parse(localStorage.getItem('userId')),
+            isAdmin: JSON.parse(localStorage.getItem('userAdmin')),
             token: '',
             user: null
         }
     },
     methods: {
+        homeRedirection() {
+            this.$router.push('/home')
+        },
         getUserProfile(id) {
             this.token = localStorage.getItem('userToken')
             fetch(`http://localhost:3000/api/users/` + id, {
@@ -56,23 +68,50 @@ export default ({
 </script>
 
 <style lang="scss" scoped>
-#content {
+
+#profile-content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 40px 0;
+    margin-bottom: 50px;
     gap: 40px;
-    & #profile-banner {
+    &_banner {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 250px;
-        background-color: #132542;
-        color: white;
         width: 100%;
+        height: 250px;
+        color: white;
+        background-color: #132542;
         & h1 {
             font-size: 40px;
         }
     }
+    &_form {
+        box-sizing: border-box;
+        width: 550px;
+    }
 }
+
+#hide-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 40px 0;
+    & button {
+        font-size: 15px;
+        font-weight: bold;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        background-color: #AEADAE
+    }
+}
+
+@media screen and (max-width: 800px) {
+    #profile-content_form {
+        width: 100%;
+    }
+}
+
 </style>

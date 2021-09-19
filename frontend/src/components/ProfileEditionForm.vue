@@ -123,7 +123,7 @@ export default ({
 
 <style lang="scss" scoped>
 #edition-form-container {
-    width: 30%;
+    width: auto;
     padding: 30px;
     box-shadow: 3px 3px 10px rgb(200, 200, 200);
     & #error-msg {

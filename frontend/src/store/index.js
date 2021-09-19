@@ -2,7 +2,7 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-    companyName: "Groupomania"
+    companyName: "Groupomania",
   },
   getters: {
     copyright: (state) => {
