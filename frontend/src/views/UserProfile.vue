@@ -1,24 +1,24 @@
 <template>
-<div>
-    <div id="page-container">
-        <MainHeader/>
-        <div id="content">
-            <div id="profile-banner"> 
-                <h1>Profil</h1>
-            </div>
-            <ProfileInfos v-if="user" :key="user.id" :user="user"/>
-            <div id="options">
-                <div v-if="currentUserId == this.$route.params.id || userAdmin === true" id="options_modify">
-                    <button @click="editionRedirection()">Modifier</button>
-                </div>
-                <div v-if="currentUserId == this.$route.params.id || userAdmin === true" id="options_delete">
-                    <button @click="deleteAccount(this.$route.params.id)">Supprimer le compte</button>
-                </div>
-                <div v-if="currentUserId == this.$route.params.id" id="options_logout">
-                    <button @click="logout()">Se déconnecter</button>
-                </div>
-            </div>
+<div id="page-container">
+    <MainHeader/>
+    <div id="content">
+        <div id="profile-banner"> 
+            <h1>Profil</h1>
         </div>
+        <main>
+            <ProfileInfos v-if="user" :key="user.id" :user="user"/>
+        </main>
+        <section id="options">
+            <div v-if="currentUserId == this.$route.params.id || userAdmin === true" id="options_modify">
+                <button @click="editionRedirection()">Modifier</button>
+            </div>
+            <div v-if="currentUserId == this.$route.params.id || userAdmin === true" id="options_delete">
+                <button @click="deleteAccount(this.$route.params.id)">Supprimer le compte</button>
+            </div>
+            <div v-if="currentUserId == this.$route.params.id" id="options_logout">
+                <button @click="logout()">Se déconnecter</button>
+            </div>
+        </section>
     </div>
 </div>
 </template>
@@ -55,7 +55,11 @@ export default {
                 })
                 .then(res => {
                     console.log(res)
-                    this.logout()
+                    if (this.$route.params.id == this.currentUserId) {
+                        this.logout()
+                    } else {
+                        this.$router.push('/home')
+                    }
                 })
                 .catch(error => console.log(error))
             } else {
@@ -111,6 +115,7 @@ export default {
     }
     & #options {
         display: flex;
+        justify-content: center;
         gap: 10px;
         justify-content: center;
         & button {
@@ -137,6 +142,13 @@ export default {
                 color: white;
             }
         }
+    }
+}
+
+@media screen and (max-width: 800px) {
+    #options {
+        flex-direction: column;
+        align-items: center;
     }
 }
 </style>
