@@ -142,7 +142,7 @@ exports.deletePost = (req, res, next) => {
 // Afficher tous les posts -----
 exports.getAllPosts = (req, res, next) => {
     db.Post.findAll({
-        attributes: ['id', 'title', 'media', 'likes', 'createdAt'],
+        attributes: ['id', 'title', 'media', 'createdAt'],
         order: [
             ['createdAt', 'DESC']
         ],
@@ -168,7 +168,7 @@ exports.getAllPosts = (req, res, next) => {
 // Afficher un post -----
 exports.getOnePost = (req, res, next) => {
     db.Post.findOne({
-        attributes: ['id', 'title', 'media', 'likes', 'createdAt'],
+        attributes: ['id', 'title', 'media', 'createdAt'],
         include: [
             {
                 model: db.User,

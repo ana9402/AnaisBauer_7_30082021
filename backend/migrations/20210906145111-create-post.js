@@ -15,10 +15,6 @@ module.exports = {
       media: {
         type: Sequelize.STRING
       },
-      likes: {
-        defaultValue: 0,
-        type: Sequelize.INTEGER
-      },
       userId: {
         allowNull: false,
         type: Sequelize.INTEGER.UNSIGNED,

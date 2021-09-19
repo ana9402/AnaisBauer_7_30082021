@@ -32,10 +32,6 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true
       }
     },
-    likes: {
-      defaultValue: 0,
-      type: DataTypes.INTEGER
-    },
     userId: {
       allowNull: false,
       type: DataTypes.INTEGER.UNSIGNED,
