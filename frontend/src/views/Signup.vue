@@ -1,34 +1,34 @@
 <template>
-<div>
+<div id="page-container">
     <AuthHeader/>
-    <div id="main-container">
-        <div id="signup">
+    <div id="content">
+        <main id="signup">
             <h1>S'inscrire</h1>
-            <div id="missing-fields-message"></div>
-            <div id="wrong-fields-message"></div>
-            <div id="form-container">
-                <form method="post" v-on:submit.prevent="signupUser">
-                    <div id="firstname-field" class="form-field">
-                        <label for="firstname">Prénom <span class="required">*</span></label>
-                        <input type="text" id="firstname" name="firstname" minlength="2" placeholder="ex: Patrick" v-model="firstname">
-                    </div>
-                    <div id="lastname-field" class="form-field"> 
-                        <label for="lastname">Nom <span class="required">*</span></label>
-                        <input type="text" id="lastname" name="lastname" minlength="2" placeholder="ex: Dupont" v-model="lastname">
-                    </div>
-                    <div id="email-field" class="form-field">
-                        <label for="email">Adresse e-mail <span class="required">*</span></label>
-                        <input type="email" id="email" name="email" minlength="10" placeholder="ex: patrick.dupont@groupomania.com" v-model="email">
-                    </div>
-                    <div id="password-field" class="form-field">
-                        <label for="password">Mot de passe <span class="required">*</span></label>
-                        <input type="password" id="password" name="password" minlength="8" v-model="password">
-                    </div>
-                    <button type="submit">Je m'inscris</button>
-                </form>
+            <div id="signup_fail-msg">
+                <p id="missing-fields"></p>
+                <p id="wrong-fields"></p>
             </div>
-            <p id="login-redirection">Déjà inscrit(e) ? <router-link to="/login"><span>Je me connecte</span></router-link></p>
-        </div>
+            <form method="post" v-on:submit.prevent="signupUser" id="signup_form">
+                <div id="firstname-field" class="form-field">
+                    <label for="firstname">Prénom <span class="required">*</span></label>
+                    <input type="text" id="firstname" name="firstname" minlength="2" placeholder="ex: Patrick" v-model="firstname">
+                </div>
+                <div id="lastname-field" class="form-field"> 
+                    <label for="lastname">Nom <span class="required">*</span></label>
+                    <input type="text" id="lastname" name="lastname" minlength="2" placeholder="ex: Dupont" v-model="lastname">
+                </div>
+                <div id="email-field" class="form-field">
+                    <label for="email">Adresse e-mail <span class="required">*</span></label>
+                    <input type="email" id="email" name="email" minlength="10" placeholder="ex: patrick.dupont@groupomania.com" v-model="email">
+                </div>
+                <div id="password-field" class="form-field">
+                    <label for="password">Mot de passe <span class="required">*</span></label>
+                    <input type="password" id="password" name="password" minlength="8" v-model="password">
+                </div>
+                <button type="submit">Je m'inscris</button>
+            </form>
+            <p id="signup_redirection">Déjà inscrit(e) ? <router-link to="/login"><span>Je me connecte</span></router-link></p>
+        </main>
     </div>
 </div>
 </template>
@@ -59,8 +59,8 @@ export default {
                 email: this.email,
                 password: this.password
             }
-            let missingFieldsMessage = document.getElementById('missing-fields-message') 
-            let wrongFieldsMessage = document.getElementById('wrong-fields-message');
+            let missingFieldsMessage = document.getElementById('missing-fields') 
+            let wrongFieldsMessage = document.getElementById('wrong-fields');
             // Si au moins l'un des champs est vide, on affiche un message d'erreur
             if (user.firstname == '' || user.lastname == '' || user.email == '' || user.password == '') {
                 missingFieldsMessage.style.display = "flex"
@@ -109,80 +109,70 @@ export default {
 </script>
 
 <style scoped lang="scss">
-#main-container {
-    display: flex;
-    justify-content: center;
-    margin: 30px 0;
-    & .required {
-        color: red;
-        font-size: 13px;
-    }
-    & #signup {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        box-shadow: 2px 2px 10px rgb(187, 186, 186);
-        width: auto;
-        padding: 30px;
-        & h1 {
-            margin-bottom: 20px;
-        }
-    }
-}
 
-
-#missing-fields-message {
-    font-size: 13px;
-    color: red;
-    margin-bottom: 20px;
-    width: 100%;
-    display: none;
-}
-
-#wrong-fields-message {
-    font-size: 13px;
-    color: red;
-    margin-bottom: 20px;
-    width: 100%;
-    display: none;
-}
-
-#form-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-    width: 400px;
-}
-
-form {
+#signup {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    width: 100%;
-    & .form-field {
+    align-items: center;
+    margin: 30px auto 50px auto;
+    padding: 40px;
+    width: 550px;
+    box-sizing: border-box;
+    box-shadow: 2px 2px 10px rgb(187, 186, 186);
+    & h1 {
+        margin-bottom: 40px;
+    }
+    &_fail-msg {
+        font-size: 13px;
+        color: red;
+        margin-bottom: 20px;
+        width: 100%;
+        & #missing-fields {
+            display: none;
+        }
+        & #wrong-fields {
+            display: none;
+        }
+    }
+    &_form {
         display: flex;
         flex-direction: column;
-        & label {
+        gap: 20px;
+        width: 100%;
+        & .form-field {
+        display: flex;
+        flex-direction: column;
+            & label {
+                font-weight: bold;
+            }
+            & input {
+                height: 40px;
+                padding: 0px 10px;
+            }
+        }
+        & .required {
+            color: red;
+            font-size: 13px;
+        }
+        & button {
+            margin-top : 20px;
+            background-color: rgb(49, 48, 48);
+            color: white;
             font-weight: bold;
+            cursor: pointer;
+            padding: 10px;
         }
-        & input {
-            height: 40px;
-            padding: 0px 10px;
-        }
+    }
+    &_redirection {
+        font-size: 12px;
+        margin: 40px 0 10px 0;
     }
 }
 
-button {
-    margin-top : 20px;
-    background-color: rgb(49, 48, 48);
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    padding: 10px;
+@media screen and (max-width: 800px) {
+    #signup {
+        width: 100%;
+    }
 }
 
-#login-redirection {
-    font-size: 12px;
-    margin-bottom: 50px;
-}
 </style>

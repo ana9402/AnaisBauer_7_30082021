@@ -1,25 +1,26 @@
 <template>
-<div>
+<div id="page-container">
     <AuthHeader/>
-    <div id="main-container">
-        <div id="login">
+    <div id="content">
+        <main id="login">
             <h1>Se connecter</h1>
-            <p id="missing-fields-message"></p>
-            <div id="form-container">
-                <form method="post" v-on:submit.prevent="loginUser">
-                    <div id="email-field" class="form-field">
-                        <label for="email">Adresse e-mail</label>
-                        <input type="email" id="email" name="email" placeholder="ex: patrick.dupont@groupomania.com" v-model="email">
-                    </div>
-                    <div id="password-field" class="form-field">
-                        <label for="password">Mot de passe</label>
-                        <input type="password" id="password" name="password" v-model="password">
-                    </div>
-                    <button type="submit">Je me connecte</button>
-                </form>
+            <div id="login_fail-msg">
+                <p id="missing-fields"></p>
+                <p id="wrong-fields"></p>
             </div>
-            <p id="signup-redirection">Vous n'êtes pas encore membre ? <router-link to="/signup"><span>Je m'inscris</span></router-link></p>
-        </div>
+            <form method="post" v-on:submit.prevent="loginUser" id="login_form">
+                <div id="email-field" class="form-field">
+                    <label for="email">Adresse e-mail</label>
+                    <input type="email" id="email" name="email" placeholder="ex: patrick.dupont@groupomania.com" v-model="email">
+                </div>
+                <div id="password-field" class="form-field">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" name="password" v-model="password">
+                </div>
+                <button type="submit">Je me connecte</button>
+            </form>
+            <p id="login_redirection">Vous n'êtes pas encore membre ? <router-link to="/signup"><span>Je m'inscris</span></router-link></p>
+        </main>
     </div>
 </div>
 </template>
@@ -87,68 +88,62 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
-#main-container {
-    display: flex;
-    justify-content: center;
-    margin: 30px 0;
-}
-
 #login {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: auto;
-    padding: 30px;
+    margin: 30px auto 50px auto;
+    padding: 40px;
+    width: 550px;
+    box-sizing: border-box;
     box-shadow: 2px 2px 10px rgb(187, 186, 186);
     & h1 {
-        margin-bottom: 50px;
+        margin-bottom: 40px;
     }
-}
-
-#missing-fields-message {
-    font-size: 13px;
-    color: red;
-    display: none;
-}
-
-#form-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-    width: 400px;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 500px;
-    & .form-field {
+    &_fail-msg {
+        font-size: 13px;
+        color: red;
+        margin-bottom: 20px;
+        width: 100%;
+        & #missing-fields {
+            display: none;
+        }
+    }
+    &_form {
         display: flex;
         flex-direction: column;
-        & label {
+        gap: 20px;
+        width: 100%;
+        & .form-field {
+        display: flex;
+        flex-direction: column;
+            & label {
+                font-weight: bold;
+            }
+            & input {
+                height: 40px;
+                padding: 0px 10px;
+            }
+        }
+        & button {
+            margin-top : 20px;
+            background-color: rgb(49, 48, 48);
+            color: white;
             font-weight: bold;
+            cursor: pointer;
+            padding: 10px;
         }
-        & input {
-            height: 40px;
-            padding: 0px 10px;
-        }
+    }
+    &_redirection {
+        font-size: 12px;
+        margin: 40px 0 10px 0;
     }
 }
 
-button {
-    margin-top : 20px;
-    background-color: rgb(49, 48, 48);
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    padding: 10px;
-}
-
-#signup-redirection {
-    font-size: 12px;
-    margin-bottom: 50px;
+@media screen and (max-width: 800px) {
+    #login {
+        width: 100%;
+    }
 }
 
 </style>
