@@ -1,7 +1,7 @@
 <template>
 <div id="page-container">
     <MainHeader/>
-    <div id="content">
+    <div v-if="user" id="content">
         <div id="profile-banner"> 
             <h1>Profil</h1>
         </div>
@@ -28,6 +28,10 @@
             </main>
         </div>
     </div>
+    <div v-else id="hidden-content">
+        <p>L'utilisateur n'existe pas.</p>
+        <button @click="homeRedirection()">Retour à l'accueil</button>
+    </div>
 </div>
 </template>
 
@@ -53,6 +57,9 @@ export default {
         }
     },
     methods: {
+        homeRedirection() {
+            this.$router.push('/home')
+        },
         editionRedirection() {
             this.$router.push(`/profiles/${this.$route.params.id}/edit`)
         },
@@ -204,6 +211,21 @@ export default {
                 color: white;
             }
         }
+    }
+}
+
+#hidden-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 40px 0;
+    & button {
+        font-size: 15px;
+        font-weight: bold;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        background-color: #AEADAE
     }
 }
 
