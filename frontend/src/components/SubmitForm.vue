@@ -52,7 +52,10 @@ export default ({
                     alert('Votre post a bien été publié !')
                     router.push('/home')
                 } else {
-                    alert('Erreur !')
+                    if (res.status == 400) {
+                        alert('Veuillez remplir tous les champs avant de publier.')
+                        return;
+                    }
                 }
             })
             .catch(function(error) {
