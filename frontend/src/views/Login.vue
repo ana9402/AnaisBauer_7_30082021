@@ -5,7 +5,6 @@
         <main id="login">
             <h1>Se connecter</h1>
             <div id="login_fail-msg">
-                <p id="missing-fields"></p>
                 <p id="wrong-fields"></p>
             </div>
             <form method="post" v-on:submit.prevent="loginUser" id="login_form">
@@ -42,15 +41,15 @@ export default {
     },
     methods: {
         loginUser() {
+            let wrongFieldsMessage = document.getElementById('wrong-fields')
             let userData = {
                 email: this.email,
                 password: this.password
             }
 
             if (userData.email == '' || userData.password == '') {
-                let missingFieldsMessage = document.getElementById('missing-fields-message')
-                missingFieldsMessage.style.display = "flex"
-                missingFieldsMessage.innerHTML = "Veuillez compléter tous les champs avant de valider le formulaire."
+                wrongFieldsMessage.style.display = "flex"
+                wrongFieldsMessage.innerHTML = "Veuillez compléter tous les champs avant de valider le formulaire."
                 console.log('Certains champs sont incomplets.')
                 return;
             }
@@ -62,22 +61,29 @@ export default {
                 },
                 body: JSON.stringify(userData)
             })
-            .then(function(response) {
+            .then(response => {
                 if (response.ok) {
                     return response.json();
                 } else {
                     if (response.status == 401) {
-                        alert("Adresse mail ou mot de passe incorrect(e).")
+                        wrongFieldsMessage.style.display = "flex"
+                        wrongFieldsMessage.innerHTML = "Adresse email ou mot de passe incorrect(e)."
+                        return;
                     }
                 }
             })
             .then(data => {
-                localStorage.setItem('userToken', data.token);
-                localStorage.setItem('userId', data.userId)
-                localStorage.setItem('userAdmin', data.userAdmin)
-                router.push('/home')
+                if (data) {
+                    localStorage.setItem('userToken', data.token);
+                    localStorage.setItem('userId', data.userId)
+                    localStorage.setItem('userAdmin', data.userAdmin)
+                    router.push('/home')
+                } else {
+                    return;
+                }
+                
             })
-            .catch(function(error) {
+            .catch(error => {
                 console.log(error),
                 alert('Erreur de connexion au serveur')
             })

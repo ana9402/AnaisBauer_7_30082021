@@ -5,7 +5,6 @@
         <main id="signup">
             <h1>S'inscrire</h1>
             <div id="signup_fail-msg">
-                <p id="missing-fields"></p>
                 <p id="wrong-fields"></p>
             </div>
             <form method="post" v-on:submit.prevent="signupUser" id="signup_form">
@@ -59,12 +58,11 @@ export default {
                 email: this.email,
                 password: this.password
             }
-            let missingFieldsMessage = document.getElementById('missing-fields') 
             let wrongFieldsMessage = document.getElementById('wrong-fields');
             // Si au moins l'un des champs est vide, on affiche un message d'erreur
             if (user.firstname == '' || user.lastname == '' || user.email == '' || user.password == '') {
-                missingFieldsMessage.style.display = "flex"
-                missingFieldsMessage.innerHTML = "Veuillez compléter tous les champs avant de valider le formulaire."
+                wrongFieldsMessage.style.display = "flex"
+                wrongFieldsMessage.innerHTML = "Veuillez compléter tous les champs avant de valider le formulaire."
                 console.log('Certains champs sont incomplets.')
                 return;
             }
@@ -87,7 +85,9 @@ export default {
                     if (result.status === 401) {
                         alert("L'utilisateur existe déjà !")
                     } else if (result.status === 500) {
-                        alert("Erreur")
+                        wrongFieldsMessage.style.display = "flex"
+                        wrongFieldsMessage.style.flexDirection= "column"
+                        wrongFieldsMessage.innerHTML = "<p>Certains champs ne sont pas valides.</p>"
                     } else if (result.status === 400) {
                         wrongFieldsMessage.style.display = "flex"
                         wrongFieldsMessage.style.flexDirection= "column"
