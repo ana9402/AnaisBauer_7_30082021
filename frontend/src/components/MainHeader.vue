@@ -11,7 +11,7 @@
         <nav>
             <ul>
                 <li>
-                    <router-link to="/home" class="nav-link link"  id="signup-link">Accueil</router-link>
+                    <router-link to="/home" class="nav-link link"  id="signup-link">Forum</router-link>
                 </li>
                 <li>
                     <router-link :to="{name: 'userProfile', params: {id: currentUserId}}" class="nav-link link"  id="login-link">Mon Compte</router-link>

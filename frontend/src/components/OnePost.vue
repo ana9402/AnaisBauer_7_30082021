@@ -32,7 +32,7 @@
     </figure>
     <!-- POST BOTTOM -->
     <div id="bottom-line">
-        <button id="likes" class="bottom-line_btn" @click="likePost">
+        <button id="likes" class="bottom-line_btn" @click="likePost" aria-label="Aimer le post">
           <img v-if="postIsLiked == false" src="../assets/like.svg" alt="icone like">
           <img v-else src="../assets/liked.png" alt="icone like">
             <p v-if="likesLength <= 1" class="bottom-line_btn_text">{{ likesLength }} like</p>
