@@ -122,13 +122,19 @@ export default ({
       .then(result => {
         if (result.ok) {
           return result.json()
+        } else {
+          return;
         }
       })
       .then(data => {
-        console.log(data)
-        return this.postIsLiked = true;
+        if (data !== null) {
+          this.postIsLiked = true;
+        }
+        return;
       })
-      .catch(error => console.log(error))
+      .catch(error => {
+        console.log(error)
+      })
     }
   },
   mounted() {

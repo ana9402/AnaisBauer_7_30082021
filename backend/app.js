@@ -8,7 +8,7 @@ const userRoutes = require('./routes/user');
 const postRoutes = require('./routes/post');
 
 // Connexion à la BDD
-db.sequelize.authenticate()
+db.sequelize.sync()
 .then(() => {
     console.log('Connexion à MySQL réussie !')
 })

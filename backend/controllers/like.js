@@ -47,11 +47,7 @@ exports.getOneLike = (req, res, next) => {
         where: {userId: userID(req), postId: req.params.id}
     })
     .then(like => {
-        if (like) {
-            res.status(200).json(like)
-        } else {
-            return;
-        }
+        res.status(200).json(like)
     })
     .catch(error => res.status(404).json({error}))
 }
