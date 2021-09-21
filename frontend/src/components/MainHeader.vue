@@ -1,20 +1,30 @@
 <template>
     <header>
-        <div id="top-header">
-            <router-link to="/home">
-                <img id="logo" src="../assets/icon-left-font.svg" alt="logo Groupomania"/>
-            </router-link>
-            <div id="newPost"> 
-                <router-link to="/submit" class="link" id="newPost-link">+<span id="newPost-link_text">Ajouter un post</span></router-link>
-            </div>
-        </div>
+        <router-link to="/home">
+            <img id="desktop-logo" src="../assets/icon-left-font.svg" alt="logo Groupomania"/>
+            <img id="mobile-logo" src="../assets/icon.png" alt="logo Groupomania"/>
+        </router-link>
         <nav>
-            <ul>
-                <li>
-                    <router-link to="/home" class="nav-link link"  id="signup-link">Forum</router-link>
+            <ul id="nav-links">
+                <li id="nav-links_newPost"> 
+                    <router-link to="/submit" class="link" aria-label="ajouter un post" id="newPost">+<span id="newPost_text">Ajouter un post</span></router-link>
                 </li>
-                <li>
-                    <router-link :to="{name: 'userProfile', params: {id: currentUserId}}" class="nav-link link"  id="login-link">Mon Compte</router-link>
+                <li id="nav-links_forum"> 
+                    <router-link to="/home" class="nav-link link" aria-label="accéder au forum">
+                        <span class="desktop-link">Forum</span>
+                        <img src="../assets/home.png" alt="icone homepage" class="mobile-link" />
+                    </router-link>
+                </li>
+                <li id="nav-links_account">
+                    <router-link :to="{name: 'userProfile', params: {id: currentUserId}}" class="nav-link link" aria-label="Se rendre sur mon profil">
+                        <span class="desktop-link">Mon Compte</span>
+                        <img src="../assets/account.png" alt="icone profil utilisateur" class="mobile-link">
+                    </router-link>
+                </li>
+                <li id="nav-links_logout">
+                    <button class="nav-link link" @click="logout" aria-label="Se déconnecter">
+                        <img src="../assets/logout.png" alt="icone deconnexion" />
+                    </button>
                 </li>
             </ul>
         </nav>
@@ -28,6 +38,14 @@ export default ({
         return {
             currentUserId: JSON.parse(localStorage.getItem('userId'))
         }
+    },
+    methods: {
+        logout() {
+            if(confirm("Êtes-vous sûr(e) de vouloir vous déconnecter ?")) {
+                localStorage.clear();
+                this.$router.push('Login');
+            }
+        },
     }
 })
 </script>
@@ -39,109 +57,101 @@ header {
     align-items: center;
     padding: 20px 20px 20px 0px;
     background-color: white;
-    & #logo {
+    & #desktop-logo {
         display: flex;
         width: 100%;
         height: 100%;
     }
-    & #top-header {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 20px;
+    & #mobile-logo {
+        display: none;
+        width: 80px;
+        height: 80px;
     }
 }
-#newPost {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    & #newPost-link {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: 0.2px solid rgb(184, 182, 182);
-        box-shadow: 3px 2px 5px rgb(161, 159, 159);
-        border-radius: 20px;
-        padding: 10px 15px;
-        &_text {
-            align-items: center;
-            justify-content: center;
-            margin-left: 10px;
-        }
-    }
-}
-.link {
-    text-decoration: none;
-    color: black;
-    &:hover {
-        color: #FD2D01;
-    }
-}
+
 nav {
     & ul {
         list-style-type: none;
         display: flex;
         & li {
             display: flex;
-            text-align: center;
+            align-items: center;
         }
     }
-    
     & a {
-        margin-right: 30px;
+        margin-right: 20px;
+        text-decoration: none;
+        color: black;
+        cursor: pointer;
+        &:hover {
+            color: #FD2D01;
+        }
     }
 }
 
-@media screen and (max-width: 768px) {
-    header {
+#nav-links {
+    display: flex;
+    text-align: center;
+    &_newPost {
         display: flex;
-        flex-direction: column;
-        padding: 0;
-        #top-header {
-            width: 100%;
-            justify-content: space-between;
-            padding: 0;
-            margin-right: 30px;
-        }
-    }
-    #newPost {
-        width: 40px;
-    }
-    #newPost-link {
-        width: 100%;
-        margin: 0;
-        border-radius: 20px;
-        &_text {
-            display: none;
-        }
-    }
-
-    nav {
-        width: 100%;
-        & ul {
+        justify-content: center;
+        align-items: center;
+        & #newPost {
             display: flex;
             justify-content: center;
-            margin-top: 30px;
-            padding: 0;
-            & li {
-                display: flex;
+            align-items: center;
+            border: 1px solid rgb(184, 182, 182);
+            box-shadow: 3px 2px 5px rgb(204, 202, 202);
+            border-radius: 20px;
+            padding: 10px 15px;
+            &_text {
+                align-items: center;
                 justify-content: center;
-                padding: 0 0 20px 0;
-                width: 100%;
-                border-bottom: 2px #F2F2F2 solid;
-                &:hover {
-                    border-bottom: 2px #FD2D01 solid;
-                }
+                margin-left: 10px;
             }
+        }
+}
+    &_logout button {
+        background-color: transparent;
+        border: none;
+        height: 40px;
+        width: 40px;
+        color: #FD2D01;
+        cursor: pointer;
+        font-size: 16px;
+        & img {
+            object-fit: contain;
+            width: 100%;
+            height: 100%;
+        }
+    }
+    & .mobile-link {
+        display: none;
+        height: 30px;
+        width: 30px;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    header {
+        #desktop-logo {
+            display: none;
+        }
+        #mobile-logo {
+            display: flex;
         }
     }
 
-    #signup-link {
-        margin: 0;
-    }
- 
-    .nav-link {
-        width: 100%;
+    #nav-links {
+        & .desktop-link {
+            display: none;
+        }
+        & .mobile-link {
+            display: flex;
+        }
+        & #newPost_text {
+            display: none;
+        }
     }
 }
 

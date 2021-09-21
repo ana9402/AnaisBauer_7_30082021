@@ -15,9 +15,6 @@
                     <div v-if="currentUserId == this.$route.params.id || userAdmin === true" id="options_delete">
                         <button @click="deleteAccount(this.$route.params.id)">Supprimer le compte</button>
                     </div>
-                    <div v-if="currentUserId == this.$route.params.id" id="options_logout">
-                        <button @click="logout()">Se déconnecter</button>
-                    </div>
                 </div>
             </aside>
             <main>
@@ -202,12 +199,6 @@ export default {
         &_delete {
             & button {
                 background-color: #F12C05;
-                color: white;
-            }
-        }
-        &_logout {
-            & button {
-                background-color: #132442;
                 color: white;
             }
         }
