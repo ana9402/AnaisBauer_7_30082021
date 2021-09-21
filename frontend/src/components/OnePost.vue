@@ -130,7 +130,6 @@ export default ({
         if (data !== null) {
           this.postIsLiked = true;
         }
-        return;
       })
       .catch(error => {
         console.log(error)
@@ -161,7 +160,7 @@ export default ({
     height: 400px;
   }
   & figure {
-  background-color: #F0F2F4;
+  background-color: #fafafd;
   border-top: 1px rgb(216, 215, 215) solid;
   border-bottom: 1px rgb(216, 215, 215) solid;
   margin: 0;
@@ -266,10 +265,10 @@ a {
   #bottom-line {
     padding: 10px;
     & #likes {
-      width: 33%;
+      width: 50%;
     }
     & #comments {
-      width: 33%;
+      width: 50%;
       &_text {
         display: none
       }
@@ -283,7 +282,8 @@ a {
 }
 
 @media screen and (max-width: 768px) {
-  #main-container {
+  #post-container {
+    box-shadow: none;
     width: 100%;
   }
 }

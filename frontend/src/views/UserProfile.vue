@@ -19,6 +19,7 @@
             </aside>
             <main>
                 <div id="posts-list-container">
+                    <h2>Publications</h2>
                     <OnePost v-for="post in posts" :key="post.id" :post="post" :likesLength="post.Likes.length" :commentsLength="post.Comments.length" />
                     <p v-if="!posts">L'utilisateur n'a encore rien publié.</p>
                 </div>
@@ -167,7 +168,7 @@ export default {
         }
         & main {
             width: 70%;
-            margin-top: 70px;
+            margin-top: 20px;
             & #posts-list-container {
                 display: flex;
                 flex-direction: column;

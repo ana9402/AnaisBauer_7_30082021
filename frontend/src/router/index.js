@@ -91,7 +91,17 @@ const routes = [
       title: 'Editer le profil',
       requiresAuth: true
     }
-  }
+  },
+  {
+    path: '/charter',
+    name: 'charter',
+    component: () => 
+      import('../views/ForumCharter.vue'),
+    meta: {
+      title: 'Charte du forum',
+      requiresAuth: true
+    }
+  },
 ]
 
 const router = createRouter({
