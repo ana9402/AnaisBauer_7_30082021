@@ -32,7 +32,7 @@ export default ({
         return {
             currentUserId: JSON.parse(localStorage.getItem('userId')),
             isAdmin: JSON.parse(localStorage.getItem('userAdmin')),
-            token: '',
+            token: localStorage.getItem('userToken'),
             user: null
         }
     },
@@ -41,7 +41,6 @@ export default ({
             this.$router.push('/home')
         },
         getUserProfile(id) {
-            this.token = localStorage.getItem('userToken')
             fetch(`http://localhost:3000/api/users/` + id, {
                 headers: {
                     "Content-Type": "application/json",

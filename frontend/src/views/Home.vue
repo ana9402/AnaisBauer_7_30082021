@@ -28,12 +28,11 @@ export default {
   data() {
     return {
       posts: [],
-      token: ''
+      token: localStorage.getItem('userToken')
     }
   },
   methods: {
     getPosts() {
-      this.token = localStorage.getItem('userToken');
       fetch('http://localhost:3000/api/posts', {
         headers: {
           'Authorization': `Bearer ${this.token}`

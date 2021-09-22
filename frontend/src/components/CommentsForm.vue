@@ -13,12 +13,12 @@ export default ({
     name: "Comments",
     data() {
         return {
+            token: localStorage.getItem('userToken'),
             content: ''
         }
     },
     methods: {
         createComment() {
-            const token = localStorage.getItem('userToken');
             const commentContent = {
                 content: this.content
             }
@@ -32,7 +32,7 @@ export default ({
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${this.token}`
                 },
                 body: JSON.stringify(commentContent)
             })

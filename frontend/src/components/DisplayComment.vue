@@ -39,6 +39,7 @@ export default ({
     props: ['post', 'comment'],
     data() {
         return {
+            token: localStorage.getItem('userToken'),
             userAdmin: JSON.parse(localStorage.getItem('userAdmin')),
             currentUserId: JSON.parse(localStorage.getItem('userId'))
         }
@@ -54,13 +55,12 @@ export default ({
             this.$router.push(`/posts/${postId}/comments/${commentId}/edit`)
         },
         deleteComment(postId, commentId) {
-            const token = localStorage.getItem('userToken');
             if (confirm("Êtes-vous sûr(e) de vouloir supprimer ce commentaire ?")) {
                 fetch(`http://localhost:3000/api/posts/${postId}/comments/${commentId}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'Authorization': `Bearer ${this.token}`
                     }
                 })
                 .then(res => {

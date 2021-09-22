@@ -20,6 +20,7 @@ export default ({
     props: ['submitAction', 'onSelectedFile'],
     data() {
         return {
+            token: localStorage.getItem('userToken'),
             title: '',
             selectedFile: null
         }
@@ -29,7 +30,6 @@ export default ({
             this.selectedFile = event.target.files[0]
         },
         createPost() {
-            const token = localStorage.getItem('userToken');
             const userId = JSON.parse(localStorage.getItem('userId'));
             const formData = new FormData();
             if (this.selectedFile == null) {
@@ -44,7 +44,7 @@ export default ({
                 method: 'POST',
                 body: formData,
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${this.token}`
                 }
             })
             .then((res) => {

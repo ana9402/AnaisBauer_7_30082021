@@ -58,7 +58,7 @@ export default ({
     return {
       userAdmin: JSON.parse(localStorage.getItem('userAdmin')),
       currentUserId: JSON.parse(localStorage.getItem('userId')),
-      token: '',
+      token: localStorage.getItem('userToken'),
       postIsLiked: false
     }
   },
@@ -73,7 +73,6 @@ export default ({
       this.$router.push(`/posts/${postId}/edit`)
     },
     deletePost(id) {
-      this.token = localStorage.getItem('userToken');
       if (confirm("Êtes-vous sûr(e) de vouloir supprimer ce post ?")) {
         fetch('http://localhost:3000/api/posts/' + id, {
         method: 'DELETE',
@@ -95,7 +94,6 @@ export default ({
       }
     },
     likePost() {
-      this.token = localStorage.getItem('userToken');
       fetch(`http://localhost:3000/api/posts/${this.post.id}/likes`,{
         method: 'POST',
         headers: {
@@ -137,7 +135,6 @@ export default ({
     }
   },
   mounted() {
-    this.token = localStorage.getItem('userToken')
     this.getUserLike();
   }
 })

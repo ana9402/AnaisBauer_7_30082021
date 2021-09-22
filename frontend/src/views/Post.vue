@@ -39,7 +39,7 @@ export default {
     },
     data() {
         return {
-            token: '',
+            token: localStorage.getItem('userToken'),
             post: null,
             comments: [],       
         }
@@ -47,7 +47,6 @@ export default {
     methods: {
         getPost() {
             const postId = this.$route.params.id;
-            this.token = localStorage.getItem('userToken');
             fetch(`http://localhost:3000/api/posts/` + postId, {
                 headers: {
                     "Content-Type": "application/json",
